@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: http://striglia.github.com
+title: Locally Optimal
+subtitle: Hill climbing in SF
+author: Scott Triglia
 simple_search: http://google.com/search
 description:
 
