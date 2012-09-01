@@ -4,7 +4,7 @@
   <title><![CDATA[Locally Optimal]]></title>
   <link href="http://striglia.github.com/atom.xml" rel="self"/>
   <link href="http://striglia.github.com/"/>
-  <updated>2012-08-31T23:13:45-07:00</updated>
+  <updated>2012-09-01T00:19:11-07:00</updated>
   <id>http://striglia.github.com/</id>
   <author>
     <name><![CDATA[Scott Triglia]]></name>
@@ -12,5 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[First things first]]></title>
+    <link href="http://striglia.github.com/blog/2012/08/31/first-things-first/"/>
+    <updated>2012-08-31T23:53:00-07:00</updated>
+    <id>http://striglia.github.com/blog/2012/08/31/first-things-first</id>
+    <content type="html"><![CDATA[<p>As all good internet citizens do eventually, I&#8217;ve decided to try writing down
+my various software-related trials and tribulations down in a blog. For the
+time being, I&#8217;m sticking with Octopress as I care more about the content than
+the web design. Maybe later this will become an exercise in web
+development&#8230;but not quite yet.</p>
+
+<p>Expect a lot of posts where I walk through some task or tool that I&#8217;ve been
+using recently. Hopefully you&#8217;ll find it interesting.</p>
+]]></content>
+  </entry>
   
 </feed>
