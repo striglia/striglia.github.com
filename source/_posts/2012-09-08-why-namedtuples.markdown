@@ -14,6 +14,8 @@ reason they were used. Hopefully by the end of this entry I can explain at
 least a couple of places you might consider using them over the typical Python
 class.
 
+<!-- more -->
+
 One of my favorite ways to be introduced to any new concept is by seeing the
 simplest example that still motivates its use. In the case of namedtuples, I'm
 partial to the example below, which compares two proposed implementations of
