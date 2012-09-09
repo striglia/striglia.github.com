@@ -102,105 +102,12 @@ reason they were used. Hopefully by the end of this entry I can explain at
 least a couple of places you might consider using them over the typical Python
 class.</p>
 
-<p>One of my favorite ways to be introduced to any new concept is by seeing the
-simplest example that still motivates its use. In the case of namedtuples, I&#8217;m
-partial to the example below, which compares two proposed implementations of
-a latitude/longitude coordinate &#8211; something I get a lot of experience with in
-my day to day work life &#8211; and does some basic manipulation of their contents.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># The primitive approach</span>
-</span><span class='line'><span class="n">lat_lng</span> <span class="o">=</span> <span class="p">(</span><span class="mf">37.78</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.40</span><span class="p">)</span>
-</span><span class='line'><span class="k">print</span> <span class="s">&#39;The latitude is </span><span class="si">%f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'><span class="k">print</span> <span class="s">&#39;The longitude is </span><span class="si">%f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># The glorious namedtuple</span>
-</span><span class='line'><span class="n">LatLng</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">&#39;LatLng&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;latitude&#39;</span><span class="p">,</span> <span class="s">&#39;longitude&#39;</span><span class="p">])</span>
-</span><span class='line'><span class="n">lat_lng</span> <span class="o">=</span> <span class="n">LatLng</span><span class="p">(</span><span class="mf">37.78</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.40</span><span class="p">)</span>
-</span><span class='line'><span class="k">print</span> <span class="s">&#39;The latitude is </span><span class="si">%f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="o">.</span><span class="n">latitude</span>
-</span><span class='line'><span class="k">print</span> <span class="s">&#39;The longitude is </span><span class="si">%f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="o">.</span><span class="n">longitude</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>By itself, this example is a little forced, but you can already see some benefits:
-* increased readability of the print statements instead of cryptic indexing
-* the presence of a LngLat class that gives a clear specification (instead of the next person who comes along representing it as a dictionary with two keys, or two floats, and so on&#8230;)</p>
-
-<p>So you may well be asking yourself&#8230;why not just make a LatLng class?</p>
-
-<p>An obvious question indeed. If we just stopped at the first example, you could
-make a strong argument that a normal Python LatLng class with two attributes
-would do everything we wanted without all this fuss. This brings us to the most
-important difference between namedtuples and normal Python classes &#8211;
-attributes in namedtuple subclasses are immutable once created, much like the
-tuples for which the class is named.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">LatLng</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">&#39;LatLng&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;latitude&#39;</span><span class="p">,</span> <span class="s">&#39;longitude&#39;</span><span class="p">])</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">lat_lng</span> <span class="o">=</span> <span class="n">LatLng</span><span class="p">(</span><span class="mf">37.78</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.40</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">lat_lng</span><span class="o">.</span><span class="n">latitude</span> <span class="o">=</span> <span class="mf">9.23</span>
-</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-</span><span class='line'><span class="ne">AttributeError</span><span class="p">:</span> <span class="n">can</span><span class="s">&#39;t set attribute</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Why do I care about mutability?</h2>
-
-<p>If you&#8217;re anything like me, you&#8217;re probably quite used to the idea of writing
-highly stateful programs. Maybe you aren&#8217;t even sure why some immutable class
-is the subject of this entire blog entry&#8230;all the good stuff gets done by the
-smart mutation of objects anyway, right? Well let me try to convince you of the
-merits of immutability with a couple examples, hard-won lessons I&#8217;ve taught
-myself several times over.</p>
-
-<p>Anyone who has spent more than a couple weeks programming Python has probably
-been bitten by accidentally modifying a data structure they thought was fixed:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">totally_innocent_function</span><span class="p">(</span><span class="n">movie_list</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">movie_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;You Got Served&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">the_best_movies_of_all_time</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;The Godfather&#39;</span><span class="p">,</span> <span class="s">&#39;Citizen Kane&#39;</span><span class="p">,</span> <span class="s">&#39;2001: A Space Odyssey&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="n">totally_innocent_function</span><span class="p">(</span><span class="n">the_best_movies_of_all_time</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Just because you think your data structure is properly structured and validated
-doesn&#8217;t prevent a well intentioned person from later modifying it, possibly
-even in a way where you don&#8217;t ever realize it happened. If you are lucky, this
-gets noticed and fixed immediately. If you&#8217;re unlucky, the bug silently
-festers, doing who-knows-what to your application. In my experience, the
-original author and the well intentioned person who breaks the code later on
-are typically both myself. Coding is complicated and allowing your data to be
-mutable when you don&#8217;t want it to be can lead to trouble.</p>
-
-<h2>Better safe than sorry</h2>
-
-<p>So I hope I&#8217;ve at least suggested to you the benefits of using namedtuples, for
-both code readability and safety. It&#8217;s certainly possible to take this too far,
-but at the very least it&#8217;s an excellent way to learn a new approach and get to
-investigate some of Python&#8217;s more niche features.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/08/why-namedtuples/">Read on &rarr;</a>
+    </footer>
   
 
 
