@@ -131,9 +131,13 @@ my day to day work life &#8211; and does some basic manipulation of their conten
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>By itself, this example is a little forced, but you can already see some benefits:
-* increased readability of the print statements instead of cryptic indexing
-* the presence of a LngLat class that gives a clear specification (instead of the next person who comes along representing it as a dictionary with two keys, or two floats, and so on&#8230;)</p>
+<p>By itself, this example is a little forced, but you can already see some benefits:</p>
+
+<ul>
+<li>increased readability of the print statements instead of cryptic indexing</li>
+<li>the presence of a LatLng class that gives a clear specification (instead of the next person who comes along representing it as a dictionary with two keys, or two floats, and so on&#8230;)</li>
+</ul>
+
 
 <p>So you may well be asking yourself&#8230;why not just make a LatLng class?</p>
 
@@ -159,7 +163,7 @@ tuples for which the class is named.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Why do I care about mutability?</h2>
+<h3>Why do I care about mutability?</h3>
 
 <p>If you&#8217;re anything like me, you&#8217;re probably quite used to the idea of writing
 highly stateful programs. Maybe you aren&#8217;t even sure why some immutable class
@@ -193,12 +197,68 @@ original author and the well intentioned person who breaks the code later on
 are typically both myself. Coding is complicated and allowing your data to be
 mutable when you don&#8217;t want it to be can lead to trouble.</p>
 
-<h2>Better safe than sorry</h2>
+<h3>And what if I need more than simple attributes?</h3>
 
-<p>So I hope I&#8217;ve at least suggested to you the benefits of using namedtuples, for
-both code readability and safety. It&#8217;s certainly possible to take this too far,
-but at the very least it&#8217;s an excellent way to learn a new approach and get to
-investigate some of Python&#8217;s more niche features.</p>
+<p>In most of my personal uses of namedtuples, I inevitably have some additional functionality I wanted from the class &#8211; often some computed result of the various attributes built into the class. Sounds an awful lot like a property right? Give something like the following a shot. You get all the benefits of knowing your core data isn&#8217;t going to be accidentally modified while also getting fancy properties on the side!</p>
+
+<figure class='code'><figcaption><span>python (namedtuple_properties.py)</span> <a href='/downloads/code/namedtuple_properties.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">CUSTOMER_FIELDS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;has_vip_membership&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="n">namedtuple</span><span class="p">(</span><span class="s">&#39;_Customer&#39;</span><span class="p">,</span> <span class="n">CUSTOMER_FIELDS</span><span class="p">)):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="sd">    A mini-class used to represent a person trying to get a table at an </span>
+</span><span class='line'><span class="sd">    exclusive restaurant. The data is all immutable and the</span>
+</span><span class='line'><span class="sd">    deserves_vip_seating property handles the hard thinking.</span>
+</span><span class='line'><span class="sd">    &quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="nd">@property</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">deserves_chefs_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="sd">&quot;&quot;&quot;Returns True if this customer should be seated at the chef&#39;s table.&quot;&quot;&quot;</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_vip_membership</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;Barack Obama&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">customer_info</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>        <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Roger Moore&#39;</span><span class="p">,</span> <span class="s">&#39;has_vip_membership&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Sean Connery&#39;</span><span class="p">,</span> <span class="s">&#39;has_vip_membership&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Barack Obama&#39;</span><span class="p">,</span> <span class="s">&#39;has_vip_membership&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">}]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">customers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Customer</span><span class="p">(</span><span class="o">**</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">customer_info</span><span class="p">]</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">customers</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">deserves_chefs_table</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">print</span> <span class="s">&quot;Send </span><span class="si">%s</span><span class="s"> to the chef&#39;s table!&quot;</span> <span class="o">%</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Everything in moderation</h3>
+
+<p>So I hope I&#8217;ve at least suggested to you the benefits of trying out
+namedtuples, for both code readability and safety. It&#8217;s certainly possible to
+take this too far, but at the very least it&#8217;s an excellent way to learn a new
+approach and get to investigate some of Python&#8217;s more niche features.</p>
 </div>
 
 
