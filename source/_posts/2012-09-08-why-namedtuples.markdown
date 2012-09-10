@@ -36,8 +36,9 @@ print 'The longitude is %f' % lat_lng.longitude
 ```
 
 By itself, this example is a little forced, but you can already see some benefits:
+
 * increased readability of the print statements instead of cryptic indexing
-* the presence of a LngLat class that gives a clear specification (instead of the next person who comes along representing it as a dictionary with two keys, or two floats, and so on...)
+* the presence of a LatLng class that gives a clear specification (instead of the next person who comes along representing it as a dictionary with two keys, or two floats, and so on...)
 
 So you may well be asking yourself...why not just make a LatLng class?
 
@@ -57,7 +58,7 @@ Traceback (most recent call last):
 AttributeError: can't set attribute
 ```
 
-## Why do I care about mutability? ##
+### Why do I care about mutability? ###
 
 If you're anything like me, you're probably quite used to the idea of writing
 highly stateful programs. Maybe you aren't even sure why some immutable class
@@ -86,9 +87,15 @@ original author and the well intentioned person who breaks the code later on
 are typically both myself. Coding is complicated and allowing your data to be
 mutable when you don't want it to be can lead to trouble.
 
-## Better safe than sorry ##
+### And what if I need more than simple attributes? ###
 
-So I hope I've at least suggested to you the benefits of using namedtuples, for
-both code readability and safety. It's certainly possible to take this too far,
-but at the very least it's an excellent way to learn a new approach and get to
-investigate some of Python's more niche features.
+In most of my personal uses of namedtuples, I inevitably have some additional functionality I wanted from the class -- often some computed result of the various attributes built into the class. Sounds an awful lot like a property right? Give something like the following a shot. You get all the benefits of knowing your core data isn't going to be accidentally modified while also getting fancy properties on the side!
+
+{% include_code python namedtuple_properties.py %}
+
+### Everything in moderation ###
+
+So I hope I've at least suggested to you the benefits of trying out
+namedtuples, for both code readability and safety. It's certainly possible to
+take this too far, but at the very least it's an excellent way to learn a new
+approach and get to investigate some of Python's more niche features.
