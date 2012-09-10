@@ -91,7 +91,7 @@ mutable when you don't want it to be can lead to trouble.
 
 In most of my personal uses of namedtuples, I inevitably have some additional functionality I wanted from the class -- often some computed result of the various attributes built into the class. Sounds an awful lot like a property right? Give something like the following a shot. You get all the benefits of knowing your core data isn't going to be accidentally modified while also getting fancy properties on the side!
 
-{% include_code python namedtuple_properties.py %}
+{% include_code namedtuple_properties.py %}
 
 ### Everything in moderation ###
 
