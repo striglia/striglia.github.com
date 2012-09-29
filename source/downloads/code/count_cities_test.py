@@ -21,9 +21,9 @@ class CountCitiesTestCase(TestCase):
             matching_states = find_matching_states(place_to_geocode, city_to_match)
 
         # Check that we called geocode_address once per place
-        assert len(geocode_address.call_list) == len(places_to_geocode)
+        assert geocode_address.call_count == len(places_to_geocode)
         # Assert we always called with what we expected
-        for place, call_args in zip(places_to_geocode, geocode_address.call_list):
+        for place, (call_args, call_kwargs) in zip(places_to_geocode, geocode_address.call_args_list):
             assert call_args == (place, city_to_match)
         # And just for completeness, assert that we returned no matches
         assert matching_states == []
