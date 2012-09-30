@@ -55,7 +55,7 @@ There are a few reasons this external dependency is unfortunate:
 2. It probably doesn't need testing (by us). We generally trust Google to do the right thing. We are currently trying to unit test our own code, and where possible, we should assume that Google's API is a thoroughly tested black box.
 3. Our own testing is now more complicated. What happens if I want to test how find_matching_states handles a geocoder result that comes back as `None`? Or a city with accented characters? These are hard to generate if I'm actually calling out to my geocoding library and using the real result.
 
-These is not a comprehensive list, it's merely three issues that apply to this particular block of code. Now imagine how these complaints scale up when you're talking about a commercial webapp and you can start to see why mocking is so important in tests.
+This is not a comprehensive list, it's merely three issues that apply to this particular block of code. Now imagine how these complaints scale up when you're talking about a commercial webapp and you can start to see why mocking is so important in tests.
 
 ### Fine, mocking is good. How do I do it? ###
 

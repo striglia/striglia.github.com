@@ -1,4 +1,4 @@
-from count_cities import geocode_address
+import count_cities
 from count_cities import find_matching_states
 from mock import Mock
 from mock import patch
@@ -17,7 +17,7 @@ class CountCitiesTestCase(TestCase):
         place_to_geocode = ['%s, CA' % city_to_match]
         # Inside this context manager, we've mocked out the geocode_address
         # method to return None whenever it is called.
-        with patch.object('geocode_address', new=Mock(return_value=None)):
+        with patch.object(count_cities, 'geocode_address', new=Mock(return_value=None)):
             matching_states = find_matching_states(place_to_geocode, city_to_match)
 
         # Check that we called geocode_address once per place
