@@ -4,7 +4,7 @@
   <title><![CDATA[Locally Optimal]]></title>
   <link href="http://striglia.github.com/atom.xml" rel="self"/>
   <link href="http://striglia.github.com/"/>
-  <updated>2012-09-29T15:10:47-07:00</updated>
+  <updated>2012-09-29T23:33:09-07:00</updated>
   <id>http://striglia.github.com/</id>
   <author>
     <name><![CDATA[Scott Triglia]]></name>
@@ -141,7 +141,7 @@ above three pieces of our program and our code base is as shown below.</p>
 </ol>
 
 
-<p>These is not a comprehensive list, it&#8217;s merely three issues that apply to this particular block of code. Now imagine how these complaints scale up when you&#8217;re talking about a commercial webapp and you can start to see why mocking is so important in tests.</p>
+<p>This is not a comprehensive list, it&#8217;s merely three issues that apply to this particular block of code. Now imagine how these complaints scale up when you&#8217;re talking about a commercial webapp and you can start to see why mocking is so important in tests.</p>
 
 <h3>Fine, mocking is good. How do I do it?</h3>
 
@@ -179,7 +179,7 @@ above three pieces of our program and our code base is as shown below.</p>
 <span class='line-number'>27</span>
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">from</span> <span class="nn">count_cities</span> <span class="kn">import</span> <span class="n">geocode_address</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">count_cities</span>
 </span><span class='line'><span class="kn">from</span> <span class="nn">count_cities</span> <span class="kn">import</span> <span class="n">find_matching_states</span>
 </span><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">Mock</span>
 </span><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">patch</span>
@@ -198,7 +198,7 @@ above three pieces of our program and our code base is as shown below.</p>
 </span><span class='line'>        <span class="n">place_to_geocode</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">, CA&#39;</span> <span class="o">%</span> <span class="n">city_to_match</span><span class="p">]</span>
 </span><span class='line'>        <span class="c"># Inside this context manager, we&#39;ve mocked out the geocode_address</span>
 </span><span class='line'>        <span class="c"># method to return None whenever it is called.</span>
-</span><span class='line'>        <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="s">&#39;geocode_address&#39;</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="bp">None</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">count_cities</span><span class="p">,</span> <span class="s">&#39;geocode_address&#39;</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="bp">None</span><span class="p">)):</span>
 </span><span class='line'>            <span class="n">matching_states</span> <span class="o">=</span> <span class="n">find_matching_states</span><span class="p">(</span><span class="n">place_to_geocode</span><span class="p">,</span> <span class="n">city_to_match</span><span class="p">)</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="c"># Check that we called geocode_address once per place</span>

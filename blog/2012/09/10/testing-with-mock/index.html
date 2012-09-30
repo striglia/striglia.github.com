@@ -30,6 +30,18 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-35190779-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
@@ -50,7 +62,7 @@
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
     <input type="hidden" name="q" value="site:striglia.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    <input class="search" type="text" name="q" results="0" placeholder=""/>
   </fieldset>
 </form>
   
@@ -213,7 +225,7 @@ above three pieces of our program and our code base is as shown below.</p>
 </ol>
 
 
-<p>These is not a comprehensive list, it&#8217;s merely three issues that apply to this particular block of code. Now imagine how these complaints scale up when you&#8217;re talking about a commercial webapp and you can start to see why mocking is so important in tests.</p>
+<p>This is not a comprehensive list, it&#8217;s merely three issues that apply to this particular block of code. Now imagine how these complaints scale up when you&#8217;re talking about a commercial webapp and you can start to see why mocking is so important in tests.</p>
 
 <h3>Fine, mocking is good. How do I do it?</h3>
 
@@ -251,7 +263,7 @@ above three pieces of our program and our code base is as shown below.</p>
 <span class='line-number'>27</span>
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">from</span> <span class="nn">count_cities</span> <span class="kn">import</span> <span class="n">geocode_address</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">count_cities</span>
 </span><span class='line'><span class="kn">from</span> <span class="nn">count_cities</span> <span class="kn">import</span> <span class="n">find_matching_states</span>
 </span><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">Mock</span>
 </span><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">patch</span>
@@ -270,7 +282,7 @@ above three pieces of our program and our code base is as shown below.</p>
 </span><span class='line'>        <span class="n">place_to_geocode</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">, CA&#39;</span> <span class="o">%</span> <span class="n">city_to_match</span><span class="p">]</span>
 </span><span class='line'>        <span class="c"># Inside this context manager, we&#39;ve mocked out the geocode_address</span>
 </span><span class='line'>        <span class="c"># method to return None whenever it is called.</span>
-</span><span class='line'>        <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="s">&#39;geocode_address&#39;</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="bp">None</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">count_cities</span><span class="p">,</span> <span class="s">&#39;geocode_address&#39;</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="bp">None</span><span class="p">)):</span>
 </span><span class='line'>            <span class="n">matching_states</span> <span class="o">=</span> <span class="n">find_matching_states</span><span class="p">(</span><span class="n">place_to_geocode</span><span class="p">,</span> <span class="n">city_to_match</span><span class="p">)</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="c"># Check that we called geocode_address once per place</span>
@@ -316,7 +328,7 @@ above three pieces of our program and our code base is as shown below.</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://striglia.github.com/blog/2012/09/10/testing-with-mock/" data-via="" data-counturl="http://striglia.github.com/blog/2012/09/10/testing-with-mock/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://striglia.github.com/blog/2012/09/10/testing-with-mock/" data-via="scott_triglia" data-counturl="http://striglia.github.com/blog/2012/09/10/testing-with-mock/" >Tweet</a>
   
   
   
@@ -337,6 +349,13 @@ above three pieces of our program and our code base is as shown below.</p>
 <aside class="sidebar">
   
     <section>
+	<h1>About Me</h1>
+	<div style="margin-top:10px; ">
+		<img style class="left" height="120" width="120" src="http://i.imgur.com/vVsqL.jpg">
+		<p>I am a search engineer at Yelp, new to industry and blogging my thoughts here.</p>
+	</div>
+</section>
+<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -355,6 +374,51 @@ above three pieces of our program and our code base is as shown below.</p>
   </ul>
 </section>
 
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/striglia">@striglia</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'striglia',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("scott_triglia", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/scott_triglia" class="twitter-follow-button" data-show-count="false">Follow @scott_triglia</a>
+  
+</section>
 
 
 
