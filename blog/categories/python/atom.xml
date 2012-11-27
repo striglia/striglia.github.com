@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: python | Locally Optimal]]></title>
+  <link href="http://striglia.github.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://striglia.github.com/"/>
+  <updated>2012-11-24T14:36:50-08:00</updated>
+  <id>http://striglia.github.com/</id>
+  <author>
+    <name><![CDATA[Scott Triglia]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hiding complexity with Context Managers]]></title>
+    <link href="http://striglia.github.com/blog/2012/10/21/hiding-complexity-with-context-managers/"/>
+    <updated>2012-10-21T14:53:00-07:00</updated>
+    <id>http://striglia.github.com/blog/2012/10/21/hiding-complexity-with-context-managers</id>
+    <content type="html"><![CDATA[<p>Very reliably, my favorite part of programming is the simple process of taking a series of steps that I used to have to do by hand and packaging it up in a nice, reusable form. It's pretty wonderful that it remains just as rewarding now as it did when I wrote my first function in C++ 8 years ago.</p>
+
+<p>So in that spirit, I figured I'd write down a few thoughts on python's context managers -- the latest built-in feature that I've grown quite attached to.</p>
+
+<h2>The basics</h2>
+
+<p>Context managers are, at their most basic, blocks of code which do something when they are entered and exited. You can see the full description of them in the excellent <a href="http://docs.python.org/reference/datamodel.html#context-managers">python docs page</a> or <a href="http://www.python.org/dev/peps/pep-0343/">PEP 343</a>. Suffice it to say, they execute code when their <code>with</code> block is entered and exited, allowing nice convenience methods to exist. An excellent (built in!) example is reading from a file while making sure to close it again at the end…in fact you likely have used this already once or twice.</p>
+
+<p>Old and busted:</p>
+
+<p><code>
+input_file = open('config.txt', 'r')
+print input_file.read()
+input_file.close()
+</code></p>
+
+<p>Nice and convenient:</p>
+
+<p>```
+with open('config.txt', 'r) as input_file:</p>
+
+<pre><code>print input_file.read()
+</code></pre>
+
+<p>```</p>
+
+<p>Behind the scenes, the <code>with</code> statement is opening the file, binding the file object to the input_file variable, and then closing the file again after we exit the code block. Nothing complicated at all, but this provides a very nice tool for creating really pretty contexts that can do a lot of the heavy lifting behind the scenes.</p>
+
+<h2>Writing our own</h2>
+
+<p>So that's the basic idea, but the natural next step is wanting to write one of your own! You can consult the python docs to learn how to set up your own context manager class, but I prefer leveraging a simpler approach where possible.</p>
+
+<p>Our secret is going to be <code>contextlib</code>'s <code>contextmanager</code> decorator. Using it is as simple as decorating an appropriate function with <code>@contextmanager</code>. Let's write a toy example to show off the various parts of flow through a context manager.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="nd">@contextmanager</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">our_toy_context_manager</span><span class="p">(</span><span class="n">enter_msg</span><span class="p">,</span> <span class="n">exit_msg</span><span class="p">):</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">print</span> <span class="n">enter_msg</span>
+</span><span class='line'><span class="k">yield</span> <span class="s">&#39;returned value!&#39;</span>
+</span><span class='line'><span class="k">print</span> <span class="n">exit_msg</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">if</span> <span class="o">&lt;</span><span class="n">strong</span><span class="o">&gt;</span><span class="n">name</span><span class="o">&lt;/</span><span class="n">strong</span><span class="o">&gt;</span> <span class="o">==</span> <span class="s">&#39;&lt;strong&gt;main&lt;/strong&gt;&#39;</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">with</span> <span class="n">our_toy_context_manager</span><span class="p">(</span><span class="s">&#39;entering!&#39;</span><span class="p">,</span> <span class="s">&#39;exiting!&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">inner_msg</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="n">inner_msg</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>When run, this produces:</p>
+
+<p><code>
+~/Desktop  $ python toy_context_manager.py
+entering!
+returned value!
+exiting!
+</code></p>
+
+<p>Let's dive into how this decorator works. Keep in mind we can separate context managers into "before" and "after" blocks of code.</p>
+
+<p>The first thing to notice is the <code>yield</code> statement in <code>our_toy_context_manager</code>. This yield marks the point where our context manager is done with the "before" portion of its code and returns an object to the calling code. In particular, when we write something like <code>with foo() as bar:</code>, the <code>bar</code> variable will refer to whatever is returned by this yield. In our example, the value returned is a string and it gets referred to by the <code>inner_msg</code> variable, and summarily printed.</p>
+
+<p>After we are done executing the code inside our with context, we now return to <code>our_toy_context_manager</code> and execute the remaining code after the yield. And that's it! So while this example is quite contrived, you can see how easy it is to construct your own context managers that do something less trivial. In fact, let's try just that.</p>
+
+<h2>The big leagues</h2>
+
+<p>In the spirit of my recent preoccupation with effectively testing larger systems, let's assume that we have a moderately complicated <code>Frobinator</code> object. Moreover, this object is used by a lot of other systems, and our corporate overlords have decreed that we must make a method available for easily mocking out calls to the <code>Frobinator.frobinate</code> method and specifying the return value.</p>
+
+<p>You and I, being the knowledgeable stewards of the <code>Frobinator</code> that we are, know that there are significant complications involved in setting up a proper mock for testing, including limiting some logging that happens on every request and disabling some built in caching infrastructure. So we have our work cut out for us. Luckily, context managers nicely compliment the setup, assert, teardown format of mocks in tests. In our case, we need to set up a valid <code>Frobinator</code>, while simultaneously disabling caching and silencing logging.</p>
+
+<p>Our game plan is to construct a context manager called <code>mock_frobinator</code> which will have already disabled logging and caching, and will be a mock.Mock instance on the <code>frobinate</code> method so consumers can do any asserting they want on the testing side. Last but not least, we will set up our context manager to take a <code>results</code> variable as an argument and that will be set to be the return value of <code>Frobinator.frobinate</code> whenever it is called. So let's gather what we've learned so far and write this.</p>
+
+<p>Or if you prefer, just look below =)</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">Mock</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">patch</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="nd">@contextmanager</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">mock_frobinator</span><span class="p">(</span><span class="n">results</span><span class="p">):</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="s">&quot;&quot;&quot;A mocked Frobinate object for convenient testing.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">Patches out both logging and caching to simplify execution.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">Yields a Mock for the frobinate method.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">Args:</span>
+</span><span class='line'><span class="s">    results - This will be set to always be the return value of calling Frobinator.frobinate.</span>
+</span><span class='line'><span class="s">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="n">frobinator</span> <span class="o">=</span> <span class="n">Frobinator</span><span class="p">()</span>
+</span><span class='line'><span class="n">mocked_frobinate</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="n">results</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s">&#39;frobinate&#39;</span><span class="p">,</span> <span class="n">mocked_frobinate</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s">&#39;get_cached_results&#39;</span><span class="p">,</span> <span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="bp">None</span><span class="p">)):</span>
+</span><span class='line'>            <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s">&#39;write_to_log&#39;</span><span class="p">,</span> <span class="n">Mock</span><span class="p">()):</span>
+</span><span class='line'>                <span class="k">yield</span> <span class="n">mocked_frobinate</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">if</span> <span class="o">&lt;</span><span class="n">strong</span><span class="o">&gt;</span><span class="n">name</span><span class="o">&lt;/</span><span class="n">strong</span><span class="o">&gt;</span> <span class="o">==</span> <span class="s">&#39;&lt;strong&gt;main&lt;/strong&gt;&#39;</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">with</span> <span class="n">mock_frobinator</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="k">as</span> <span class="n">mocked_frobinate</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">assert</span> <span class="n">mocked_frobinate</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">res</span> <span class="o">=</span> <span class="n">mocked_frobinate</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">assert</span> <span class="n">mocked_frobinate</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">assert</span> <span class="n">res</span> <span class="o">==</span> <span class="n">results</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And just like that, we have a fairly complicated testing fixture hidden away from view, and a nice, convenient context manager exposed for others to use. And if we need to change what we're mocking out, or even disable a new part of the Frobinator, we can do it in a single place instead of every test which uses it.</p>
+
+<h2>Final thoughts</h2>
+
+<p>Context managers are a great tool…not least of all because they provide a new metaphor (enter, do stuff, exit) for you to use where it makes the most sense. And after all that's the real benefit of diving into all these python standard library modules -- the more tricks you have up your sleeve, the better you can pick and choose the right tool for each job.</p>
+]]></content>
+  </entry>
+  
+</feed>
