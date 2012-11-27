@@ -10,6 +10,8 @@ Very reliably, my favorite part of programming is the simple process of taking a
 
 So in that spirit, I figured I'd write down a few thoughts on python's context managers -- the latest built-in feature that I've grown quite attached to. 
 
+<!-- more -->
+
 ## The basics
 
 Context managers are, at their most basic, blocks of code which do something when they are entered and exited. You can see the full description of them in the excellent [python docs page](http://docs.python.org/reference/datamodel.html#context-managers) or [PEP 343](http://www.python.org/dev/peps/pep-0343/). Suffice it to say, they execute code when their `with` block is entered and exited, allowing nice convenience methods to exist. An excellent (built in!) example is reading from a file while making sure to close it again at the end…in fact you likely have used this already once or twice.
