@@ -4,7 +4,7 @@
   <title><![CDATA[Locally Optimal]]></title>
   <link href="http://striglia.github.com/atom.xml" rel="self"/>
   <link href="http://striglia.github.com/"/>
-  <updated>2013-01-12T16:02:42-08:00</updated>
+  <updated>2013-01-12T16:13:42-08:00</updated>
   <id>http://striglia.github.com/</id>
   <author>
     <name><![CDATA[Scott Triglia]]></name>
@@ -27,120 +27,6 @@
 <p>Second, I&#8217;m planning on publishing a lot more short, one-off posts with little snippets of code I&#8217;ve found useful. Back in grad school I found many a solution in the tiny posts <a href="http://desk.stinkpot.org:8080/tricks/">from the desk of Stinkpot</a> and would love to save other people some frustration in the same way.</p>
 
 <p>So Happy New Year and here&#8217;s to a great 2013.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Sins of the Test]]></title>
-    <link href="http://striglia.github.com/blog/2012/12/25/sins-of-the-test/"/>
-    <updated>2012-12-25T14:48:00-08:00</updated>
-    <id>http://striglia.github.com/blog/2012/12/25/sins-of-the-test</id>
-    <content type="html"><![CDATA[<p>We all make mistakes…some more embarrassing than others in hindsight. I always really appreciate when programmers I look up to make a point of pointing out their own mistakes, so I figured it was only fair for me to do the same.</p>
-
-<p>So in that spirit, let&#8217;s talk about mistakes I&#8217;ve made in testing!</p>
-
-<!-- more -->
-
-
-<h2>Abusing subclasses</h2>
-
-<p>First up &#8211; the misuse of classes and inheritance!</p>
-
-<p>A mere six months ago, I wrote something approximating the following series of tests for a new feature I was rolling out:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">experiment_framework</span> <span class="kn">import</span> <span class="n">configure_experiment</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">our_logic_module</span> <span class="kn">import</span> <span class="n">method_under_test</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">TestSecretFeatureBase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">__test__</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c"># Make sure this class is purely abstract</span>
-</span><span class='line'>  <span class="n">activate_feature</span> <span class="o">=</span> <span class="bp">None</span>
-</span><span class='line'>  <span class="n">necessary_input</span> <span class="o">=</span> <span class="bp">None</span>
-</span><span class='line'>  <span class="n">expected_output</span> <span class="o">=</span> <span class="bp">None</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="k">def</span> <span class="nf">test_class_vars_are_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>      <span class="sd">&quot;&quot;&quot;Enforce class variables being set in the subclass&quot;&quot;&quot;</span>
-</span><span class='line'>      <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">activate_feature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
-</span><span class='line'>      <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessary_input</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
-</span><span class='line'>      <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="k">def</span> <span class="nf">test_output_of_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>      <span class="sd">&quot;&quot;&quot;The test we actually care about&quot;&quot;&quot;</span>
-</span><span class='line'>      <span class="n">configure_experiment</span><span class="p">(</span><span class="s">&#39;my_secret_feature&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">activate_feature</span><span class="p">)</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="n">output</span> <span class="o">=</span> <span class="n">method_under_test</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">necessary_input</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="n">expected_output</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">TestSecretFeatureOn</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-</span><span class='line'>  <span class="c"># Test what happens when we turn our feature on!</span>
-</span><span class='line'>  <span class="n">activate_feature</span> <span class="o">=</span> <span class="bp">True</span>
-</span><span class='line'>  <span class="n">expected_output</span> <span class="o">=</span> <span class="s">&#39;foo&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">TestSecretFeatureOff</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-</span><span class='line'>  <span class="c"># Test what happens when we turn our feature off!</span>
-</span><span class='line'>  <span class="n">activate_feature</span> <span class="o">=</span> <span class="bp">False</span>
-</span><span class='line'>  <span class="n">expected_output</span> <span class="o">=</span> <span class="s">&#39;bar&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Let&#8217;s briefly cover what this was designed to do. We have a method <code>method_under_test</code> that we want to run with some necessary arguments, testing each time that the output is what we expect. In particular, we want to test this method with a new secret feature turned both on and off.</p>
-
-<p>So what&#8217;s wrong here? The big lesson I learned from looking back on this was that I had painfully abused the concept of a test suite in order to avoid repeating myself. Note that the above solution has no single test suite that can be called &#8211; in fact each test is segregated into its own test suite! Nasty!</p>
-
-<p>Instead, I should have written the entire base class as a simple function with just <code>necessary_input</code> and <code>activate_feature</code> as arguments. The tests themselves could then be grouped into a single meaningful (and useful!) test suite and the <code>test_class_vars_are_set</code> eliminated entirely since it would be implicitly required by the function signature.</p>
-
-<p>Check out the improved code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">run_method_under_test_with_experiment</span><span class="p">(</span><span class="n">activate_feature</span><span class="p">,</span> <span class="n">necessary_input</span><span class="p">):</span>
-</span><span class='line'>  <span class="sd">&quot;&quot;&quot;Runs method_under_test with our secret experiment set according to the</span>
-</span><span class='line'><span class="sd"> passed flag and returns the result.</span>
-</span><span class='line'><span class="sd"> &quot;&quot;&quot;</span>
-</span><span class='line'>  <span class="n">configure_experiment</span><span class="p">(</span><span class="s">&#39;my_secret_feature&#39;</span><span class="p">,</span> <span class="n">activate_feature</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">method_under_test</span><span class="p">(</span><span class="n">necessary_input</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">TestSecretFeature</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-</span><span class='line'>  <span class="sd">&quot;&quot;&quot;Test suite covering the soon-to-be-released Secret Feature&quot;&quot;&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   
