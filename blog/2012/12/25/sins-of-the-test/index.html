@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Sins of the Test - Locally Optimal</title>
+  <meta name="author" content="Scott Triglia">
+
+  
+  <meta name="description" content="We all make mistakes…some more embarrassing than others in hindsight. I always really appreciate when programmers I look up to make a point of &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://striglia.github.com/blog/2012/12/25/sins-of-the-test/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Locally Optimal" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-35190779-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Locally Optimal</a></h1>
+  
+    <h2>Hill climbing in SF</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:striglia.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder=""/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Sins of the Test</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-25T14:48:00-08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>We all make mistakes…some more embarrassing than others in hindsight. I always really appreciate when programmers I look up to make a point of pointing out their own mistakes, so I figured it was only fair for me to do the same.</p>
+
+<p>So in that spirit, let&#8217;s talk about mistakes I&#8217;ve made in testing!</p>
+
+<!-- more -->
+
+
+<h2>Abusing subclasses</h2>
+
+<p>First up &#8211; the misuse of classes and inheritance!</p>
+
+<p>A mere six months ago, I wrote something approximating the following series of tests for a new feature I was rolling out:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">experiment_framework</span> <span class="kn">import</span> <span class="n">configure_experiment</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">our_logic_module</span> <span class="kn">import</span> <span class="n">method_under_test</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">TestSecretFeatureBase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">__test__</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c"># Make sure this class is purely abstract</span>
+</span><span class='line'>  <span class="n">activate_feature</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'>  <span class="n">necessary_input</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'>  <span class="n">expected_output</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_class_vars_are_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>      <span class="sd">&quot;&quot;&quot;Enforce class variables being set in the subclass&quot;&quot;&quot;</span>
+</span><span class='line'>      <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">activate_feature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+</span><span class='line'>      <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessary_input</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+</span><span class='line'>      <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_output_of_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>      <span class="sd">&quot;&quot;&quot;The test we actually care about&quot;&quot;&quot;</span>
+</span><span class='line'>      <span class="n">configure_experiment</span><span class="p">(</span><span class="s">&#39;my_secret_feature&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">activate_feature</span><span class="p">)</span>
+</span><span class='line'>      
+</span><span class='line'>      <span class="n">output</span> <span class="o">=</span> <span class="n">method_under_test</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">necessary_input</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">assert</span> <span class="n">output</span> <span class="o">==</span> <span class="n">expected_output</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">TestSecretFeatureOn</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+</span><span class='line'>  <span class="c"># Test what happens when we turn our feature on!</span>
+</span><span class='line'>  <span class="n">activate_feature</span> <span class="o">=</span> <span class="bp">True</span>
+</span><span class='line'>  <span class="n">expected_output</span> <span class="o">=</span> <span class="s">&#39;foo&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">TestSecretFeatureOff</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+</span><span class='line'>  <span class="c"># Test what happens when we turn our feature off!</span>
+</span><span class='line'>  <span class="n">activate_feature</span> <span class="o">=</span> <span class="bp">False</span>
+</span><span class='line'>  <span class="n">expected_output</span> <span class="o">=</span> <span class="s">&#39;bar&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&#8217;s briefly cover what this was designed to do. We have a method <code>method_under_test</code> that we want to run with some necessary arguments, testing each time that the output is what we expect. In particular, we want to test this method with a new secret feature turned both on and off.</p>
+
+<p>So what&#8217;s wrong here? The big lesson I learned from looking back on this was that I had painfully abused the concept of a test suite in order to avoid repeating myself. Note that the above solution has no single test suite that can be called &#8211; in fact each test is segregated into its own test suite! Nasty!</p>
+
+<p>Instead, I should have written the entire base class as a simple function with just <code>necessary_input</code> and <code>activate_feature</code> as arguments. The tests themselves could then be grouped into a single meaningful (and useful!) test suite and the <code>test_class_vars_are_set</code> eliminated entirely since it would be implicitly required by the function signature.</p>
+
+<p>Check out the improved code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">run_method_under_test_with_experiment</span><span class="p">(</span><span class="n">activate_feature</span><span class="p">,</span> <span class="n">necessary_input</span><span class="p">):</span>
+</span><span class='line'>  <span class="sd">&quot;&quot;&quot;Runs method_under_test with our secret experiment set according to the</span>
+</span><span class='line'><span class="sd"> passed flag and returns the result.</span>
+</span><span class='line'><span class="sd"> &quot;&quot;&quot;</span>
+</span><span class='line'>  <span class="n">configure_experiment</span><span class="p">(</span><span class="s">&#39;my_secret_feature&#39;</span><span class="p">,</span> <span class="n">activate_feature</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">method_under_test</span><span class="p">(</span><span class="n">necessary_input</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">TestSecretFeature</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+</span><span class='line'>  <span class="sd">&quot;&quot;&quot;Test suite covering the soon-to-be-released Secret Feature&quot;&quot;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Scott Triglia</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-25T14:48:00-08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/testing/'>testing</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://striglia.github.com/blog/2012/12/25/sins-of-the-test/" data-via="scott_triglia" data-counturl="http://striglia.github.com/blog/2012/12/25/sins-of-the-test/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/10/21/hiding-complexity-with-context-managers/" title="Previous Post: Hiding complexity with Context Managers">&laquo; Hiding complexity with Context Managers</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/01/12/a-new-year/" title="Next Post: A New Year">A New Year &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+	<h1>About Me</h1>
+	<div style="margin-top:10px; ">
+		<img style class="left" height="120" width="120" src="http://i.imgur.com/vVsqL.jpg">
+		<p>I am a search engineer at Yelp, new to industry and blogging my thoughts here.</p>
+	</div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/12/a-new-year/">A New Year</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/25/sins-of-the-test/">Sins of the Test</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/21/hiding-complexity-with-context-managers/">Hiding complexity with Context Managers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/10/testing-with-mock/">Testing with Mock</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/08/why-namedtuples/">Why namedtuples?</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/striglia">@striglia</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'striglia',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("scott_triglia", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/scott_triglia" class="twitter-follow-button" data-show-count="false">Follow @scott_triglia</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Scott Triglia -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'locallyoptimal';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://striglia.github.com/blog/2012/12/25/sins-of-the-test/';
+        var disqus_url = 'http://striglia.github.com/blog/2012/12/25/sins-of-the-test/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

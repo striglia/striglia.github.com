@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: testing | Locally Optimal]]></title>
+  <link href="http://striglia.github.com/blog/categories/testing/atom.xml" rel="self"/>
+  <link href="http://striglia.github.com/"/>
+  <updated>2013-01-12T16:02:42-08:00</updated>
+  <id>http://striglia.github.com/</id>
+  <author>
+    <name><![CDATA[Scott Triglia]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Sins of the Test]]></title>
+    <link href="http://striglia.github.com/blog/2012/12/25/sins-of-the-test/"/>
+    <updated>2012-12-25T14:48:00-08:00</updated>
+    <id>http://striglia.github.com/blog/2012/12/25/sins-of-the-test</id>
+    <content type="html"><![CDATA[<p>We all make mistakes…some more embarrassing than others in hindsight. I always really appreciate when programmers I look up to make a point of pointing out their own mistakes, so I figured it was only fair for me to do the same.</p>
+
+<p>So in that spirit, let's talk about mistakes I've made in testing!</p>
+
+<!-- more -->
+
+
+<h2>Abusing subclasses</h2>
+
+<p>First up -- the misuse of classes and inheritance!</p>
+
+<p>A mere six months ago, I wrote something approximating the following series of tests for a new feature I was rolling out:</p>
+
+<p>``` python
+from experiment_framework import configure_experiment
+from our_logic_module import method_under_test</p>
+
+<p>class TestSecretFeatureBase(TestCase):</p>
+
+<pre><code>__test__ = False  # Make sure this class is purely abstract
+activate_feature = None
+necessary_input = None
+expected_output = None
+
+def test_class_vars_are_set(self):
+    """Enforce class variables being set in the subclass"""
+    assert self.activate_feature is not None
+    assert self.necessary_input is not None
+    assert self.expected_output is not None
+
+def test_output_of_method(self):
+    """The test we actually care about"""
+    configure_experiment('my_secret_feature', self.activate_feature)
+
+    output = method_under_test(self.necessary_input)
+    assert output == expected_output
+</code></pre>
+
+<p>class TestSecretFeatureOn(TestCase):</p>
+
+<pre><code># Test what happens when we turn our feature on!
+activate_feature = True
+expected_output = 'foo'
+</code></pre>
+
+<p>class TestSecretFeatureOff(TestCase):</p>
+
+<pre><code># Test what happens when we turn our feature off!
+activate_feature = False
+expected_output = 'bar'
+</code></pre>
+
+<p>```</p>
+
+<p>Let's briefly cover what this was designed to do. We have a method <code>method_under_test</code> that we want to run with some necessary arguments, testing each time that the output is what we expect. In particular, we want to test this method with a new secret feature turned both on and off.</p>
+
+<p>So what's wrong here? The big lesson I learned from looking back on this was that I had painfully abused the concept of a test suite in order to avoid repeating myself. Note that the above solution has no single test suite that can be called -- in fact each test is segregated into its own test suite! Nasty!</p>
+
+<p>Instead, I should have written the entire base class as a simple function with just <code>necessary_input</code> and <code>activate_feature</code> as arguments. The tests themselves could then be grouped into a single meaningful (and useful!) test suite and the <code>test_class_vars_are_set</code> eliminated entirely since it would be implicitly required by the function signature.</p>
+
+<p>Check out the improved code:
+```
+def run_method_under_test_with_experiment(activate_feature, necessary_input):</p>
+
+<pre><code>"""Runs method_under_test with our secret experiment set according to the
+passed flag and returns the result.
+"""
+configure_experiment('my_secret_feature', activate_feature)
+return method_under_test(necessary_input)
+</code></pre>
+
+<p>class TestSecretFeature(TestCase):</p>
+
+<pre><code>"""Test suite covering the soon-to-be-released Secret Feature"""
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>
