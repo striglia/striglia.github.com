@@ -4,7 +4,7 @@
   <title><![CDATA[Locally Optimal]]></title>
   <link href="http://striglia.github.com/atom.xml" rel="self"/>
   <link href="http://striglia.github.com/"/>
-  <updated>2013-01-12T16:13:42-08:00</updated>
+  <updated>2013-01-20T12:54:14-08:00</updated>
   <id>http://striglia.github.com/</id>
   <author>
     <name><![CDATA[Scott Triglia]]></name>
@@ -12,6 +12,106 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Elegant n-gram generation in Python]]></title>
+    <link href="http://striglia.github.com/blog/2013/01/20/elegant-n-gram-generation-in-python/"/>
+    <updated>2013-01-20T12:51:00-08:00</updated>
+    <id>http://striglia.github.com/blog/2013/01/20/elegant-n-gram-generation-in-python</id>
+    <content type="html"><![CDATA[<p>A quick few snippets of code today &#8211; solving how to compactly and elegantly generate n-grams from your favorite iterable.</p>
+
+<!-- more -->
+
+
+<p>For starters, let&#8217;s talk about generating all bigrams from a python list (or anything we can iterate over). We&#8217;ll write it generally so it can work over lists, strings, or whatever else you care to make iterable. Finally, I&#8217;ll show the more general extension at the end.</p>
+
+<h2>The obvious way</h2>
+
+<p>So our first shot here can be done with a single walk through our list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;all&#39;</span><span class="p">,</span> <span class="s">&#39;this&#39;</span><span class="p">,</span> <span class="s">&#39;happened&#39;</span><span class="p">,</span> <span class="s">&#39;more&#39;</span><span class="p">,</span> <span class="s">&#39;or&#39;</span><span class="p">,</span> <span class="s">&#39;less&#39;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">find_bigrams</span><span class="p">(</span><span class="n">input_list</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">bigram_list</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>      <span class="n">bigram_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">input_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">input_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">bigram_list</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You could easily suggest that this for loop may be better written with zip() instead of just range(), but the basic idea would be the same &#8211; iterate over each element and manually combine it with the one directly following it.</p>
+
+<p>One thing I will mention here is that I&#8217;m not counting the first or last terms in their own bigrams (i.e. there is no bigram created that ends with &#8216;all&#8217; or starts with &#8216;less&#8217;). There are variations we could create that would include such bigrams (usually using some sort of padding value for the missing terms) but I will ignore them for the remainder of this discussion.</p>
+
+<p>So we have the minimal python code to create the bigrams, but it feels very low-level for python…more like a loop written in C++ than in python. Let&#8217;s change that.</p>
+
+<h2>Slicing and Zipping</h2>
+
+<p>Let&#8217;s take advantage of python&#8217;s <a href="http://docs.python.org/2/library/functions.html#zip">zip builtin</a> to build our bigrams. Zip takes a list of iterables and constructs a new list of tuples where the first list contains the first elements of the inputs, the second list contains the second elements of the inputs, and so on. Given this fact, it will construct our bigrams for us if we can just pass it two lists that contain the first and second elements of each bigram.</p>
+
+<p>In fact, a little thought shows us that we can do this by simply passing in our original <code>input_list</code> once normally and once offset by one element. This gives us our second version of <code>find_bigrams</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;all&#39;</span><span class="p">,</span> <span class="s">&#39;this&#39;</span><span class="p">,</span> <span class="s">&#39;happened&#39;</span><span class="p">,</span> <span class="s">&#39;more&#39;</span><span class="p">,</span> <span class="s">&#39;or&#39;</span><span class="p">,</span> <span class="s">&#39;less&#39;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">find_bigrams</span><span class="p">(</span><span class="n">input_list</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Hey now that is something you can show off around the office!</p>
+
+<h2>Generalizing</h2>
+
+<p>Okay but seriously, let&#8217;s not get too excited. We still need to pass in a bunch of arguments to zip(), arguments which will have to change if we want to do anything but generate bigrams. So let&#8217;s fix that. What if we want to generate n-grams from a list and we wish to cleanly do that in a general way?</p>
+
+<p>If we write out what our zip() invocation looks like for various n-grams, we see a pattern:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># Bigrams</span>
+</span><span class='line'><span class="nb">zip</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+</span><span class='line'><span class="c"># Trigrams</span>
+</span><span class='line'><span class="nb">zip</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+</span><span class='line'><span class="c"># and so on</span>
+</span><span class='line'><span class="nb">zip</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">2</span><span class="p">:],</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice the pattern? If we could construct those arguments programmatically, just given the N we want to generate n-grams for, we&#8217;d be all set! So let&#8217;s do that. We&#8217;re going to leverage two things &#8211; list comprehensions and the <code>*</code> operator to build up our arguments.</p>
+
+<p>We can easily write a list comprehension to build up the list of inputs - <code>[input_list[i:] for i in range(n)]</code>. After we&#8217;ve done this, we need to take a list of arguments and unlist them. This is the exact purpose of the underused <code>*</code> operator in python. It is perfect for our purpose, taking a list and passing all elements into a function call.</p>
+
+<p>And now we have all our ingredients organized for our general find_ngram method.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;all&#39;</span><span class="p">,</span> <span class="s">&#39;this&#39;</span><span class="p">,</span> <span class="s">&#39;happened&#39;</span><span class="p">,</span> <span class="s">&#39;more&#39;</span><span class="p">,</span> <span class="s">&#39;or&#39;</span><span class="p">,</span> <span class="s">&#39;less&#39;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">find_ngrams</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">input_list</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And there you go! It is worth noting that this is probably a suggestion too clever for it&#8217;s own good…but it&#8217;s also a great opportunity to practice the application of list comprehensions and the itertools module. Happy hacking!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A New Year]]></title>
