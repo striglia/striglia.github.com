@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Hiding complexity with Context Managers - Locally Optimal</title>
+  <meta name="author" content="Scott Triglia">
+
+  
+  <meta name="description" content="Very reliably, my favorite part of programming is the simple process of taking a series of steps that I used to have to do by hand and packaging it &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://striglia.github.com/blog/2012/10/21/hiding-complexity-with-context-managers/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Locally Optimal" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-35190779-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Locally Optimal</a></h1>
+  
+    <h2>Hill climbing in SF</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:striglia.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder=""/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Hiding Complexity With Context Managers</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-21T14:53:00-07:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Very reliably, my favorite part of programming is the simple process of taking a series of steps that I used to have to do by hand and packaging it up in a nice, reusable form. It&#8217;s pretty wonderful that it remains just as rewarding now as it did when I wrote my first function in C++ 8 years ago.</p>
+
+<p>So in that spirit, I figured I&#8217;d write down a few thoughts on python&#8217;s context managers &#8211; the latest built-in feature that I&#8217;ve grown quite attached to.</p>
+
+<!-- more -->
+
+
+<h2>The basics</h2>
+
+<p>Context managers are, at their most basic, blocks of code which do something when they are entered and exited. You can see the full description of them in the excellent <a href="http://docs.python.org/reference/datamodel.html#context-managers">python docs page</a> or <a href="http://www.python.org/dev/peps/pep-0343/">PEP 343</a>. Suffice it to say, they execute code when their <code>with</code> block is entered and exited, allowing nice convenience methods to exist. An excellent (built in!) example is reading from a file while making sure to close it again at the end…in fact you likely have used this already once or twice.</p>
+
+<p>Old and busted:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>input_file = open('config.txt', 'r')
+</span><span class='line'>print input_file.read()
+</span><span class='line'>input_file.close()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nice and convenient:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>with open('config.txt', 'r) as input_file:
+</span><span class='line'>  print input_file.read()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Behind the scenes, the <code>with</code> statement is opening the file, binding the file object to the input_file variable, and then closing the file again after we exit the code block. Nothing complicated at all, but this provides a very nice tool for creating really pretty contexts that can do a lot of the heavy lifting behind the scenes.</p>
+
+<h2>Writing our own</h2>
+
+<p>So that&#8217;s the basic idea, but the natural next step is wanting to write one of your own! You can consult the python docs to learn how to set up your own context manager class, but I prefer leveraging a simpler approach where possible.</p>
+
+<p>Our secret is going to be <code>contextlib</code>&#8217;s <code>contextmanager</code> decorator. Using it is as simple as decorating an appropriate function with <code>@contextmanager</code>. Let&#8217;s write a toy example to show off the various parts of flow through a context manager.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@contextmanager</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">our_toy_context_manager</span><span class="p">(</span><span class="n">enter_msg</span><span class="p">,</span> <span class="n">exit_msg</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">enter_msg</span>
+</span><span class='line'>  <span class="k">yield</span> <span class="s">&#39;returned value!&#39;</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">exit_msg</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">with</span> <span class="n">our_toy_context_manager</span><span class="p">(</span><span class="s">&#39;entering!&#39;</span><span class="p">,</span> <span class="s">&#39;exiting!&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">inner_msg</span><span class="p">:</span>
+</span><span class='line'>      <span class="k">print</span> <span class="n">inner_msg</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When run, this produces:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/Desktop  $ python toy_context_manager.py 
+</span><span class='line'>entering!
+</span><span class='line'>returned value!
+</span><span class='line'>exiting!</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&#8217;s dive into how this decorator works. Keep in mind we can separate context managers into &#8220;before&#8221; and &#8220;after&#8221; blocks of code.</p>
+
+<p>The first thing to notice is the <code>yield</code> statement in <code>our_toy_context_manager</code>. This yield marks the point where our context manager is done with the &#8220;before&#8221; portion of its code and returns an object to the calling code. In particular, when we write something like <code>with foo() as bar:</code>, the <code>bar</code> variable will refer to whatever is returned by this yield. In our example, the value returned is a string and it gets referred to by the <code>inner_msg</code> variable, and summarily printed.</p>
+
+<p>After we are done executing the code inside our with context, we now return to <code>our_toy_context_manager</code> and execute the remaining code after the yield. And that&#8217;s it! So while this example is quite contrived, you can see how easy it is to construct your own context managers that do something less trivial. In fact, let&#8217;s try just that.</p>
+
+<h2>The big leagues</h2>
+
+<p>In the spirit of my recent preoccupation with effectively testing larger systems, let&#8217;s assume that we have a moderately complicated <code>Frobinator</code> object. Moreover, this object is used by a lot of other systems, and our corporate overlords have decreed that we must make a method available for easily mocking out calls to the <code>Frobinator.frobinate</code> method and specifying the return value.</p>
+
+<p>You and I, being the knowledgeable stewards of the <code>Frobinator</code> that we are, know that there are significant complications involved in setting up a proper mock for testing, including limiting some logging that happens on every request and disabling some built in caching infrastructure. So we have our work cut out for us. Luckily, context managers nicely compliment the setup, assert, teardown format of mocks in tests. In our case, we need to set up a valid <code>Frobinator</code>, while simultaneously disabling caching and silencing logging.</p>
+
+<p>Our game plan is to construct a context manager called <code>mock_frobinator</code> which will have already disabled logging and caching, and will be a mock.Mock instance on the <code>frobinate</code> method so consumers can do any asserting they want on the testing side. Last but not least, we will set up our context manager to take a <code>results</code> variable as an argument and that will be set to be the return value of <code>Frobinator.frobinate</code> whenever it is called. So let&#8217;s gather what we&#8217;ve learned so far and write this.</p>
+
+<p>Or if you prefer, just look below =)</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">Mock</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">patch</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@contextmanager</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">mock_frobinator</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+</span><span class='line'>  <span class="sd">&quot;&quot;&quot;A mocked Frobinate object for convenient testing.</span>
+</span><span class='line'><span class="sd"> </span>
+</span><span class='line'><span class="sd"> Patches out both logging and caching to simplify execution.</span>
+</span><span class='line'><span class="sd"> </span>
+</span><span class='line'><span class="sd"> Yields a Mock for the frobinate method.</span>
+</span><span class='line'><span class="sd"> </span>
+</span><span class='line'><span class="sd"> Args:</span>
+</span><span class='line'><span class="sd">     results - This will be set to always be the return value of calling Frobinator.frobinate.</span>
+</span><span class='line'><span class="sd"> &quot;&quot;&quot;</span>
+</span><span class='line'>  <span class="n">frobinator</span> <span class="o">=</span> <span class="n">Frobinator</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">mocked_frobinate</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="n">results</span><span class="p">)</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s">&#39;frobinate&#39;</span><span class="p">,</span> <span class="n">mocked_frobinate</span><span class="p">):</span>
+</span><span class='line'>      <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s">&#39;get_cached_results&#39;</span><span class="p">,</span> <span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="bp">None</span><span class="p">)):</span>
+</span><span class='line'>              <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s">&#39;write_to_log&#39;</span><span class="p">,</span> <span class="n">Mock</span><span class="p">()):</span>
+</span><span class='line'>                  <span class="k">yield</span> <span class="n">mocked_frobinate</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>  <span class="k">with</span> <span class="n">mock_frobinator</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="k">as</span> <span class="n">mocked_frobinate</span><span class="p">:</span>
+</span><span class='line'>      <span class="k">assert</span> <span class="n">mocked_frobinate</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="n">res</span> <span class="o">=</span> <span class="n">mocked_frobinate</span><span class="p">()</span>
+</span><span class='line'>      <span class="k">assert</span> <span class="n">mocked_frobinate</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">assert</span> <span class="n">res</span> <span class="o">==</span> <span class="n">results</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And just like that, we have a fairly complicated testing fixture hidden away from view, and a nice, convenient context manager exposed for others to use. And if we need to change what we&#8217;re mocking out, or even disable a new part of the Frobinator, we can do it in a single place instead of every test which uses it.</p>
+
+<h2>Final thoughts</h2>
+
+<p>Context managers are a great tool…not least of all because they provide a new metaphor (enter, do stuff, exit) for you to use where it makes the most sense. And after all that&#8217;s the real benefit of diving into all these python standard library modules &#8211; the more tricks you have up your sleeve, the better you can pick and choose the right tool for each job.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Scott Triglia</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-21T14:53:00-07:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://striglia.github.com/blog/2012/10/21/hiding-complexity-with-context-managers/" data-via="scott_triglia" data-counturl="http://striglia.github.com/blog/2012/10/21/hiding-complexity-with-context-managers/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/10/testing-with-mock/" title="Previous Post: Testing with Mock">&laquo; Testing with Mock</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/01/12/a-new-year/" title="Next Post: A New Year">A New Year &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+	<h1>About Me</h1>
+	<div style="margin-top:10px; ">
+		<img style class="left" height="120" width="120" src="http://i.imgur.com/vVsqL.jpg">
+		<p>I am a search engineer at Yelp, new to industry and blogging my thoughts here.</p>
+	</div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/20/elegant-n-gram-generation-in-python/">Elegant n-gram generation in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/12/a-new-year/">A New Year</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/21/hiding-complexity-with-context-managers/">Hiding complexity with Context Managers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/10/testing-with-mock/">Testing with Mock</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/08/why-namedtuples/">Why namedtuples?</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/striglia">@striglia</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'striglia',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("scott_triglia", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/scott_triglia" class="twitter-follow-button" data-show-count="false">Follow @scott_triglia</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Scott Triglia -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'locallyoptimal';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://striglia.github.com/blog/2012/10/21/hiding-complexity-with-context-managers/';
+        var disqus_url = 'http://striglia.github.com/blog/2012/10/21/hiding-complexity-with-context-managers/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

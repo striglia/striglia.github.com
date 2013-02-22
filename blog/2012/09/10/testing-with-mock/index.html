@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Testing with Mock - Locally Optimal</title>
+  <meta name="author" content="Scott Triglia">
+
+  
+  <meta name="description" content="More than any other area, I&#8217;ve found software testing to be the discipline which I knew the least about before joining up at Yelp full time. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://striglia.github.com/blog/2012/09/10/testing-with-mock/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Locally Optimal" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-35190779-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Locally Optimal</a></h1>
+  
+    <h2>Hill climbing in SF</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:striglia.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder=""/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Testing With Mock</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-10T19:34:00-07:00" pubdate data-updated="true">Sep 10<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>More than any other area, I&#8217;ve found software testing to be the discipline which I knew the least about before joining up at Yelp full time. Sure, there was the normal insistence in my time as an undergraduate that I learn how to test units of code, and I&#8217;d heard plenty about the value of unit testing from any number of people or blogs, but when it came right down to it relatively few people I knew ever employed it to a meaningful degree during college and my graduate work. The simple truth was that projects rarely lasted long enough for the fruits of proper testing to be borne out.</p>
+
+<p>Now I am sure plenty of people would disagree with that statement, pointing to how their various school projects were made better or simpler by judicious application of unit tests, but the goal of this post isn&#8217;t arguing about whether or not testing is worthwhile. My goal is to dive in a little bit to one particular area of testing that I had essentially zero exposure to before joining industry &#8211; the mocking of methods in tests.</p>
+
+<!-- more -->
+
+
+<h3>The basics of mocks</h3>
+
+<p>Given my complete ignorance the first time I was exposed to mocks, I&#8217;ll start at the beginning &#8211; a simple definition. Now there&#8217;s some disagreement on the basic terms involved here, but I will default to <a href="http://martinfowler.com/articles/mocksArentStubs.html">Martin Fowler&#8217;s use of the work mock</a>, and summarize it as follows.</p>
+
+<p>To mock a method for a test involves verifying behavior. This can include:</p>
+
+<ol>
+<li>asserting that it is called the expected number of times</li>
+<li>asserting that it is called with the expected arguments</li>
+<li>and finally replacing its normal execution with the execution of a stand-in method (or a fixed return value)</li>
+</ol>
+
+
+<p>You&#8217;ll immediately notice two distinct purposes to mocking in tests. First, they define (moreover, assert!) an interface between the code under test and the method you are mocking out. This is done both by agreeing upon the arguments passed to the mocked method and by checking how many times the method is called. Separate from these interface tests, the method itself is replaced by an imposter for the sake of this test.</p>
+
+<p>So I&#8217;ve briefly described the spirit of a mock, but have left it entirely without motivation. Isn&#8217;t the entire point of tests to actually test the real system? If I replace part of my code with something else, doesn&#8217;t this mean any bugs in the mocked out code will be hidden from my tests? Strictly speaking, these complaints are valid. Mocking out a method means, for that test, the method&#8217;s true code will not be exercised.</p>
+
+<p>But prepare yourself for this, because it blew my mind the first several times I heard it &#8211; that is the entire point.</p>
+
+<h3>Why mock at all?</h3>
+
+<p>Outrage! Mutiny! What good is a test that doesn&#8217;t actually test the code?! Well collect yourself, settle down, and I&#8217;ll give you a real-world example that I hope will justify what I&#8217;m describing.</p>
+
+<p>Let&#8217;s imagine an extremely simple program, one almost too simple to test at all. Our goal is to write a tiny little wrapper around <a href="https://developers.google.com/maps/documentation/geocoding/">Google&#8217;s Geocoding API</a>. In case you aren&#8217;t already familiar with the concept of a geocoder, I&#8217;ll summarize it very simply for our purposes as a black box that takes in a string, e.g. &#8216;Mission District, San Francisco&#8217;, and returns its best guesses at the location you are interested in, along with detailed information on each like longitude/latitude, city, state, country and so on.</p>
+
+<p>So back to our program. Envision a simple application, which is meant to accept a city name and return you the list of American states which contain a city of that name. Our actual implementation will be a simple wrapper around Google&#8217;s API where, if the original submitted city name was &#8216;Foobar&#8217;, we will search for &#8216;Foobar, AL&#8217;, &#8216;Foobar, AK&#8217;, and so on with each state name, recording when we get matches and returning the whole list at the end. Forgive me the clumsy example, but it will prove easy to reason about.</p>
+
+<p>Now lets think about testing our little utility&#8230;.what parts of our program really need to be tested? Let&#8217;s throw together a few likely prospects:</p>
+
+<ol>
+<li>We should test to make sure we&#8217;re constructing our places to geocode correctly.</li>
+<li>Our validation of Google&#8217;s responses should be tested (if Google has a match for &#8216;Foobar, CA&#8217;, and we were searching for &#8216;Foobar&#8217; as our city, do we add California to our list of matched states?)</li>
+<li>And just for kicks we may as well make sure the whole system runs properly</li>
+</ol>
+
+
+<p>Cool&#8230;we&#8217;ve got our plan together. Let&#8217;s assume we really want to test the
+above three pieces of our program and our code base is as shown below.</p>
+
+<figure class='code'><figcaption><span> (count_cities.py)</span> <a href='/downloads/code/count_cities.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">from</span> <span class="nn">geological_data</span> <span class="kn">import</span> <span class="n">US_STATES</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">magic_geocoding_library</span> <span class="kn">import</span> <span class="n">geocode_address</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">build_query_locations</span><span class="p">(</span><span class="n">city</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">, USA&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">city</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span> <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">US_STATES</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">find_matching_states</span><span class="p">(</span><span class="n">places_to_geocode</span><span class="p">,</span> <span class="n">city_to_match</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Create a list of each state we found a geocoder result matching our city.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">geocoding_results</span> <span class="o">=</span> <span class="p">[</span><span class="n">geocode_address</span><span class="p">(</span><span class="n">place</span><span class="p">)</span> <span class="k">for</span> <span class="n">place</span> <span class="ow">in</span> <span class="n">places_to_geocode</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">matching_states</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">geocoding_results</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">_geocode_had_matching_state</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class='line'>            <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span>
+</span><span class='line'>            <span class="n">result</span><span class="o">.</span><span class="n">city</span> <span class="o">==</span> <span class="n">city_to_match</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">_geocode_had_matching_state</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">matching_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">matching_states</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Find out what states contain cities of a given name.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">city_to_match</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&#39;Please enter a city: &#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">places_to_geocode</span> <span class="o">=</span> <span class="n">build_query_locations</span><span class="p">(</span><span class="n">city_to_match</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">matching_states</span> <span class="o">=</span> <span class="n">find_matching_states</span><span class="p">(</span><span class="n">places_to_geocode</span><span class="p">,</span> <span class="n">city_to_match</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;Matches for </span><span class="si">%s</span><span class="s">:&#39;</span> <span class="o">%</span> <span class="n">city_to_match</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">matching_states</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">print</span> <span class="s">&#39;Found match in </span><span class="si">%s</span><span class="s">!&#39;</span> <span class="o">%</span> <span class="n">state</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">main</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Looks like writing our first test is easy! We can just directly test the build_query_locations method and ensure it works as we expect. Our second test should be pretty easy too, as we can create some sample responses from Google and make sure we only accept the right ones. The third test though is irritating, since it depends on us actually calling Google&#8217;s API in our test.</p>
+
+<p>There are a few reasons this external dependency is unfortunate:</p>
+
+<ol>
+<li>It&#8217;s slow! A round trip query takes in the neighborhood of 700 ms, which means one run of our program will take on the order of half a minute. Gross.</li>
+<li>It probably doesn&#8217;t need testing (by us). We generally trust Google to do the right thing. We are currently trying to unit test our own code, and where possible, we should assume that Google&#8217;s API is a thoroughly tested black box.</li>
+<li>Our own testing is now more complicated. What happens if I want to test how find_matching_states handles a geocoder result that comes back as <code>None</code>? Or a city with accented characters? These are hard to generate if I&#8217;m actually calling out to my geocoding library and using the real result.</li>
+</ol>
+
+
+<p>This is not a comprehensive list, it&#8217;s merely three issues that apply to this particular block of code. Now imagine how these complaints scale up when you&#8217;re talking about a commercial webapp and you can start to see why mocking is so important in tests.</p>
+
+<h3>Fine, mocking is good. How do I do it?</h3>
+
+<p>And now we&#8217;re to the good stuff &#8211; how to mock out methods in your own tests. Gary Bernhardt wrote up a <a href="http://garybernhardt.github.com/python-mock-comparison/">comparison</a> of various mocking libraries for python, all of which would work for your purposes. Personally, I&#8217;ve stuck with the mock library and been quite happy with it.</p>
+
+<p>So enough rambling already, let&#8217;s see this in action. I&#8217;ve written a single test below, aimed at unit testing the find_matching_states method. In particular, note how we manipulate what the <code>geocode_address</code> call returns to make our testing simple, while still asserting that we are calling the method with the arguments we expect.</p>
+
+<figure class='code'><figcaption><span> (count_cities_test.py)</span> <a href='/downloads/code/count_cities_test.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">count_cities</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">count_cities</span> <span class="kn">import</span> <span class="n">find_matching_states</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">Mock</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">patch</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">unittest</span> <span class="kn">import</span> <span class="n">TestCase</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">CountCitiesTestCase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">test_handle_none_geocoder_responses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="sd">&quot;&quot;&quot;Make sure find_matching_businesses doesn&#39;t break if our geocoder</span>
+</span><span class='line'><span class="sd">        result is None.</span>
+</span><span class='line'><span class="sd">        </span>
+</span><span class='line'><span class="sd">        Also test we are calling geocode_address once per place and that we get</span>
+</span><span class='line'><span class="sd">        no matches in return.</span>
+</span><span class='line'><span class="sd">        &quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">city_to_match</span> <span class="o">=</span> <span class="s">&#39;Buttonwillow&#39;</span>
+</span><span class='line'>        <span class="n">place_to_geocode</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">, CA&#39;</span> <span class="o">%</span> <span class="n">city_to_match</span><span class="p">]</span>
+</span><span class='line'>        <span class="c"># Inside this context manager, we&#39;ve mocked out the geocode_address</span>
+</span><span class='line'>        <span class="c"># method to return None whenever it is called.</span>
+</span><span class='line'>        <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">count_cities</span><span class="p">,</span> <span class="s">&#39;geocode_address&#39;</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="bp">None</span><span class="p">)):</span>
+</span><span class='line'>            <span class="n">matching_states</span> <span class="o">=</span> <span class="n">find_matching_states</span><span class="p">(</span><span class="n">place_to_geocode</span><span class="p">,</span> <span class="n">city_to_match</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c"># Check that we called geocode_address once per place</span>
+</span><span class='line'>        <span class="k">assert</span> <span class="n">geocode_address</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">places_to_geocode</span><span class="p">)</span>
+</span><span class='line'>        <span class="c"># Assert we always called with what we expected</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">place</span><span class="p">,</span> <span class="p">(</span><span class="n">call_args</span><span class="p">,</span> <span class="n">call_kwargs</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">places_to_geocode</span><span class="p">,</span> <span class="n">geocode_address</span><span class="o">.</span><span class="n">call_args_list</span><span class="p">):</span>
+</span><span class='line'>            <span class="k">assert</span> <span class="n">call_args</span> <span class="o">==</span> <span class="p">(</span><span class="n">place</span><span class="p">,</span> <span class="n">city_to_match</span><span class="p">)</span>
+</span><span class='line'>        <span class="c"># And just for completeness, assert that we returned no matches</span>
+</span><span class='line'>        <span class="k">assert</span> <span class="n">matching_states</span> <span class="o">==</span> <span class="p">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that with this test, the only thing we&#8217;ve stopped testing is the content of Google responses for particular arguments to <code>geocode_address</code>. The danger (as always with mocking), is that we actually are uncertain of this response format or contents. If this were the case, we&#8217;d want to construct separate tests &#8211; only operating on the <code>geocode_address</code> method &#8211; that verified the behavior we required. But in exchange for this, we&#8217;ve replaced a 700ms call with one that takes no time, gained control over the value returned by <code>geocode_address</code> and in the case of an API like this, possibly saved ourselves real money! These are very real advantages that become even more valuable when employed at scale.</p>
+
+<p>The simple fact is, you cannot reliably make every test an integration test at scale and &#8211; more importantly &#8211; you shouldn&#8217;t want to do so. With any luck, this post has pointed out a few advantages of mocking in your tests and explained the overall reasoning behind the choice. All that remains is to pick your library of choice and learn to use it skillfully. And that is all there is to it. There&#8217;s a ton to learn about how best to use tools like stubs and mocks in your code, but I have been repeatedly impressed by how much they have improved both the clarity and quality of my tests.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Scott Triglia</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-10T19:34:00-07:00" pubdate data-updated="true">Sep 10<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://striglia.github.com/blog/2012/09/10/testing-with-mock/" data-via="scott_triglia" data-counturl="http://striglia.github.com/blog/2012/09/10/testing-with-mock/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/08/why-namedtuples/" title="Previous Post: Why namedtuples?">&laquo; Why namedtuples?</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/10/21/hiding-complexity-with-context-managers/" title="Next Post: Hiding complexity with Context Managers">Hiding complexity with Context Managers &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+	<h1>About Me</h1>
+	<div style="margin-top:10px; ">
+		<img style class="left" height="120" width="120" src="http://i.imgur.com/vVsqL.jpg">
+		<p>I am a search engineer at Yelp, new to industry and blogging my thoughts here.</p>
+	</div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/20/elegant-n-gram-generation-in-python/">Elegant n-gram generation in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/12/a-new-year/">A New Year</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/21/hiding-complexity-with-context-managers/">Hiding complexity with Context Managers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/10/testing-with-mock/">Testing with Mock</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/08/why-namedtuples/">Why namedtuples?</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/striglia">@striglia</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'striglia',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("scott_triglia", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/scott_triglia" class="twitter-follow-button" data-show-count="false">Follow @scott_triglia</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Scott Triglia -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'locallyoptimal';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://striglia.github.com/blog/2012/09/10/testing-with-mock/';
+        var disqus_url = 'http://striglia.github.com/blog/2012/09/10/testing-with-mock/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
