@@ -57,9 +57,9 @@ class TestSecretFeatureOn(TestCase):
 
 Let's briefly cover what this was designed to do. We have a method `method_under_test` that we want to run with some necessary arguments, testing each time that the output is what we expect. In particular, we want to test this method with a new secret feature turned both on and off.
 
-So what's bad about this? The big lesson I learned from looking back on this was that I had painfully abused the concept of a test suite in an attempt to be DRY. Note that the above solution has no single test suite that can be called -- in fact each test is segregated into its own test suite! Nasty! And the only reason I did all this was to create a few real test cases (the classes TestSecretFeatureOn/TestSecretFeatureOff here) with a bunch of variables that are required to be defined.
+So what's bad about this? The big lesson I learned from looking back on this was that I had painfully abused the concept of a test suite in an attempt to be DRY. Note that the above solution has no single test suite that can be called -- in fact each test is segregated into its own test suite! Nasty! And the only reason I did all this was to create a few real test cases (the classes TestSecretFeatureOn/TestSecretFeatureOff here) with a bunch of variables that are required to be defined. Additionally, you can see that I've introduces a new test for every subclass that does nothing but ensure I am overriding the required parameters...at absolute best this test is irrelevant to the core functionality and distracting.
 
-Instead, I should have written the entire base class as a simple function with just `necessary_input` and `activate_feature` as arguments. The tests themselves could then be grouped into a single meaningful (and useful!) test suite and the `test_class_vars_are_set` eliminated entirely since it would be implicitly required by the function signature. 
+Instead, I should have written the entire base class as a simple helper function with just `necessary_input` and `activate_feature` as arguments. The tests themselves could then be grouped into a single meaningful (and useful!) test suite and the `test_class_vars_are_set` eliminated entirely since it would be implicitly required by the function signature. Any further alterations I do to the code this covers can be easily and quickly tested by running a single test suite instead of having to run many small ones.
 
 Check out the improved code:
 ``` python
@@ -78,7 +78,7 @@ class TestSecretFeature(TestCase):
 		assert run_method_under_test_with_experiment(False, self.necessary_input) == 'magic'
 		
 	def test_feature_on(self):
-		assert (run_method_under_test_with_experiment(True, self.necessary_input) == 'more magic'
+		assert run_method_under_test_with_experiment(True, self.necessary_input) == 'more magic'
 ```
 
 Just like that, we have collapsed all our tests into a single descriptive test suite and we can reliably know that classes always contain meaningful collections of tests. Maybe most importantly, it's much simpler for the next poor dev who has to unravel the goal of my tests.
