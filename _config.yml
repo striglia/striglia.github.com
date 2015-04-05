@@ -73,6 +73,11 @@ twitter_follow_button: true
 twitter_show_follower_count: false
 twitter_tweet_button: true
 
+# my buttons
+hacker_news_button: true
+facebook_share_button: true
+reddit_button: true
+
 # Google +1
 google_plus_one: false
 google_plus_one_size: medium

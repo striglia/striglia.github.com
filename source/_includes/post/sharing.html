@@ -1,11 +1,14 @@
 <div class="sharing">
-  {% if site.twitter_tweet_button %}
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="{{ site.url }}{{ page.url }}" data-via="{{ site.twitter_user }}" data-counturl="{{ site.url }}{{ page.url }}" >Tweet</a>
-  {% endif %}
-  {% if site.google_plus_one %}
-  <div class="g-plusone" data-size="{{ site.google_plus_one_size }}"></div>
-  {% endif %}
-  {% if site.facebook_like %}
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  {% endif %}
+  <ul class="share-buttons">
+    {% if site.facebook_share_button %}
+    <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocallyoptimal.com&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL)); return false;"><img src="/images/Facebook.png"></a></li>
+    {% endif %}
+    {% if site.twitter_tweet_button %}
+    <li><a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Flocallyoptimal.com&text=:%20http%3A%2F%2Flocallyoptimal.com&via=scott_triglia" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;"><img src="/images/Twitter.png"></a></li>
+    {% endif %}
+    {% if site.reddit_button %}
+    <li><a href="http://www.reddit.com/submit?url=http%3A%2F%2Flocallyoptimal.com&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img src="/images/Reddit.png"></a></li>
+    {% endif %}
+    <li><a href="https://getpocket.com/save?url=http%3A%2F%2Flocallyoptimal.com&title=" target="_blank" title="Add to Pocket" onclick="window.open('https://getpocket.com/save?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img src="/images/Pocket.png"></a></li>
+  </ul>
 </div>
