@@ -12,6 +12,8 @@ Really great community (small and friendly!) in a beautiful city. I've never had
 
 I've tried to write up some useful notes on each of the longer talks, but I very much enjoyed taking part and getting to hear from the diverse backgrounds of all the different speakers and attendees.
 
+<!-- more -->
+
 ## Click - [Sebastian Vetter](https://twitter.com/elbaschid)
 
 (Video link)
