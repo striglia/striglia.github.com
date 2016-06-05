@@ -1,0 +1,952 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: python | Locally Optimal]]></title>
+  <link href="http://striglia.github.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://striglia.github.com/"/>
+  <updated>2016-06-04T17:23:36-07:00</updated>
+  <id>http://striglia.github.com/</id>
+  <author>
+    <name><![CDATA[Scott Triglia]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Executable python scripts via entry points]]></title>
+    <link href="http://striglia.github.com/blog/2014/03/14/executable-python-scripts-via-entry-points/"/>
+    <updated>2014-03-14T16:11:00-07:00</updated>
+    <id>http://striglia.github.com/blog/2014/03/14/executable-python-scripts-via-entry-points</id>
+    <content type="html"><![CDATA[<p>A quick topic -- executing a python module from the command line!</p>
+
+<!-- more -->
+
+
+<p>When <a href="http://locallyoptimal.com/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/">I last left</a> my pet rss2sms project, it had been transformed into a basic python package. Unfortunately, this means that my old method of running <code>python rss2sms.py --foobar</code> from the command line is not so simple anymore. In fact what I really want is to be able to just run <code>rss2sms --foobar</code> from the command line after I install the package.</p>
+
+<p>Luckily python has exactly what we need in the form of setuptools's <a href="http://pythonhosted.org//setuptools/setuptools.html#automatic-script-creation">console_script argument to entry_points</a>.</p>
+
+<p>Let's go ahead and add it to our setup.py:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">setup</span><span class="p">(</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;rss2sms&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="n">version</span><span class="o">=</span><span class="n">find_version</span><span class="p">(</span><span class="s">&#39;rss2sms&#39;</span><span class="p">,</span> <span class="s">&#39;__init__.py&#39;</span><span class="p">),</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;...</span><span class="n">the</span> <span class="n">rest</span> <span class="n">of</span> <span class="n">our</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">here</span><span class="o">....&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+</span><span class='line'>    <span class="s">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>        <span class="s">&#39;rss2sms=rss2sms:main&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">],</span>
+</span><span class='line'><span class="p">},</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>So simple! Note that we're linking the executable <code>rss2sms</code> here to running the python function <code>main</code> in the <code>rss2sms</code> module. If we look at that function, it just does the normal command line parsing and function calling that it always has.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">main</span><span class="p">():</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">parser</span> <span class="o">=</span> <span class="n">OptionParser</span><span class="p">()</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-u&quot;</span><span class="p">,</span> <span class="s">&quot;--url&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;rss_url&quot;</span><span class="p">,</span>
+</span><span class='line'>                        <span class="n">help</span><span class="o">=</span><span class="s">&quot;url of rss feed&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-t&quot;</span><span class="p">,</span> <span class="s">&quot;--to&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;to_num&quot;</span><span class="p">,</span>
+</span><span class='line'>                        <span class="n">help</span><span class="o">=</span><span class="s">&quot;cell number to send sms alerts to&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-f&quot;</span><span class="p">,</span> <span class="s">&quot;--from&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;from_num&quot;</span><span class="p">,</span>
+</span><span class='line'>                        <span class="n">help</span><span class="o">=</span><span class="s">&quot;cell number to send sms alerts to (overrides environment variable TWILIO_NUMBER)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-i&quot;</span><span class="p">,</span> <span class="s">&quot;--id&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;rss_id_field&quot;</span><span class="p">,</span>
+</span><span class='line'>                        <span class="n">help</span><span class="o">=</span><span class="s">&quot;unique id rss field used for display in SMS and for equality comparison (defaults to &#39;link&#39;)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-d&quot;</span><span class="p">,</span> <span class="s">&quot;--display&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;rss_display_field&quot;</span><span class="p">,</span>
+</span><span class='line'>                        <span class="n">help</span><span class="o">=</span><span class="s">&quot;name of rss field used for display in SMS (defaults to &#39;title&#39;)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-c&quot;</span><span class="p">,</span> <span class="s">&quot;--cache-filename&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;cache_filename&quot;</span><span class="p">,</span>
+</span><span class='line'>                        <span class="n">help</span><span class="o">=</span><span class="s">&quot;optional file to cache last post in&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</span><span class='line'><span class="n">rss2sms</span> <span class="o">=</span> <span class="n">Rss2Sms</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">options</span><span class="p">))</span>
+</span><span class='line'><span class="n">rss2sms</span><span class="o">.</span><span class="n">parse_and_alert</span><span class="p">()</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now let's start up a fresh virtualenv and test it out. We can use pip's develop option to install a package by just passing it a path.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/Desktop/github/rss2sms (master) $ virtualenv entry_point_test; source entry_point_test/bin/activate
+</span><span class='line'>New python executable in entry_point_test/bin/python
+</span><span class='line'>Installing Setuptools..............................................................................................................................................................................................................................done.
+</span><span class='line'>Installing Pip.....................................................................................................................................................................................................................................................................................................................................done.
+</span><span class='line'>(entry_point_test) ~/Desktop/github/rss2sms (master) $ pip install -e .&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>... lots of text from installation...&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>(entry_point_test) ~/Desktop/github/rss2sms (master) $ rss2sms --help
+</span><span class='line'>Usage: rss2sms [options]&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Options:
+</span><span class='line'>  -h, --help            show this help message and exit
+</span><span class='line'>  -u RSS_URL, --url=RSS_URL&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>                    url of rss feed
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  -t TO_NUM, --to=TO_NUM&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>                    cell number to send sms alerts to
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  -f FROM_NUM, --from=FROM_NUM&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>                    cell number to send sms alerts to (overrides
+</span><span class='line'>                    environment variable TWILIO_NUMBER)
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  -i RSS_ID_FIELD, --id=RSS_ID_FIELD&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>                    unique id rss field used for display in SMS and for
+</span><span class='line'>                    equality comparison (defaults to 'link')
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  -d RSS_DISPLAY_FIELD, --display=RSS_DISPLAY_FIELD&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>                    name of rss field used for display in SMS (defaults to
+</span><span class='line'>                    'title')
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  -c CACHE_FILENAME, --cache-filename=CACHE_FILENAME&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>                    optional file to cache last post in
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And just like that we have an executable hooked up our python module. We can even use which to see how it works:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(entry_point_test) ~/Desktop/github/rss2sms (master) $ which rss2sms
+</span><span class='line'>/Users/striglia/Desktop/github/rss2sms/entry_point_test/bin/rss2sms
+</span><span class='line'>(entry_point_test) ~/Desktop/github/rss2sms (master) $ cat &lt;code>which rss2sms&lt;/code>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>!/Users/striglia/Desktop/github/rss2sms/entry_point_test/bin/python&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>EASY-INSTALL-ENTRY-SCRIPT: 'rss2sms==0.0.1','console_scripts','rss2sms'&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lt;strong>requires&lt;/strong> = 'rss2sms==0.0.1'                                               &lt;br/>
+</span><span class='line'>import sys                                                                    &lt;br/>
+</span><span class='line'>from pkg_resources import load_entry_point&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>if &lt;strong>name&lt;/strong> == '&lt;strong>main&lt;/strong>':&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>sys.exit(                                                                   
+</span><span class='line'>    load_entry_point('rss2sms==0.0.1', 'console_scripts', 'rss2sms')()         
+</span><span class='line'>)  
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This executable is just a simple python module which, when we call it, uses the pkg_resources library to look up what python module our setup.py says we should call. All in all, a very painless way to distribute nice executables for your library.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Building a basic package pt. 1: Bare Bones]]></title>
+    <link href="http://striglia.github.com/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/"/>
+    <updated>2014-03-14T13:44:00-07:00</updated>
+    <id>http://striglia.github.com/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones</id>
+    <content type="html"><![CDATA[<p>Every once in a while I get the itch to turn some one off script I wrote into a proper package. Turns out advice on the subject is a little scattered, and if you're anything like me it can be frustrating to track down relevant posts on the entire subject. So, just for fun, let's walk through the process of taking a one-off script I wrote and making it into a nice python package, complete with isolated testing, uploading to pypi, and convenient installation.</p>
+
+<p>Now knowing my blogging habits, I'm splitting this into a few small posts in the hopes that I actually get through them. So lets take a current project I have and decide where to start.</p>
+
+<!-- more -->
+
+
+<h2>rss2sms - a humble beginning</h2>
+
+<p>The project I'd like to fix up is called rss2sms and lives <a href="http://www.github.com/striglia/rss2sms">on my github account</a>. I originally started it back when I was house hunting in San Francisco and was getting tired of new apartments going up on Craigslist without me noticing. So I figured it was time to automate this!</p>
+
+<p>The code is pretty simple. At its core, it does the following steps whenever it is run:</p>
+
+<ol>
+<li>Reads a passed RSS feed into memory (e.g. a Craigslist search)</li>
+<li>Loads the timestamp of the last post we were notified about from file</li>
+<li>Sends a text for each post newer than the timestamp to a specified number</li>
+</ol>
+
+
+<p>As a result of being fairly simple, I just threw the whole thing in one python module. In fact, I threw it in one big class! I want to clean up the implementation a little as we go on, but for now let's focus on the task of turning this into a package.</p>
+
+<h2>Structure</h2>
+
+<p>One of the easiest steps we can take toward making a package is to imitate the proper directory structure. The kind folks over at the Python Packaging Authority (aka pypa) have <a href="http://python-packaging-user-guide.readthedocs.org/en/latest/index.html">assembled a user guide</a> for fellow travelers on the road to packaging nirvana. Unfortunately, it is very much a work in progress and a little thin on details in my opinion.</p>
+
+<p>As a result, we'll mostly be mimicking the pypa's sample project, <a href="https://github.com/pypa/sampleproject">found on their github</a>. Let's compare our current project's structure against that.</p>
+
+<p>rss2sms:</p>
+
+<p><code>
+- .gitignore
+- README.md
+- rss2sms.py
+</code></p>
+
+<p>pypa's sample project:</p>
+
+<p><code>
+- sample/
+- tests/
+- .gitignore
+- README.md
+- DESCRIPTION.rst
+- MANIFEST.in
+- setup.py
+- setup.cfg
+</code></p>
+
+<p>Well...looks like we need some changes. Let's walk through a couple of these and explain what they're doing.</p>
+
+<p>The most noticeable feature of a python package is the package directory. It will hold all the code necessary to run our package once it's installed. Let's start there and simply move our main module inside a directory named after the project. And just for fun, let's make a stub test directory that we can fill in properly later on.</p>
+
+<p>```
+ ~/Desktop/github/rss2sms (master) $ st
+On branch master
+Your branch is up-to-date with 'origin/master'.</p>
+
+<p>Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)</p>
+
+<pre><code>renamed:    rss2sms.py -&gt; rss2sms/__init__.py
+new file:   tests/__init__.py
+</code></pre>
+
+<p>```</p>
+
+<p>Perfect. Now comparing to the sample package, the only remaining requirement is a <code>setup.py</code> module to tell python the basic details about our package.</p>
+
+<h2>setup.py</h2>
+
+<p>As you may be aware, the history of python packaging is not particularly simple or straightforward. There are many <a href="http://blog.startifact.com/posts/older/a-history-of-python-packaging.html">blog posts</a>, good <a href="http://pyvideo.org/video/1601/twisted-history-of-python-packaging">talks at pycon</a>, and a variety of other sources to learn about the details. Some day I may even take a shot at a summary here. But for now, we're going to bypass all the history and jump straight to building a current <code>setup.py</code> for our package.</p>
+
+<p>That said, let's take the <a href="https://github.com/pypa/sampleproject/blob/master/setup.py">basic setup.py</a> and mold it to our purposes. I've inlined our basic version below:</p>
+
+<p>``` python
+from setuptools import setup, find_packages                                   <br/>
+import codecs                                                                 <br/>
+import os                                                                     <br/>
+import re</p>
+
+<p>def find_version(*file_paths):</p>
+
+<pre><code># Open in Latin-1 so that we avoid encoding errors.                         
+# Use codecs.open for Python 2 compatibility                                
+here = os.path.abspath(os.path.dirname(__file__))                           
+with codecs.open(os.path.join(here, *file_paths), 'r', 'latin1') as f:      
+    version_file = f.read()                                                 
+
+# The version line must have the form                                          
+# __version__ = 'ver'                                                       
+version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",            
+                          version_file, re.M)                               
+if version_match:                                                           
+    return version_match.group(1)                                           
+raise RuntimeError("Unable to find version string.")                        
+</code></pre>
+
+<h1>Get the long description from the relevant file</h1>
+
+<p>with codecs.open('DESCRIPTION.rst', encoding='utf-8') as f:</p>
+
+<pre><code>long_description = f.read()                                                 
+</code></pre>
+
+<p>setup(</p>
+
+<pre><code>name="rss2sms",                                                             
+version=find_version('rss2sms', '__init__.py'),                             
+description="An sms alerter for updates to an rss feed",                    
+long_description=long_description,                                          
+url='http://github.com/striglia/rss2sms',                                   
+author='Scott Triglia',                                                     
+author_email='scott.triglia@gmail.com',                                     
+license='MIT',                                    
+
+classifiers=[                                                               
+    'Development Status :: 3 - Alpha',                                      
+    'License :: OSI Approved :: MIT License',                               
+
+    'Programming Language :: Python :: 2',                                  
+    'Programming Language :: Python :: 2.6',                                
+    'Programming Language :: Python :: 2.7',                                
+],                                                                          
+keywords='rss sms alerts',                                                  
+
+packages=find_packages(exclude=["tests*"]),                                 
+install_requires=[                                                          
+    'feedparser',                                                           
+    'tinyurl',                                                              
+    'twilio',                                                               
+],                                                                          
+entry_points={                                                              
+    'console_scripts': [                                                    
+        'rss2sms=rss2sms:main',                                             
+    ],                                                                      
+},                                                                          
+</code></pre>
+
+<p>)                                        <br/>
+```</p>
+
+<p>Before we move on, let's make a brief note of the <code>install_requires</code> directive.</p>
+
+<p>```
+install_requires=[</p>
+
+<pre><code>    'feedparser',                                                           
+    'tinyurl',                                                              
+    'twilio',                                                               
+],
+</code></pre>
+
+<p>```</p>
+
+<p>This is where our package can specify all the other python packages it depends on to work. In my original script, I just blindly imported things and assumed they were available. In this new way, we can specify what we need and python will automatically install them when we install our package.</p>
+
+<h2>One last thing</h2>
+
+<p>And final feature I'd like to add, even though it's not in the sample package, is a Makefile. You might be wondering why we need a Makefile at all here. Truth is, we don't really need one. The project is not that complicated and we don't need to actually build any dependencies to run the code.</p>
+
+<p>That said, I like Makefiles as a generic interface to standard tasks for the package. In our case, I'd like there to be simple, implementation-agnostic commands to clean the project up and to run our tests.</p>
+
+<p>This is pretty cheap to do with a Makefile. In fact, we can add this simple Makefile to do what I just described:</p>
+
+<p>```
+~/Desktop/github/rss2sms (master) $ cat Makefile
+clean:</p>
+
+<pre><code>find ./ -name "*.pyc" -delete
+</code></pre>
+
+<p>test:</p>
+
+<pre><code>py.test tests
+</code></pre>
+
+<p>```</p>
+
+<p>Nothing complicated here yet, but it gives us the room to expand later on. Note that I am using the excellent <a href="http://pytest.org/latest/">py.test package</a> to do my testing. I'm sure I'll talk more about how much I like it later, but you should definitely check it out in the meantime.</p>
+
+<h2>Wrapping Up</h2>
+
+<p>With that, we're basically set. We have the core package structure down, and we can try to install our package locally. Let's test it out:</p>
+
+<p>```
+~/Desktop/github/rss2sms (master) $ virtualenv venv
+New python executable in venv/bin/python
+Installing Setuptools..............................................................................................................................................................................................................................done.
+Installing Pip.....................................................................................................................................................................................................................................................................................................................................done.</p>
+
+<p> ~/Desktop/github/rss2sms (master) $ source venv/bin/activate</p>
+
+<p> (venv) ~/Desktop/github/rss2sms (master) $ python setup.py develop
+ running develop
+running egg_info
+writing requirements to rss2sms.egg-info/requires.txt
+writing rss2sms.egg-info/PKG-INFO
+writing top-level names to rss2sms.egg-info/top_level.txt
+writing dependency_links to rss2sms.egg-info/dependency_links.txt
+writing entry points to rss2sms.egg-info/entry_points.txt
+reading manifest file 'rss2sms.egg-info/SOURCES.txt'
+writing manifest file 'rss2sms.egg-info/SOURCES.txt'
+running build_ext
+Creating /Users/striglia/Desktop/github/rss2sms/venv/lib/python2.7/site-packages/rss2sms.egg-link (link to .)
+Adding rss2sms 0.0.1 to easy-install.pth file
+Installing rss2sms script to /Users/striglia/Desktop/github/rss2sms/venv/bin</p>
+
+<p><many more lines of text here></p>
+
+<p>Installed /Users/striglia/Desktop/github/rss2sms/venv/lib/python2.7/site-packages/httplib2-0.8-py2.7.egg
+Finished processing dependencies for rss2sms==0.0.1
+```</p>
+
+<p>Success! We have a package we can install locally, which knows about its dependencies (courtesy of setup.py) and which has very rudimentary testing and documentation. In future iterations of this series, I hope to jump into a lot of interesting topics - particularly better testing setups, simple invocations of our script from the command line, and even uploading to pypi. Until then, you can find all the code described <a href="https://github.com/striglia/rss2sms/tree/v0.0.1">here on my github</a>, under the tagged version 0.0.1 of rss2sms.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[There is no such thing as magic]]></title>
+    <link href="http://striglia.github.com/blog/2014/03/11/there-is-no-such-thing-as-magic/"/>
+    <updated>2014-03-11T22:43:00-07:00</updated>
+    <id>http://striglia.github.com/blog/2014/03/11/there-is-no-such-thing-as-magic</id>
+    <content type="html"><![CDATA[<p>Do you know my favorite fact about programming? In the end, everything is build from code and you can understand it all -- there is absolutely no magic. With enough effort, almost everything you interact with can be dug into, demystified, and explained. I know I often interact with various tools I use as if they were black boxes, either for lack of time, lack of interest, or a fear that I wouldn't understand them if I tried. But let's fight back against that.</p>
+
+<p>So for this post, let's understand what's going on with python's <a href="http://www.virtualenv.org/">virtualenv package</a>.</p>
+
+<!-- more -->
+
+
+<h2>The Basics</h2>
+
+<p>Let's start out simple -- the purpose and use of virtualenv. Stealing directly from the project's homepage, "virtualenv is a tool to create isolated Python environments." Well great...what good is that?</p>
+
+<h3>A little backstory</h3>
+
+<p>I'll explain by virtue of a story about my travails with scipy. If you don't know, installing scipy/numpy on OS X has historically been...challenging. Numerous system-level dependencies, old versions of numpy pre-installed on the machine both complicate what is already a non-trivial installation procedure. This leads to a ton of posts like <a href="http://stackoverflow.com/questions/11517164/scipy-numpy-matplotlib-troubles-on-osx">this</a> or <a href="http://penandpants.com/2012/02/24/install-python/">this</a> and even extensive <a href="http://www.thisisthegreenroom.com/2011/installing-python-numpy-scipy-matplotlib-and-ipython-on-lion/">step-by-step guides</a>. Although scipy suffers from some complications surrounding required non-python bits (like fortran compilers), the most frequent problem I've had installing is simply having conflicting versions of numpy installed.</p>
+
+<p>That brings us to Virtualenv, and its use case. Macs come helpfully pre-installed with an old and unhelpful version of numpy.</p>
+
+<p><code>bash
+$ python -c 'import numpy; print numpy; print numpy.__version__'
+&lt;module 'numpy' from '/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/numpy/__init__.pyc'&gt;
+1.5.1
+</code></p>
+
+<p>Well that won't work well with my hope to use the (very cool) data analysis library <code>pandas</code>. In fact, the <a href="http://pandas.pydata.org/pandas-docs/stable/install.html">pandas installation page</a> kindly points out that it requires numpy 1.6.1 or higher! How can we install pandas without changing the system installed version of numpy? Enter virtualenv.</p>
+
+<h3>Our very first virtualenv</h3>
+
+<p>I promised I'd start out with a quick example, so let's show how virtualenv solves our little scipy snafu in a pinch.</p>
+
+<p>Virtualenvs are their own little world -- by default they are entirely isolated from your system installed python packages. First lets install virtualenv (the last thing we'll need to install globally!) and set up a sample env.</p>
+
+<p>``` bash
+ ~  $ sudo pip install virtualenv
+Downloading/unpacking virtualenv
+  Running setup.py egg_info for package virtualenv</p>
+
+<pre><code>warning: no files found matching '*.egg' under directory 'virtualenv_support'
+warning: no previously-included files matching '*' found under directory 'docs/_templates'
+warning: no previously-included files matching '*' found under directory 'docs/_build'
+</code></pre>
+
+<p>Installing collected packages: virtualenv
+  Running setup.py install for virtualenv</p>
+
+<pre><code>warning: no files found matching '*.egg' under directory 'virtualenv_support'
+warning: no previously-included files matching '*' found under directory 'docs/_templates'
+warning: no previously-included files matching '*' found under directory 'docs/_build'
+Installing virtualenv script to /usr/local/bin
+Installing virtualenv-2.7 script to /usr/local/bin
+</code></pre>
+
+<p>Successfully installed virtualenv
+Cleaning up...
+~  $ virtualenv my_first_env
+New python executable in my_first_env/bin/python
+Installing Setuptools..............................................................................................................................................................................................................................done.
+Installing Pip.....................................................................................................................................................................................................................................................................................................................................done.
+~  $ source my_first_env/bin/activate
+(my_first_env) ~  $ echo 'hello world'
+hello world
+```</p>
+
+<p>Excellent! We installed virtualenv on our system using pip, created a virtualenv called <code>my_first_env</code>, and finally activated it. This means that python is now entirely isolated from system packages. Let's prove it to ourselves by trying to import some packages we know are installed on this machine.</p>
+
+<p><code>bash
+(my_first_env) ~  $ python -c 'import pytz; print pytz'
+Traceback (most recent call last):
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+ImportError: No module named pytz
+(my_first_env) ~  $ python -c 'import numpy; print numpy'
+Traceback (most recent call last):
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+ImportError: No module named numpy
+</code></p>
+
+<p>And we can also test the same commands outside our virtualenv to confirm they work!</p>
+
+<p><code>bash
+(my_first_env) ~  $ deactivate
+ ~  $ python -c 'import pytz; print pytz'
+&lt;module 'pytz' from '/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pytz/__init__.pyc'&gt;
+ ~  $ source my_first_env/bin/activate
+</code></p>
+
+<p>Interesting. And how about installing that fresh new package we had our eyes on?</p>
+
+<p>``` bash
+(my_first_env) ~  $ pip install pandas
+Downloading/unpacking pandas
+  Downloading pandas-0.12.0.tar.gz (3.2MB): 3.2MB downloaded</p>
+
+<p>-----(it continues for a while installing various dependencies)-----</p>
+
+<p>Successfully installed pandas python-dateutil pytz six
+Cleaning up...
+```</p>
+
+<p>And there we go! We can now happily play around with all of the installed packages inside of our virtual environment and we did it without affecting any other users of this computer, or requiring global install privileges.</p>
+
+<h2>Well that was magical</h2>
+
+<p>If you're anything like me, your natural first reaction to a new tool like this is to feel a little uncomfortable. You can go through the motions (perhaps copying from some tutorial you found on a blog) and hope things will still work, but there's no real understanding of how this new tools works. Maybe you even resign yourself to never understanding something and just keep using it the way you were taught, effectively becoming a <a href="http://en.wikipedia.org/wiki/Cargo_cult_programming">cargo cult programmer</a>.</p>
+
+<p>Avoiding that behavior is exactly the point of this blogpost, and I think it's perhaps <strong>the</strong> most powerful skill for any programmer. Digging into an unfamiliar project and building a mental model of how it works is the essence of programming! If you truly understand how something is put together, you can modify it, improve it, or explain it with ease.</p>
+
+<p>So for the rest of this post, let's dig in and prove virtualenv isn't magic. We will both be taking this journey together, as I've never dug into its guts either. So let's see what we can figure out.</p>
+
+<h2>Going to the source</h2>
+
+<p>So lets crack open <code>virtualenv</code> and understand what's actually happening.</p>
+
+<p>There are three main scripts we keep calling to create, activate, and deactivate a virtualenv -- <code>virtualenv</code>, <code>venv/bin/activate</code> and <code>deactivate</code>. Let's deal with creating the environment with <code>virtualenv</code> before jumping into activation/deactivation.</p>
+
+<h3>Creating a virtualenv</h3>
+
+<p>Opening up the file at <code>which virtualenv</code> drops me into the source:</p>
+
+<p>``` python</p>
+
+<h1>!/usr/bin/python</h1>
+
+<h1>EASY-INSTALL-ENTRY-SCRIPT: 'virtualenv==1.10.1','console_scripts','virtualenv'</h1>
+
+<p><strong>requires</strong> = 'virtualenv==1.10.1'                                           <br/>
+import sys                                                                    <br/>
+from pkg_resources import load_entry_point</p>
+
+<p>sys.exit(                                                                     <br/>
+   load_entry_point('virtualenv==1.10.1', 'console_scripts', 'virtualenv')()     <br/>
+)<br/>
+```</p>
+
+<p>Well that's not very helpful. Looks like running <code>virtualenv</code> is actually just executing this bit of code. Time to see if we can figure out what <code>load_entry_point</code> is and what it is actually calling.</p>
+
+<p>A little googling later, we find <a href="http://stackoverflow.com/a/9615473">this SO post</a> on the subject. Looks like in nice python packages, entry points are defined in <code>setup.py</code> and automatically linked to runnable scripts at installation time. We can download the source from <a href="https://pypi.python.org/pypi/virtualenv">pypi</a> and take a look ourselves.</p>
+
+<p>Sure enough, when we open up <code>setup.py</code> we see the entry_point dict we were promised:
+``` python
+setup_params = {</p>
+
+<pre><code>'entry_points': {                                                       
+    'console_scripts': [                                                
+        'virtualenv=virtualenv:main',                                   
+        'virtualenv-%s.%s=virtualenv:main' % sys.version_info[:2]          
+    ],                                                                  
+},                                                                      
+'zip_safe': False,                                                      
+'test_suite': 'nose.collector',                                         
+'tests_require': ['nose', 'Mock'],                                      
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Indeed they seem to be linking the runnable <code>virtualenv</code> python script to the <code>main</code> function of virtualenv.py. Let's see what that looks like. The content of the main function appears to roughly follow these steps:</p>
+
+<ul>
+<li>Build an option parser with <code>optparse</code></li>
+<li>Check if the script was called with the <code>--python</code> interpreter option and possibly exit.</li>
+<li>Take actions based on various command line options</li>
+<li>Call the <code>create_environment</code> method!</li>
+</ul>
+
+
+<p>Well now that last one sounds quite relevant! Here's the full text of the create_environment method:</p>
+
+<p>``` python
+def create_environment(home_dir, site_packages=False, clear=False,</p>
+
+<pre><code>                   unzip_setuptools=False,                                                       
+                   prompt=None, search_dirs=None, never_download=False,                          
+                   no_setuptools=False, no_pip=False, symlink=True):                             
+"""                                                                                              
+Creates a new environment in ``home_dir``.                                                       
+
+If ``site_packages`` is true, then the global ``site-packages/``                                 
+directory will be on the path.                                                                   
+
+If ``clear`` is true (default False) then the environment will                                   
+first be cleared.                                                                                
+"""                                                                                              
+home_dir, lib_dir, inc_dir, bin_dir = path_locations(home_dir)                                   
+
+py_executable = os.path.abspath(install_python(                                                  
+    home_dir, lib_dir, inc_dir, bin_dir,                                                         
+    site_packages=site_packages, clear=clear, symlink=symlink))                                  
+
+install_distutils(home_dir)                                                                      
+
+if not no_setuptools:                                                                            
+    install_sdist('Setuptools', 'setuptools-*.tar.gz', py_executable, search_dirs)               
+    if not no_pip:                                                                               
+        install_sdist('Pip', 'pip-*.tar.gz', py_executable, search_dirs)                         
+
+install_activate(home_dir, bin_dir, prompt)
+</code></pre>
+
+<p>```</p>
+
+<p>Now we're getting somewhere! It looks like the basic steps are:</p>
+
+<ol>
+<li>Get a bunch of path locations based on the <code>home_dir</code> path</li>
+<li>Install python inside our environment and return a path to the executable</li>
+<li>Install some subset of <code>distutils</code>, <code>setuptools</code> and <code>pip</code></li>
+<li>Install the <code>activate</code> scripts into this new virtualenv</li>
+</ol>
+
+
+<p>And that's the essence of what running <code>virtualenv</code> does: it defines paths for the interpreter, libraries and binaries; installs the interpreter and installation-related python packages; and it installs the <code>activate</code> script so you can activate it. And we now understand what goes into creating a new virtualenv.</p>
+
+<h3>Activating and Deactivating</h3>
+
+<p>So that leaves the question of what <code>activate</code> and <code>deactivate</code> are up to. We can inspect the activate script easily enough by running <code>vim my_first_env/bin/activate</code>.</p>
+
+<p>The first thing we notice is that a bash function <code>deactivate</code> is defined immediately. We'll get back to this later in this section, but this is actually the definition of the <code>deactivate</code> method we call to leave the virtualenv. The relevant lines are so brief, you might miss them entirely:</p>
+
+<p><code>bash
+_OLD_VIRTUAL_PATH="$PATH"                                                       
+PATH="$VIRTUAL_ENV/bin:$PATH"                                                   
+export PATH
+</code></p>
+
+<p>Note that we're saving the old <code>PATH</code> and making a new one, with our local virtualenv prepended! This means that the next time we run <code>python</code>, we'll get the interpreter we installed into our virtualenv, which is pointed at all our own libraries instead of the default system-installed interpreter. With that in mind, let's look at the <code>deactivate</code> function.</p>
+
+<p>``` bash
+deactivate () {</p>
+
+<pre><code>unset pydoc                                                                 
+
+# reset old environment variables                                           
+if [ -n "$_OLD_VIRTUAL_PATH" ] ; then                                       
+    PATH="$_OLD_VIRTUAL_PATH"                                               
+    export PATH                                                             
+    unset _OLD_VIRTUAL_PATH                                                 
+fi                                                                          
+if [ -n "$_OLD_VIRTUAL_PYTHONHOME" ] ; then                                 
+    PYTHONHOME="$_OLD_VIRTUAL_PYTHONHOME"                                   
+    export PYTHONHOME                                                       
+    unset _OLD_VIRTUAL_PYTHONHOME                                           
+fi                                                                          
+
+# This should detect bash and zsh, which have a hash command that must      
+# be called to get it to forget past commands.  Without forgetting          
+# past commands the $PATH changes we made may not be respected              
+if [ -n "$BASH" -o -n "$ZSH_VERSION" ] ; then                               
+    hash -r 2&gt;/dev/null                                                     
+fi                                                                          
+
+if [ -n "$_OLD_VIRTUAL_PS1" ] ; then                                        
+    PS1="$_OLD_VIRTUAL_PS1"                                                 
+    export PS1                                                              
+    unset _OLD_VIRTUAL_PS1                                                  
+fi                                                                          
+
+unset VIRTUAL_ENV                                                           
+if [ ! "$1" = "nondestructive" ] ; then                                     
+# Self destruct!                                                            
+    unset -f deactivate                                                     
+fi                                                                          
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The important part here is the resetting of old environment variables (notably <code>PATH</code>).</p>
+
+<p>You can notice other details in this file, like the setting/unsetting of your <a href="http://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html">shell prompt</a> to include the name of the currently active virtualenv.</p>
+
+<p>And that's it -- you've uncovered the basics of how virtualenv works!</p>
+
+<h2>Just the beginning</h2>
+
+<p>Just like that, we've taken a nontrivial tool and pulled it apart into understandable pieces. I certainly didn't understand every part of what we found immediately (and that's perfectly okay and expected!), but through some persistent searching and effort, it all makes sense. And every time I go through this process with a new tool, I find myself understanding more and more of what is going on, and gaining greater familiarity with various python tools.</p>
+
+<p>On the subject of virtualenv in particular, I've since discovered <a href="http://blip.tv/pycon-us-videos-2009-2010-2011/pycon-2011-reverse-engineering-ian-bicking-s-brain-inside-pip-and-virtualenv-4899496">this excellent overview of the its guts</a> from PyCon 2011. Take a look if you're interested in even more detail on the subject (like why does using a particular python interpreter change where I look up system packages).</p>
+
+<p>So go find something you don't understand! I've been elbow deep in learning the various horrors of python packaging lately, so perhaps I'll continue this series with a look into some aspect of that. Either way, I hope I've encouraged you to not be afraid of jumping into unfamiliar territory and transforming code from mysterious to understood.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hiding complexity with Context Managers]]></title>
+    <link href="http://striglia.github.com/blog/2012/10/21/hiding-complexity-with-context-managers/"/>
+    <updated>2012-10-21T14:53:00-07:00</updated>
+    <id>http://striglia.github.com/blog/2012/10/21/hiding-complexity-with-context-managers</id>
+    <content type="html"><![CDATA[<p>Very reliably, my favorite part of programming is the simple process of taking a series of steps that I used to have to do by hand and packaging it up in a nice, reusable form. It's pretty wonderful that it remains just as rewarding now as it did when I wrote my first function in C++ 8 years ago.</p>
+
+<p>So in that spirit, I figured I'd write down a few thoughts on python's context managers -- the latest built-in feature that I've grown quite attached to.</p>
+
+<!-- more -->
+
+
+<h2>The basics</h2>
+
+<p>Context managers are, at their most basic, blocks of code which do something when they are entered and exited. You can see the full description of them in the excellent <a href="http://docs.python.org/reference/datamodel.html#context-managers">python docs page</a> or <a href="http://www.python.org/dev/peps/pep-0343/">PEP 343</a>. Suffice it to say, they execute code when their <code>with</code> block is entered and exited, allowing nice convenience methods to exist. An excellent (built in!) example is reading from a file while making sure to close it again at the end…in fact you likely have used this already once or twice.</p>
+
+<p>Old and busted:</p>
+
+<p><code>
+input_file = open('config.txt', 'r')
+print input_file.read()
+input_file.close()
+</code></p>
+
+<p>Nice and convenient:</p>
+
+<p>```
+with open('config.txt', 'r) as input_file:</p>
+
+<pre><code>print input_file.read()
+</code></pre>
+
+<p>```</p>
+
+<p>Behind the scenes, the <code>with</code> statement is opening the file, binding the file object to the input_file variable, and then closing the file again after we exit the code block. Nothing complicated at all, but this provides a very nice tool for creating really pretty contexts that can do a lot of the heavy lifting behind the scenes.</p>
+
+<h2>Writing our own</h2>
+
+<p>So that's the basic idea, but the natural next step is wanting to write one of your own! You can consult the python docs to learn how to set up your own context manager class, but I prefer leveraging a simpler approach where possible.</p>
+
+<p>Our secret is going to be <code>contextlib</code>'s <code>contextmanager</code> decorator. Using it is as simple as decorating an appropriate function with <code>@contextmanager</code>. Let's write a toy example to show off the various parts of flow through a context manager.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="nd">@contextmanager</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">our_toy_context_manager</span><span class="p">(</span><span class="n">enter_msg</span><span class="p">,</span> <span class="n">exit_msg</span><span class="p">):</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">print</span> <span class="n">enter_msg</span>
+</span><span class='line'><span class="k">yield</span> <span class="s">&#39;returned value!&#39;</span>
+</span><span class='line'><span class="k">print</span> <span class="n">exit_msg</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">if</span> <span class="o">&lt;</span><span class="n">strong</span><span class="o">&gt;</span><span class="n">name</span><span class="o">&lt;/</span><span class="n">strong</span><span class="o">&gt;</span> <span class="o">==</span> <span class="s">&#39;&lt;strong&gt;main&lt;/strong&gt;&#39;</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">with</span> <span class="n">our_toy_context_manager</span><span class="p">(</span><span class="s">&#39;entering!&#39;</span><span class="p">,</span> <span class="s">&#39;exiting!&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">inner_msg</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="n">inner_msg</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>When run, this produces:</p>
+
+<p><code>
+~/Desktop  $ python toy_context_manager.py
+entering!
+returned value!
+exiting!
+</code></p>
+
+<p>Let's dive into how this decorator works. Keep in mind we can separate context managers into "before" and "after" blocks of code.</p>
+
+<p>The first thing to notice is the <code>yield</code> statement in <code>our_toy_context_manager</code>. This yield marks the point where our context manager is done with the "before" portion of its code and returns an object to the calling code. In particular, when we write something like <code>with foo() as bar:</code>, the <code>bar</code> variable will refer to whatever is returned by this yield. In our example, the value returned is a string and it gets referred to by the <code>inner_msg</code> variable, and summarily printed.</p>
+
+<p>After we are done executing the code inside our with context, we now return to <code>our_toy_context_manager</code> and execute the remaining code after the yield. And that's it! So while this example is quite contrived, you can see how easy it is to construct your own context managers that do something less trivial. In fact, let's try just that.</p>
+
+<h2>The big leagues</h2>
+
+<p>In the spirit of my recent preoccupation with effectively testing larger systems, let's assume that we have a moderately complicated <code>Frobinator</code> object. Moreover, this object is used by a lot of other systems, and our corporate overlords have decreed that we must make a method available for easily mocking out calls to the <code>Frobinator.frobinate</code> method and specifying the return value.</p>
+
+<p>You and I, being the knowledgeable stewards of the <code>Frobinator</code> that we are, know that there are significant complications involved in setting up a proper mock for testing, including limiting some logging that happens on every request and disabling some built in caching infrastructure. So we have our work cut out for us. Luckily, context managers nicely compliment the setup, assert, teardown format of mocks in tests. In our case, we need to set up a valid <code>Frobinator</code>, while simultaneously disabling caching and silencing logging.</p>
+
+<p>Our game plan is to construct a context manager called <code>mock_frobinator</code> which will have already disabled logging and caching, and will be a mock.Mock instance on the <code>frobinate</code> method so consumers can do any asserting they want on the testing side. Last but not least, we will set up our context manager to take a <code>results</code> variable as an argument and that will be set to be the return value of <code>Frobinator.frobinate</code> whenever it is called. So let's gather what we've learned so far and write this.</p>
+
+<p>Or if you prefer, just look below =)</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">Mock</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">patch</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="nd">@contextmanager</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">mock_frobinator</span><span class="p">(</span><span class="n">results</span><span class="p">):</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="s">&quot;&quot;&quot;A mocked Frobinate object for convenient testing.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">Patches out both logging and caching to simplify execution.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">Yields a Mock for the frobinate method.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">Args:</span>
+</span><span class='line'><span class="s">    results - This will be set to always be the return value of calling Frobinator.frobinate.</span>
+</span><span class='line'><span class="s">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="n">frobinator</span> <span class="o">=</span> <span class="n">Frobinator</span><span class="p">()</span>
+</span><span class='line'><span class="n">mocked_frobinate</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="n">results</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s">&#39;frobinate&#39;</span><span class="p">,</span> <span class="n">mocked_frobinate</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s">&#39;get_cached_results&#39;</span><span class="p">,</span> <span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="bp">None</span><span class="p">)):</span>
+</span><span class='line'>            <span class="k">with</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s">&#39;write_to_log&#39;</span><span class="p">,</span> <span class="n">Mock</span><span class="p">()):</span>
+</span><span class='line'>                <span class="k">yield</span> <span class="n">mocked_frobinate</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">if</span> <span class="o">&lt;</span><span class="n">strong</span><span class="o">&gt;</span><span class="n">name</span><span class="o">&lt;/</span><span class="n">strong</span><span class="o">&gt;</span> <span class="o">==</span> <span class="s">&#39;&lt;strong&gt;main&lt;/strong&gt;&#39;</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">with</span> <span class="n">mock_frobinator</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="k">as</span> <span class="n">mocked_frobinate</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">assert</span> <span class="n">mocked_frobinate</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">res</span> <span class="o">=</span> <span class="n">mocked_frobinate</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">assert</span> <span class="n">mocked_frobinate</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">assert</span> <span class="n">res</span> <span class="o">==</span> <span class="n">results</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And just like that, we have a fairly complicated testing fixture hidden away from view, and a nice, convenient context manager exposed for others to use. And if we need to change what we're mocking out, or even disable a new part of the Frobinator, we can do it in a single place instead of every test which uses it.</p>
+
+<h2>Final thoughts</h2>
+
+<p>Context managers are a great tool…not least of all because they provide a new metaphor (enter, do stuff, exit) for you to use where it makes the most sense. And after all that's the real benefit of diving into all these python standard library modules -- the more tricks you have up your sleeve, the better you can pick and choose the right tool for each job.</p>
+]]></content>
+  </entry>
+  
+</feed>

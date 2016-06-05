@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Coding-Free Interview Tips - Locally Optimal</title>
+  <meta name="author" content="Scott Triglia">
+
+  
+  <meta name="description" content="Interviews are a tricky thing to administer well. I still remember overflowing with nervous energy when I interviewed with Yelp and Google a couple &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://striglia.github.com/blog/2013/10/22/coding-free-interview-tips/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Locally Optimal" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-35190779-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Locally Optimal</a></h1>
+  
+    <h2>Hill climbing in SF</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:striglia.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder=""/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Coding-Free Interview Tips</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-22T23:48:00-07:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Interviews are a tricky thing to administer well. I still remember overflowing with nervous energy when I interviewed with Yelp and Google a couple years ago, wondering whether I&#8217;d make a complete fool of myself when it came time for the inevitable programming challenge. I stumbled through the various questions, handling some easily and getting completely flustered by others, and overall was relieved when the ordeal was over. Perhaps most importantly, the whole time I had basically zero clue what I was doing or how I should be presenting myself &#8211; I was simply going with the flow and testing out whatever anecdotal advice I picked up along the way.</p>
+
+<p>Having spent a year or so on the other side of the table, there are several easy ways to improve how you come across in an interview &#8211; and none of them involve cramming!</p>
+
+<!-- more -->
+
+
+<p>The main thing I&#8217;ve realized is there are several traits of excellent interviewees that have nothing to do with how good a candidate they were and everything to do with how well they conveyed that information to me. I dislike the typical interview advice because it emphasizes practice and repetition as a tool to make you look better. Instead, I want this article to supply advice which will let you confidently showcase your best features…because one of the big challenges of interviewing is deciphering when you are sitting in front of an awesome candidate who just isn&#8217;t making that fact obvious.</p>
+
+<h3>Trick #1 &#8211; Know your most impressive accomplishments</h3>
+
+<p>A frequent pattern with candidates is the kitchen sink approach to prior experience. You&#8217;ll see someone&#8217;s GPA from college, next to four class projects from school, next to their extracurriculars in high school &#8211; sometimes spilling over to multiple pages.</p>
+
+<p>The simple fact is I as your interviewer have precious little time to determine whether you are a student who did a bunch of standard course projects because you were forced to or a crazy hacker who has built his own custom OS. The more individual things you place on your resume, the more likely I am to simply talk to you about the most recent thing one which seems relevant. We will only have time to probably discuss a single project in depth, so it&#8217;s in your interest to have your best work (and only your best work) on display.</p>
+
+<p>In a perfect world, your resume comes to me with only a few, highly impressive accomplishments. I&#8217;ll often ask candidates to talk me through whichever project they think best sells their skills, and I want this to be an easy conversation. What sort of conversation? Well that leads into the next section…</p>
+
+<h3>Trick #2 &#8211; Sell your passion</h3>
+
+<p>If you have been coding for much time at all, you probably have stories. I&#8217;m talking about the intricate bugs that took hours of prying before you deciphered them. Or that time you learned about genetic algorithms and spent a weekend playing with them and researching various approaches. Or maybe just a story from your previous job, where you were faced with a hard technical problem and found an innovative solution.</p>
+
+<p>What do these all have in common? They show me you care &#8211; a lot. That if we hire you, and throw a difficult unsolved problem at you, you are going to dismantle it and come out with a solution. I want you to have something that gets you up in the morning, that makes you want to pop open a terminal and get to it. I&#8217;ve seen candidates get excited about all sorts of areas and honestly it does not really matter to me what you care about, as long as I can see that fire in your eyes.</p>
+
+<p>I&#8217;m happy to discuss anything from machine learning, to testing methodology, to your favorite language…what I&#8217;m looking for is your ability to carry on an intelligent conversation about a subject you care about.</p>
+
+<h3>Trick #3 &#8211; Know why you&#8217;re interested</h3>
+
+<p>If there&#8217;s one question I&#8217;m sure that basically every company in the Bay Area asks, it&#8217;s &#8220;why do you want to come work for $MY_COMPANY?&#8221; And for most places that aren&#8217;t gigantic MegaCorps, the candidate&#8217;s answer is an important part of the hiring process.</p>
+
+<p>So have an answer ready! Do your homework and get a sense of the broad areas you could fill if you joined us. Are you interested in backend or fronted work? Do you want to be writing something that real users interact with or would you rather be optimizing some widget deep in the stack? Why are we a better fit than the python shop down the road?</p>
+
+<p>My goal with these questions is to get an idea of how much a candidate cares, and whether they&#8217;ll be able/willing/interested in taking charge of their area. New grads that just want a job are plenty relatable (jobs are good!), but will always look less dedicated than someone who really cares about the application.</p>
+
+<p>And there theoretically are those coders out there who are such consummate professionals that they really don&#8217;t care where they&#8217;re working and this whole discussion is pointless. But I haven&#8217;t met one yet. Most of the best coders I know are doing it because they have a very clear interest in the product and challenges that define us as a company. Have a good sense of where you fit in wherever you&#8217;re interviewing, and make sure you explain your interest</p>
+
+<h3>It&#8217;s all about your ability</h3>
+
+<p>In the end, interviews aren&#8217;t complicated. The basic idea is to sit down with a candidate and assess whether they will excel at their job. For me, that involves looking for a complementary mixture of independence, ability to understand code, a passion for learning more and improving, and an honest interest in the job I&#8217;m offering. Most candidates will be stronger in some of these areas than others, and that&#8217;s expected. But I can confidently tell you that the most important thing you can do in an interview is come into it with a game plan, and know your personal strengths and how to show them off. Your interviewer is not a mind reader, and you will see great returns from showing interest and wisely selling your skills.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Scott Triglia</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-22T23:48:00-07:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  <ul class="share-buttons">
+    
+    <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocallyoptimal.com&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL)); return false;"><img src="/images/Facebook.png"></a></li>
+    
+    
+    <li><a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Flocallyoptimal.com&text=:%20http%3A%2F%2Flocallyoptimal.com&via=scott_triglia" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;"><img src="/images/Twitter.png"></a></li>
+    
+    
+    <li><a href="http://www.reddit.com/submit?url=http%3A%2F%2Flocallyoptimal.com&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img src="/images/Reddit.png"></a></li>
+    
+    <li><a href="https://getpocket.com/save?url=http%3A%2F%2Flocallyoptimal.com&title=" target="_blank" title="Add to Pocket" onclick="window.open('https://getpocket.com/save?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img src="/images/Pocket.png"></a></li>
+  </ul>
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/21/sins-of-the-test/" title="Previous Post: Sins of the Test">&laquo; Sins of the Test</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/03/11/there-is-no-such-thing-as-magic/" title="Next Post: There is no such thing as magic">There is no such thing as magic &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+	<h1>About Me</h1>
+	<div style="margin-top:10px; ">
+		<img style class="left" height="120" width="120" src="http://i.imgur.com/vVsqL.jpg">
+		<p>I am a search engineer at Yelp, new to industry and blogging my thoughts here.</p>
+	</div>
+        <a href="http://twitter.com/scott_triglia" class="twitter-follow-button" data-show-count="false">Follow @scott_triglia</a>
+</section>
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+<div id="mc_embed_signup">
+<form action="//locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+	<label for="mce-EMAIL">Subscribe to Locally Optimal</label>
+	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="you@gmail.com" required>
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </div>
+</form>
+</div>
+
+<!--End mc_embed_signup-->
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/06/04/notes-from-vanpyday-2016/">Notes from VanPyDay 2016</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/25/pyconau-field-notes/">PyconAU 2015 field notes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/executable-python-scripts-via-entry-points/">Executable python scripts via entry points</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/">Building a basic package pt. 1: Bare Bones</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/11/there-is-no-such-thing-as-magic/">There is no such thing as magic</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Scott Triglia -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'locallyoptimal';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://striglia.github.com/blog/2013/10/22/coding-free-interview-tips/';
+        var disqus_url = 'http://striglia.github.com/blog/2013/10/22/coding-free-interview-tips/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
