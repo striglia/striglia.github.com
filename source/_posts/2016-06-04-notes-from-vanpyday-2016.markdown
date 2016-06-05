@@ -268,9 +268,9 @@ The next talk was about python education (and learning to code in general). Went
 
 Jas Sohi combined Google's BigQuery with python's BeautifulSoup library to interact with web-uis and automatically check they had certain properties. 
 
-Talk #4 about the misery of trying to write a SublimeText plugin in the middle of the conference 😸 The speaker attempted to import Don Kirkby's library and got something working! Not half bad on short notice.
+Talk #4 was a spur of the moment demo of trying to write a SublimeText plugin in the middle of the conference 😸 The speaker attempted to import Don Kirkby's library (from a previous talk!)  and actually got the basic proof-of-concept working! Not half bad on short notice.
 
-Talk #5 was an intro to SQLAlchemy...in particular the Core part of the library. Some talk of the dangers of ORMs and some context on why you might prefer Core over. 
+Talk #5 was an intro to SQLAlchemy...in particular the Core part of the library. Some talk of the dangers of ORMs and some context on when you might prefer Core over the ORM. 
 
 Talk #6 was the story of one particular person's experience learning Python [from Team Treehouse](https://teamtreehouse.com/). Sounded like some good teaching [from Kenneth Love](http://www.pyvideo.org/speaker/738/kenneth-love)!
 
