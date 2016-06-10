@@ -4,7 +4,7 @@
   <title><![CDATA[Locally Optimal]]></title>
   <link href="http://striglia.github.com/atom.xml" rel="self"/>
   <link href="http://striglia.github.com/"/>
-  <updated>2016-06-04T17:29:12-07:00</updated>
+  <updated>2016-06-10T12:24:44-07:00</updated>
   <id>http://striglia.github.com/</id>
   <author>
     <name><![CDATA[Scott Triglia]]></name>
@@ -26,6 +26,8 @@
 
 <!-- more -->
 
+
+<p>There are not yet single videos for each talk, but you can <a href="https://www.youtube.com/watch?v=x6b7U9GpfQk">see the entirety of the day at this link</a> for now. If the individual videos become available, I&#8217;ll be sure to stick them in the relevant sections below.</p>
 
 <h2>Click - <a href="https://twitter.com/elbaschid">Sebastian Vetter</a></h2>
 
@@ -312,9 +314,9 @@
 
 <p>Jas Sohi combined Google&#8217;s BigQuery with python&#8217;s BeautifulSoup library to interact with web-uis and automatically check they had certain properties.</p>
 
-<p>Talk #4 about the misery of trying to write a SublimeText plugin in the middle of the conference 😸 The speaker attempted to import Don Kirkby&#8217;s library and got something working! Not half bad on short notice.</p>
+<p>Talk #4 was a spur of the moment demo of trying to write a SublimeText plugin in the middle of the conference 😸 The speaker attempted to import Don Kirkby&#8217;s library (from a previous talk!)  and actually got the basic proof-of-concept working! Not half bad on short notice.</p>
 
-<p>Talk #5 was an intro to SQLAlchemy&#8230;in particular the Core part of the library. Some talk of the dangers of ORMs and some context on why you might prefer Core over.</p>
+<p>Talk #5 was an intro to SQLAlchemy&#8230;in particular the Core part of the library. Some talk of the dangers of ORMs and some context on when you might prefer Core over the ORM.</p>
 
 <p>Talk #6 was the story of one particular person&#8217;s experience learning Python <a href="https://teamtreehouse.com/">from Team Treehouse</a>. Sounded like some good teaching <a href="http://www.pyvideo.org/speaker/738/kenneth-love">from Kenneth Love</a>!</p>
 
