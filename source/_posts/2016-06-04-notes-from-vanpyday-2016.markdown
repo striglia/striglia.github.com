@@ -14,6 +14,8 @@ I've tried to write up some useful notes on each of the longer talks, but I very
 
 <!-- more -->
 
+There are not yet single videos for each talk, but you can [see the entirety of the day at this link](https://www.youtube.com/watch?v=x6b7U9GpfQk) for now. If the individual videos become available, I'll be sure to stick them in the relevant sections below.
+
 ## Click - [Sebastian Vetter](https://twitter.com/elbaschid)
 
 (Video link)
