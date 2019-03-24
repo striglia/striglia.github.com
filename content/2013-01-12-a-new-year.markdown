@@ -1,0 +1,17 @@
+---
+layout: post
+title: "A New Year"
+date: 2013-01-12 15:54
+comments: true
+Category: misc
+---
+
+All the cool kids wrote New Year posts, so I figured that was excuse enough for me to chime in with a quick one.
+
+Writing here has been a nice outlet for the end of 2012, but I figure now's as good a time as any to make a couple minor changes.
+
+First, I'm going to actually bother telling people this exists. Theoretically I was waiting until I was more comfortable with the writing, or until I decided this would actually be of interest to other people, or some other unspecified time…but better now than not at all.
+
+Second, I'm planning on publishing a lot more short, one-off posts with little snippets of code I've found useful. Back in grad school I found many a solution in the tiny posts [from the desk of Stinkpot](http://desk.stinkpot.org:8080/tricks/) and would love to save other people some frustration in the same way.
+
+So Happy New Year and here's to a great 2013.
