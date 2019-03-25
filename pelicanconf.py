@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Scott Triglia'
 SITENAME = 'Locally Optimal'
-SITEURL = ''
+SITEURL = 'http://locallyoptimal.com'
 
 PATH = 'content'
 
@@ -33,14 +33,17 @@ SOCIAL = [
 	("LinkedIn", "http://www.linkedin.com/in/striglia"),
 ]
 
-PLUGIN_PATHS = ['../pelican-plugins']
-PLUGINS = ['summary']
+PLUGIN_PATHS = ['/Users/striglia/Desktop/github/pelican-plugins']
+PLUGINS = ['summary', 'gravatar']
 SUMMARY_END_MARKER = '<!-- more -->'
+AUTHOR_EMAIL = 'scott.triglia@gmail.com'
+PELICAN_SOBER_TWITTER_CARD_CREATOR = 'scott_triglia'
+PELICAN_SOBER_STICKY_SIDEBAR = True
 
+THEME = "/Users/striglia/Desktop/github/pelican-themes/pelican-sober"
+PELICAN_SOBER_ABOUT = "I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking."
 
 DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
-
-GOOGLE_ANALYTICS= 'UA-35190779-1'
+RELATIVE_URLS = True
