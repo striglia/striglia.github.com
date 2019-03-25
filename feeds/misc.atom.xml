@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Locally Optimal - misc</title><link href="http://www.locallyoptimal.com/" rel="alternate"></link><link href="http://www.locallyoptimal.com/feeds/misc.atom.xml" rel="self"></link><id>http://www.locallyoptimal.com/</id><updated>2013-01-12T15:54:00-08:00</updated><subtitle>hill climbing in SF</subtitle><entry><title>"A New Year"</title><link href="http://www.locallyoptimal.com/blog/2013/01/12/a-new-year/" rel="alternate"></link><published>2013-01-12T15:54:00-08:00</published><updated>2013-01-12T15:54:00-08:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2013-01-12:/blog/2013/01/12/a-new-year/</id><summary type="html">&lt;p&gt;All the cool kids wrote New Year posts, so I figured that was excuse enough for me to chime in with a quick one.&lt;/p&gt;
+&lt;p&gt;Writing here has been a nice outlet for the end of 2012, but I figure now's as good a time as any to make a couple …&lt;/p&gt;</summary><content type="html">&lt;p&gt;All the cool kids wrote New Year posts, so I figured that was excuse enough for me to chime in with a quick one.&lt;/p&gt;
+&lt;p&gt;Writing here has been a nice outlet for the end of 2012, but I figure now's as good a time as any to make a couple minor changes.&lt;/p&gt;
+&lt;p&gt;First, I'm going to actually bother telling people this exists. Theoretically I was waiting until I was more comfortable with the writing, or until I decided this would actually be of interest to other people, or some other unspecified time…but better now than not at all.&lt;/p&gt;
+&lt;p&gt;Second, I'm planning on publishing a lot more short, one-off posts with little snippets of code I've found useful. Back in grad school I found many a solution in the tiny posts &lt;a href="http://desk.stinkpot.org:8080/tricks/"&gt;from the desk of Stinkpot&lt;/a&gt; and would love to save other people some frustration in the same way.&lt;/p&gt;
+&lt;p&gt;So Happy New Year and here's to a great 2013.&lt;/p&gt;</content></entry><entry><title>"First things first"</title><link href="http://www.locallyoptimal.com/blog/2012/08/31/first-things-first/" rel="alternate"></link><published>2012-08-31T23:53:00-07:00</published><updated>2012-08-31T23:53:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2012-08-31:/blog/2012/08/31/first-things-first/</id><summary type="html">&lt;p&gt;As all good internet citizens do eventually, I've decided to try writing down
+my various software-related trials and tribulations down in a blog. For the
+time being, I'm sticking with Octopress as I care more about the content than
+the web design. Maybe later this will become an exercise in …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As all good internet citizens do eventually, I've decided to try writing down
+my various software-related trials and tribulations down in a blog. For the
+time being, I'm sticking with Octopress as I care more about the content than
+the web design. Maybe later this will become an exercise in web
+development...but not quite yet.&lt;/p&gt;
+&lt;p&gt;Expect a lot of posts where I walk through some task or tool that I've been
+using recently. Hopefully you'll find it interesting.&lt;/p&gt;</content></entry></feed>

@@ -1,579 +1,326 @@
-
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!doctype html>
+<html lang="">	
 <head>
-  <meta charset="utf-8">
-  <title>Notes from VanPyDay 2016 - Locally Optimal</title>
-  <meta name="author" content="Scott Triglia">
+	<meta charset="utf-8"/>
+	<title>"Notes from VanPyDay 2016" - Locally Optimal</title>	
+	<meta name="author" content="Scott Triglia">
+	
 
-  
-  <meta name="description" content="A one-day conference born from the Vanocuver equivalent of our local SF Python meetup. I had meet one of the organizers (Seb, @elbaschid) during a &hellip;">
-  
+  <meta name="description" content="A one-day conference born from the Vanocuver equivalent of our local SF Python meetup. I had meet one of the organizers (Seb, @elbaschid) during a previous PyconAU and he convinced me to drop by and give a talk. Really great community (small and friendly!) in a beautiful city. I've never had such a friendly conference audience, it was great to have conversations with many people over the course of the day 😊 I've tried to write up some useful notes on each of the longer talks, but I very much enjoyed taking part and getting to hear from the diverse backgrounds of all the different speakers and attendees.">
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://striglia.github.com/blog/2016/06/04/notes-from-vanpyday-2016/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Locally Optimal" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-35190779-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+	<meta name="twitter:card" content="summary">
+	  <meta name="twitter:creator" content="@scott_triglia">
+	<meta name="twitter:title" content=""Notes from VanPyDay 2016"">
+	<meta name="twitter:description" content="A one-day conference born from the Vanocuver equivalent of our local SF Python meetup. I had meet one of the organizers (Seb, @elbaschid) during a previous PyconAU and he convinced me to drop by and give a talk. Really great community (small and friendly!) in a beautiful city. I've never had such a friendly conference audience, it was great to have conversations with many people over the course of the day 😊 I've tried to write up some useful notes on each of the longer talks, but I very much enjoyed taking part and getting to hear from the diverse backgrounds of all the different speakers and attendees.">
+	<meta name="twitter:url" content="http://www.locallyoptimal.com/blog/2016/06/04/notes-from-vanpyday-2016/">
 
 
+	<link rel="stylesheet" href="http://www.locallyoptimal.com/theme/css/main.css" type="text/css" />
+		
+	  <script type="text/javascript" src="http://www.locallyoptimal.com/theme/js/custom_scripts.js"></script>
+
+
+    <link href="http://www.locallyoptimal.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Locally Optimal Atom Feed" />
 </head>
+	
+<body>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Locally Optimal</a></h1>
-  
-    <h2>Hill climbing in SF</h2>
-  
-</hgroup>
+    <div class="container">
+	  
+	  <header role="banner">
+	    <div class="feeds">
+	      <a href="http://www.locallyoptimal.com/feeds/all.atom.xml" rel="alternate"><img src="http://www.locallyoptimal.com/theme/images/icons/feed-32px.png" alt="atom feed"/></a>
+	    </div>
+		<a href="http://www.locallyoptimal.com" class="title">Locally Optimal</a>
+      </header>
+	
+	  <div class="wrapper">
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:striglia.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder=""/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Notes From VanPyDay 2016</h1>
-    
-    
-      <p class="meta">
-        
+		  <div role="main" class="content">
+	<article class="full">
+		
+		<h1>"Notes from VanPyDay 2016"</h1>
+		
+<div class="metadata">
+  <time datetime="2016-06-04T15:14:00-07:00" pubdate>Sat 04 June 2016</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://www.locallyoptimal.com/author/scott-triglia.html">Scott Triglia</a>
+    </address>
+  in <a href="http://www.locallyoptimal.com/category/conferences.html">conferences</a>
+</div>		
+		<p>A one-day conference born from the Vanocuver equivalent of our local SF Python meetup. I had meet one of the organizers (Seb, @elbaschid) during a previous PyconAU and he convinced me to drop by and give a talk.</p>
+<p>Really great community (small and friendly!) in a beautiful city. I've never had such a friendly conference audience, it was great to have conversations with many people over the course of the day 😊</p>
+<p>I've tried to write up some useful notes on each of the longer talks, but I very much enjoyed taking part and getting to hear from the diverse backgrounds of all the different speakers and attendees.</p>
 
 
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-04T15:14:00-07:00" pubdate data-updated="true">Jun 4<span>th</span>, 2016</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p>A one-day conference born from the Vanocuver equivalent of our local SF Python meetup. I had meet one of the organizers (Seb, @elbaschid) during a previous PyconAU and he convinced me to drop by and give a talk.</p>
-
-<p>Really great community (small and friendly!) in a beautiful city. I&#8217;ve never had such a friendly conference audience, it was great to have conversations with many people over the course of the day 😊</p>
-
-<p>I&#8217;ve tried to write up some useful notes on each of the longer talks, but I very much enjoyed taking part and getting to hear from the diverse backgrounds of all the different speakers and attendees.</p>
-
-<!-- more -->
-
-
-<p>There are not yet single videos for each talk, but you can <a href="https://www.youtube.com/watch?v=x6b7U9GpfQk">see the entirety of the day at this link</a> for now. If the individual videos become available, I&#8217;ll be sure to stick them in the relevant sections below.</p>
-
+<p>There are not yet single videos for each talk, but you can <a href="https://www.youtube.com/watch?v=x6b7U9GpfQk">see the entirety of the day at this link</a> for now. If the individual videos become available, I'll be sure to stick them in the relevant sections below.</p>
 <h2>Click - <a href="https://twitter.com/elbaschid">Sebastian Vetter</a></h2>
-
 <p>(Video link)</p>
-
 <p><strong>A talk introducing the click library, giving examples of how to use it successfully, and explaining the basic reason it exists.</strong></p>
-
 <p><a href="http://click.pocoo.org/5/">click: a library for creating beautiful CLIs</a></p>
-
-<p>Click&#8217;s goal is to take a lot of the repetitive/error-prone parts of creating command line interfaces and improve it. Think topics like:</p>
-
+<p>Click's goal is to take a lot of the repetitive/error-prone parts of creating command line interfaces and improve it. Think topics like:</p>
 <ul>
 <li>Generating help text</li>
 <li>Input validation</li>
 <li>Parsing of command line strings into arguments</li>
 </ul>
-
-
 <p>Comparison of existing options:</p>
-
 <ul>
 <li>Optparse is mostly a 2.x option, but deprecated since 3.2</li>
 <li>Argparse is the replacement, not too shabby.</li>
 <li>Docopt has some cool features, but imposes some major constraints to get there</li>
 </ul>
-
-
-<p>Really good docs on &#8220;why bother using this library&#8221; <a href="http://click.pocoo.org/5/why">http://click.pocoo.org/5/why</a></p>
-
+<p>Really good docs on "why bother using this library" <a href="http://click.pocoo.org/5/why">http://click.pocoo.org/5/why</a></p>
 <p>Seb <a href="https://bit.ly/click-cookiecutter">offered a cookiecutter template</a> for a very basic example of using Click. Nice idea!</p>
-
-<p>Pro-tip: don&#8217;t do the <code>uwsgi</code> thing and have your help text take up 500 lines in a terminal. Use subcommands!</p>
-
+<p>Pro-tip: don't do the <code>uwsgi</code> thing and have your help text take up 500 lines in a terminal. Use subcommands!</p>
 <p>Shiny features in Click:</p>
-
 <ul>
 <li>Default values can get pulled from environment variables with the <code>envvar</code> kwarg</li>
 <li>Subcommands can all have distinct sets of arguments</li>
 <li>Allows passing data across subcommands using <code>@click.pass_context</code></li>
-<li>Default help text comes from docstrings on the methods you&#8217;re annotating as commands</li>
+<li>Default help text comes from docstrings on the methods you're annotating as commands</li>
 <li>Main command helptext is autogenerated, including all subcommands</li>
 <li>Bash autocomplete</li>
 </ul>
-
-
 <p>Resources:</p>
-
 <ul>
 <li>Base docs <a href="http://click.pocoo.org/5/">http://click.pocoo.org/5/</a></li>
 <li>Advanced usage <a href="http://click.pocoo.org/6/advanced/">http://click.pocoo.org/6/advanced/</a></li>
 <li>Exception handling <a href="http://click.pocoo.org/6/exceptions/">http://click.pocoo.org/6/exceptions/</a></li>
 <li>Source code on Github <a href="https://github.com/pallets/click">https://github.com/pallets/click</a></li>
 </ul>
-
-
 <h2>Making the most out of code reviews - <a href="https://twitter.com/mariatta">Mariatta Wijaya</a></h2>
-
 <p>(Video link)</p>
-
 <p><strong>Some discussion of bad code reviews with lots of ideas for improving them and making it a healthy, valuable interaction.</strong></p>
-
 <p>Code reviews are great in theory, but can be pretty painful and toxic in practice! Code review should be valuable, not a negative, argumentative system.</p>
-
 <p>Things code review is not:</p>
-
 <ul>
 <li>A place to enforce your own preferences on other people</li>
 <li>A platform for grandstanding</li>
 <li>Somewhere to belittle devs who know less than you</li>
 </ul>
-
-
-<p>But it can be&#8230;</p>
-
+<p>But it can be...</p>
 <ul>
 <li>A conversation about how to write great code</li>
 <li>A place to learn new techniques</li>
 <li>A way to catch mistakes before they hit production</li>
-<li>Opportunity to build consensus about</li>
-<li>Ensure your code doesn&#8217;t have a bus factor of 1</li>
+<li>Opportunity to build consensus about </li>
+<li>Ensure your code doesn't have a bus factor of 1 </li>
 </ul>
-
-
 <p>Mariatta encouraged a lot of work reviewers should do <em>before</em> sitting down to write feedback on a new code review.</p>
-
 <ul>
-<li>Empathize wiht whoever you&#8217;re reviewing (e.g. are they new to Python? new to this codebase?)</li>
+<li>Empathize wiht whoever you're reviewing (e.g. are they new to Python? new to this codebase?)</li>
 <li>Understand the context of the change</li>
 <li>Give it the proper time it deserves. Good code review is not a fast process.</li>
-<li>Don&#8217;t be afraid to point out where you see <em>good</em> code! Code review can be complimentary too</li>
+<li>Don't be afraid to point out where you see <em>good</em> code! Code review can be complimentary too </li>
 </ul>
-
-
-<p>Remember that this is all important, and you should be explicitly explaining how to go about the process. Don&#8217;t fall into the <a href="https://kateheddleston.com/blog/the-null-process">Null Process Trap</a>! Just like python prefers explicit over implicit, we should too 😊</p>
-
+<p>Remember that this is all important, and you should be explicitly explaining how to go about the process. Don't fall into the <a href="https://kateheddleston.com/blog/the-null-process">Null Process Trap</a>! Just like python prefers explicit over implicit, we should too 😊</p>
 <h2>Protecting your users with circuit breakers - <a href="https://twitter.com/scott_triglia">Scott Triglia</a></h2>
-
 <p>(Video link)</p>
-
 <p><strong>Learn what the Circuit Breaker pattern is, and how you can customize the default setup for your own use cases.</strong></p>
-
 <p>I was a bit busy giving this one, so I have very few comments about it :)</p>
-
 <p>But some interesting extra reading:</p>
-
 <ul>
 <li><a href="techblog.netflix.com/2011/12/making-netflix-api-more-resilient.html">Netflix talking about resilient APIs</a></li>
 <li><a href="https://engineering.heroku.com/blogs/2015-06-30-improved-production-stability-with-circuit-breakers/">Circuit breakers at Heroku</a></li>
 </ul>
-
-
 <h2>Live Coding in Python - Don Kirkby</h2>
-
-<p><strong>Playing with the author&#8217;s LightTable-esque plugin for watching python code execute live.</strong></p>
-
+<p><strong>Playing with the author's LightTable-esque plugin for watching python code execute live.</strong></p>
 <p>Walkthrough of various small code snippets (Turtle, binary search) with support for introspecting the state of the systme along the way and having live-reruns while code changed.</p>
-
 <p>Very hard to describe in text, but there are some fun demo videos at <a href="http://donkirkby.github.io/live-py-plugin/">http://donkirkby.github.io/live-py-plugin/</a>.</p>
-
 <h2>The high and low of a Python Data stack - <a href="http://www.vanpyday.com/en/latest/2016/lau.html#lau">Boris Lau</a></h2>
-
 <p>(Video link)</p>
-
 <p><strong>An exploration of the PyData ecosystem, with lots of discussion of individual tools.</strong></p>
-
 <p>High level overview of the various component parts of the PyData ecosystem.</p>
-
 <h4>Jupyter/IPython Notebooks</h4>
-
 <p>Interactive python code, executes real code. Reproducible!</p>
-
 <h4>Plotting - Bokeh</h4>
-
 <p>Visualization inside of Jupyter notebooks! Has some visual similarities with <a href="http://plot.ly">plot.ly</a></p>
-
 <h4>Modeling - Scikit-lrn</h4>
-
-<p>Has a ton of the tough ML models you love impelmented for you in a reliable/composable way.</p>
-
+<p>Has a ton of the tough ML models you love impelmented for you in a reliable/composable way. </p>
 <h4>Data access - Pandas/Numpy</h4>
-
-<p>Very efficient with multi-dimensional data. Uses a ton of <a href="http://www.netlib.org/blas/">BLAS</a> under the hood. Represents your data on disk in a way that interops efficiently and</p>
-
+<p>Very efficient with multi-dimensional data. Uses a ton of <a href="http://www.netlib.org/blas/">BLAS</a> under the hood. Represents your data on disk in a way that interops efficiently and </p>
 <h4>Low level optimization - Numba</h4>
-
-<p>Compiles python into LLVM&#8230;apparently comparable to Fortran&#8217;s performance.</p>
-
+<p>Compiles python into LLVM...apparently comparable to Fortran's performance.</p>
 <p>Even got a little shout out to <a href="https://twitter.com/jakevdp">@jakevdp</a> for <a href="https://jakevdp.github.io/blog/2015/02/24/optimizing-python-with-numpy-and-numba/">this article on using Numba</a>.</p>
-
 <h4>Apache data stack</h4>
-
 <p>Very focused on scaling up across a distributed cluster. Kind of the opposite of most python libraries which focus on single-process work.</p>
-
 <h2>Python in the NHL Front Office - <a href="https://twitter.com/joshweissbock">Josh Weissbock</a></h2>
-
 <p>(Video link)</p>
-
 <p><strong>An extended case study of how you can use Python tools to analyze and predict hockey performance from past statistics.</strong></p>
-
-<p>Overview of how you can use quantitative evidence to answer questions about Hockey!</p>
-
+<p>Overview of how you can use quantitative evidence to answer questions about Hockey! </p>
 <p>Tools mentioned:</p>
-
 <ul>
 <li>BeautifulSoup for scraping out hockey data from webpages</li>
 <li>Selenium+PhantomJS for scraping websites like a real user from the command line</li>
 <li>Various pydata tools for analysis</li>
 <li>sqlite3 for a simple sql-like database on disk</li>
 </ul>
-
-
 <h2>Deciding between Continuity and Change in Open Source - <a href="https://twitter.com/chrisjrn">Christopher Neugebauer</a></h2>
-
 <p>(Video link)</p>
-
 <p><strong>A discussion of how to successfully encourage and execute on large changes within open source communities.</strong></p>
-
 <p>A story about trying to develop an open source software project to help manage conference organization.</p>
-
 <p>How do we migrate an open source community through a complicated transition?</p>
-
 <h4>Cost-benefit analysis</h4>
-
 <p>In business:</p>
-
 <ul>
 <li>What benefit does this change bring?</li>
 <li>Is it going to make us more money than it costs?</li>
 </ul>
-
-
 <p>In OSS:</p>
-
 <ul>
 <li>How many people will this change bring joy to?</li>
 <li>How long will it take?</li>
 <li>How many people will this change burn out in the process?</li>
 </ul>
-
-
 <h4>Continuity</h4>
-
-<p>Sometimes it&#8217;s right to decide not to change things! This is the result of doing this cost-benefit tradeoff and deciding you should stay put.</p>
-
+<p>Sometimes it's right to decide not to change things! This is the result of doing this cost-benefit tradeoff and deciding you should stay put.</p>
 <h4>Change disguised as continuity</h4>
-
-<p>Sometimes you can make a huge change that appears mostly invisible. This isn&#8217;t a bad thing! In fact it might be the best of both worlds.</p>
-
+<p>Sometimes you can make a huge change that appears mostly invisible. This isn't a bad thing! In fact it might be the best of both worlds.</p>
 <h4>Wholesale replacement</h4>
-
 <p>A pretty damaging form of change. This costs a lot, requires work from any of your users that want to change, and might not end up being worth all the effort.</p>
-
 <p>This is the hardest part! Observations about successful wholesale change:</p>
-
 <ul>
 <li>Avoid <a href="https://en.wiktionary.org/wiki/bikeshedding">bikeshedding</a></li>
 <li>Try to avoid losing major parts of your community via a fork. But keep in mind that attempting to force only one group may also be damaging.</li>
-<li>Most of the time, you can&#8217;t effect wholesale change by fiat. Find consensus!</li>
+<li>Most of the time, you can't effect wholesale change by fiat. Find consensus!</li>
 <li>Involve people when there is something they can actively do!</li>
 </ul>
-
-
 <h2>Open Source and You - <a href="https://twitter.com/joshsimmons">Josh Simmons</a></h2>
-
 <p><strong>Tips for successfully building and growing your open source project or community.</strong></p>
-
 <h5>Make excellent docs</h5>
-
-<p>Nobody can start working on your project if they don&#8217;t understand what it is or what purpose it serves!</p>
-
+<p>Nobody can start working on your project if they don't understand what it is or what purpose it serves!</p>
 <h5>Share your story and knowledge</h5>
-
 <p>Never forget that the things you struggled to learn might not be common knowledge. Go give a conference talk!</p>
-
-<p>Expose your own uncertainty to show it&#8217;s legitimate and normal to not know everything!</p>
-
-<p>There&#8217;s great opportunities out there across communities. Try joining a new one (or helping someone who&#8217;s new to yours).</p>
-
+<p>Expose your own uncertainty to show it's legitimate and normal to not know everything!</p>
+<p>There's great opportunities out there across communities. Try joining a new one (or helping someone who's new to yours).</p>
 <h5>Mentor new contributors</h5>
-
-<p>Everyone can use (and will greatly appreciate) a leg up when they&#8217;re new on the scene.</p>
-
+<p>Everyone can use (and will greatly appreciate) a leg up when they're new on the scene. </p>
 <p>Encourage a safe space where the new contributors can get up to speed with someone who knows the ropes.</p>
-
-<p>Use this as an experience to be exposed to someone who&#8217;s unlike yourself! As a bonus, you&#8217;re making the community more welcoming when you do this.</p>
-
+<p>Use this as an experience to be exposed to someone who's unlike yourself! As a bonus, you're making the community more welcoming when you do this.</p>
 <h5>Inclusion solves your problems for more people</h5>
-
 <p>Consider aspects like:</p>
-
 <ul>
 <li>accessibility</li>
 <li>internationalization</li>
 <li>availablility to non-technical contributors</li>
 </ul>
-
-
-<h5>Don&#8217;t tolerate jerks</h5>
-
+<h5>Don't tolerate jerks</h5>
 <p>Our community is only as awesome as the worst behavior we tolerate.</p>
-
 <p>Its up to us all to maintain a healthy community and actively work to make it better.</p>
-
 <h2>Ship It: Python Packaging and Distribution - Nathaniel Knight</h2>
-
 <p><strong>Intro to the basics of python packaging and the ecosystem of tools surrounding it.</strong></p>
-
 <p>Introduction to python packaging! Discussion of package installation, distribution, and related concerns.</p>
-
 <p>Some additional resources:</p>
-
 <ul>
-<li><a href="https://packaging.python.org/en/latest/">Python&#8217;s official packaging guide</a></li>
-<li><a href="https://www.pypa.io/en/latest/history/">PyPA&#8217;s history of python packaging tooling</a></li>
-<li><a href="https://pip.pypa.io/en/stable/user_guide/">Pip&#8217;s user guide</a></li>
+<li><a href="https://packaging.python.org/en/latest/">Python's official packaging guide</a></li>
+<li><a href="https://www.pypa.io/en/latest/history/">PyPA's history of python packaging tooling</a></li>
+<li><a href="https://pip.pypa.io/en/stable/user_guide/">Pip's user guide</a></li>
 </ul>
-
-
 <h2>Lightning talks</h2>
-
-<p>Up first was a Continuum.io employee. Lots of the normal cool tools, including a new one called Navigator that lets you visually explore your conda environments you&#8217;ve created. Solves a major pain point I&#8217;ve felt from using Conda in the past.</p>
-
-<p>The next talk was about python education (and learning to code in general). Went through a simple &#8220;learning to code&#8221; exercise about writing instructions to drink a jug of water.</p>
-
-<p>Jas Sohi combined Google&#8217;s BigQuery with python&#8217;s BeautifulSoup library to interact with web-uis and automatically check they had certain properties.</p>
-
-<p>Talk #4 was a spur of the moment demo of trying to write a SublimeText plugin in the middle of the conference 😸 The speaker attempted to import Don Kirkby&#8217;s library (from a previous talk!)  and actually got the basic proof-of-concept working! Not half bad on short notice.</p>
-
-<p>Talk #5 was an intro to SQLAlchemy&#8230;in particular the Core part of the library. Some talk of the dangers of ORMs and some context on when you might prefer Core over the ORM.</p>
-
-<p>Talk #6 was the story of one particular person&#8217;s experience learning Python <a href="https://teamtreehouse.com/">from Team Treehouse</a>. Sounded like some good teaching <a href="http://www.pyvideo.org/speaker/738/kenneth-love">from Kenneth Love</a>!</p>
-
-<p>The final talk was on ontologies &#8211; dictionaries relating concepts together so we can translate concepts between two distinct systems. Some interesting relationships to work the CDC does with the semantic web. Brings me back to my SPARQL days 😲</p>
-
+<p>Up first was a Continuum.io employee. Lots of the normal cool tools, including a new one called Navigator that lets you visually explore your conda environments you've created. Solves a major pain point I've felt from using Conda in the past.</p>
+<p>The next talk was about python education (and learning to code in general). Went through a simple "learning to code" exercise about writing instructions to drink a jug of water.</p>
+<p>Jas Sohi combined Google's BigQuery with python's BeautifulSoup library to interact with web-uis and automatically check they had certain properties. </p>
+<p>Talk #4 was a spur of the moment demo of trying to write a SublimeText plugin in the middle of the conference 😸 The speaker attempted to import Don Kirkby's library (from a previous talk!)  and actually got the basic proof-of-concept working! Not half bad on short notice.</p>
+<p>Talk #5 was an intro to SQLAlchemy...in particular the Core part of the library. Some talk of the dangers of ORMs and some context on when you might prefer Core over the ORM. </p>
+<p>Talk #6 was the story of one particular person's experience learning Python <a href="https://teamtreehouse.com/">from Team Treehouse</a>. Sounded like some good teaching <a href="http://www.pyvideo.org/speaker/738/kenneth-love">from Kenneth Love</a>!</p>
+<p>The final talk was on ontologies -- dictionaries relating concepts together so we can translate concepts between two distinct systems. Some interesting relationships to work the CDC does with the semantic web. Brings me back to my SPARQL days 😲</p>
 <h2>Overall</h2>
+<p>A really great conference! Super friendly and a tremendously excited group of developers. I'd heartily encourage showing up for any future Vancouver meetups...it was a great trip and a very enjoyable conference.</p>	
 
-<p>A really great conference! Super friendly and a tremendously excited group of developers. I&#8217;d heartily encourage showing up for any future Vancouver meetups&#8230;it was a great trip and a very enjoyable conference.</p>
-</div>
+	</article>
 
+    <p>
+	<a href="https://twitter.com/share" class="twitter-share-button" data-via="" data-lang="en" data-size="large" data-related="">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</p>
 
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Scott Triglia</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-04T15:14:00-07:00" pubdate data-updated="true">Jun 4<span>th</span>, 2016</time>
-      
-
-
-    </p>
-    
-      <div class="sharing">
-  <ul class="share-buttons">
-    
-    <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocallyoptimal.com&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL)); return false;"><img src="/images/Facebook.png"></a></li>
-    
-    
-    <li><a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Flocallyoptimal.com&text=:%20http%3A%2F%2Flocallyoptimal.com&via=scott_triglia" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;"><img src="/images/Twitter.png"></a></li>
-    
-    
-    <li><a href="http://www.reddit.com/submit?url=http%3A%2F%2Flocallyoptimal.com&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img src="/images/Reddit.png"></a></li>
-    
-    <li><a href="https://getpocket.com/save?url=http%3A%2F%2Flocallyoptimal.com&title=" target="_blank" title="Add to Pocket" onclick="window.open('https://getpocket.com/save?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img src="/images/Pocket.png"></a></li>
-  </ul>
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2015/08/25/pyconau-field-notes/" title="Previous Post: PyconAU 2015 field notes">&laquo; PyconAU 2015 field notes</a>
-      
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-	<h1>About Me</h1>
-	<div style="margin-top:10px; ">
-		<img style class="left" height="120" width="120" src="http://imgur.com/hWFH5h8.jpg">
-		<p>I writes codes at Yelp.</p>
+	<div class="comments">
+	<h2>Comments !</h2>
+	    <div id="disqus_thread"></div>
+	    <script type="text/javascript">
+	       var disqus_identifier = "blog/2016/06/04/notes-from-vanpyday-2016/";
+	       (function() {
+	       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	       dsq.src = 'http://locallyoptimal.disqus.com/embed.js';
+	       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	      })();
+	    </script>
 	</div>
-        <a href="http://twitter.com/scott_triglia" class="twitter-follow-button" data-show-count="false">Follow @scott_triglia</a>
-</section>
-<!-- Begin MailChimp Signup Form -->
-<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
-<div id="mc_embed_signup">
-<form action="//locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-    <div id="mc_embed_signup_scroll">
-	<label for="mce-EMAIL">Subscribe to Locally Optimal</label>
-	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="you@gmail.com" required>
-    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-    <div style="position: absolute; left: -5000px;"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
-    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-    </div>
-</form>
-</div>
+
+		  </div>	
+		  
+		  <div class="sidebar">
+		    <div class="sidebar-container" id="sidebar-container-fixed">
+
+	            <aside>
+	              <h2>About</h2>
+			      <p>
+                    I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking.
+			      </p>
+			    </aside>
+
+		  <!-- Begin Mailchimp Signup Form -->
+                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
+                  <style type="text/css">
+                  	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+                  	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
+                  	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                  </style>
+                  <div id="mc_embed_signup">
+                  <form action="https://locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                      <div id="mc_embed_signup_scroll">
+                  	<label for="mce-EMAIL">Get new posts weekly</label>
+                  	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+                      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
+                      <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                      </div>
+                  </form>
+                  </div>
 
 <!--End mc_embed_signup-->
-<section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2016/06/04/notes-from-vanpyday-2016/">Notes from VanPyDay 2016</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/25/pyconau-field-notes/">PyconAU 2015 field notes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/14/executable-python-scripts-via-entry-points/">Executable python scripts via entry points</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/">Building a basic package pt. 1: Bare Bones</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/11/there-is-no-such-thing-as-magic/">There is no such thing as magic</a>
-      </li>
-    
-  </ul>
-</section>
 
+  	          <nav>
+	            <h2>Categories</h2>
+	            <ul>
+	                <li class="active"><a href="http://www.locallyoptimal.com/category/conferences.html">conferences</a></li>
+	                <li ><a href="http://www.locallyoptimal.com/category/intervewing.html">intervewing</a></li>
+	                <li ><a href="http://www.locallyoptimal.com/category/misc.html">misc</a></li>
+	                <li ><a href="http://www.locallyoptimal.com/category/python.html">python</a></li>
+	                <li ><a href="http://www.locallyoptimal.com/category/testing.html">testing</a></li>
+	            </ul>
+	          </nav>
 
-  
-</aside>
+	            <aside>
+	            <h2>Social</h2>
+			      <ul class="social">
+				    <li><a href="http://www.twitter.com/scott_triglia">Twitter</a><i></i></li>
+				    <li><a href="http://www.github.com/striglia">Github</a><i></i></li>
+				    <li><a href="http://www.linkedin.com/in/striglia">LinkedIn</a><i></i></li>
+			      </ul>
+			    </aside>
 
+	        </div>
+		  </div>
 
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - Scott Triglia -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+	  </div>
 
-</footer>
-  
+      <footer>
+		<p role="contentinfo">
+		  Scott Triglia - Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">pelican</a>. Theme <a href="https://github.com/fle/pelican-sober">pelican-sober</a>.
+    	</p>
 
-<script type="text/javascript">
-      var disqus_shortname = 'locallyoptimal';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://striglia.github.com/blog/2016/06/04/notes-from-vanpyday-2016/';
-        var disqus_url = 'http://striglia.github.com/blog/2016/06/04/notes-from-vanpyday-2016/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
+	  </footer>	
 
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
+	</div>
+	
+	  <script>
+		var _gaq=[['_setAccount','UA-35190779-1'],['_trackPageview']];
+		(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+		g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+		s.parentNode.insertBefore(g,s)}(document,'script'));
+	  </script>
 
 </body>
 </html>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Locally Optimal - testing</title><link href="http://www.locallyoptimal.com/" rel="alternate"></link><link href="http://www.locallyoptimal.com/feeds/testing.atom.xml" rel="self"></link><id>http://www.locallyoptimal.com/</id><updated>2013-02-21T22:27:00-08:00</updated><subtitle>hill climbing in SF</subtitle><entry><title>"Sins of the Test"</title><link href="http://www.locallyoptimal.com/blog/2013/02/21/sins-of-the-test/" rel="alternate"></link><published>2013-02-21T22:27:00-08:00</published><updated>2013-02-21T22:27:00-08:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2013-02-21:/blog/2013/02/21/sins-of-the-test/</id><summary type="html">&lt;p&gt;We all make mistakes…some more embarrassing than others in hindsight. I always really appreciate when programmers I look up to make a point of pointing out their own faults, so I figured it was only fair for me to do the same.&lt;/p&gt;
+&lt;p&gt;So in that spirit, let's talk about where I've gone wrong! Looking back on the tests I've written in the last six months has made me realize several things I'd change if I could write them again.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;We all make mistakes…some more embarrassing than others in hindsight. I always really appreciate when programmers I look up to make a point of pointing out their own faults, so I figured it was only fair for me to do the same.&lt;/p&gt;
+&lt;p&gt;So in that spirit, let's talk about where I've gone wrong! Looking back on the tests I've written in the last six months has made me realize several things I'd change if I could write them again.&lt;/p&gt;
+
+
+&lt;h2&gt;abusing subclasses&lt;/h2&gt;
+&lt;p&gt;First up -- the misuse of classes and inheritance.&lt;/p&gt;
+&lt;p&gt;A mere six months ago, I wrote something approximating the following series of tests for a new feature I was rolling out:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;experiment_framework&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;configure_experiment&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;our_logic_module&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;method_under_test&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TestSecretFeatureBase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TestCase&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;__test__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;  &lt;span class="c1"&gt;# Make sure this class is purely abstract&lt;/span&gt;
+    &lt;span class="n"&gt;activate_feature&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+    &lt;span class="n"&gt;necessary_input&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+    &lt;span class="n"&gt;expected_output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_class_vars_are_set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Enforce class variables being set in the subclass&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+        &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;activate_feature&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+        &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;necessary_input&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+        &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expected_output&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_output_of_method&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;The test we actually care about&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+        &lt;span class="n"&gt;configure_experiment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;my_secret_feature&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;activate_feature&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;method_under_test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;necessary_input&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;expected_output&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TestSecretFeatureOff&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TestCase&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c1"&gt;# Test what happens when we turn our feature off!&lt;/span&gt;
+    &lt;span class="n"&gt;activate_feature&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+    &lt;span class="n"&gt;necessary_input&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;some required arg&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;expected_output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;magic&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TestSecretFeatureOn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TestCase&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c1"&gt;# Test what happens when we turn our feature on!&lt;/span&gt;
+    &lt;span class="n"&gt;activate_feature&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+    &lt;span class="n"&gt;necessary_input&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;some required arg&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;expected_output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;more magic&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Let's briefly cover what this was designed to do. We have a method &lt;code&gt;method_under_test&lt;/code&gt; that we want to run with some necessary arguments, testing each time that the output is what we expect. In particular, we want to test this method with a new secret feature turned both on and off.&lt;/p&gt;
+&lt;p&gt;So what's bad about this? The big lesson I learned from looking back on this was that I had painfully abused the concept of a test suite in an attempt to be DRY. Note that the above solution has no single test suite that can be called -- in fact each test is segregated into its own test suite! Nasty! And the only reason I did all this was to create a few real test cases (the classes TestSecretFeatureOn/TestSecretFeatureOff here) with a bunch of variables that are required to be defined. Additionally, you can see that I've introduces a new test for every subclass that does nothing but ensure I am overriding the required parameters...at absolute best this test is irrelevant to the core functionality and distracting.&lt;/p&gt;
+&lt;p&gt;Instead, I should have written the entire base class as a simple helper function with just &lt;code&gt;necessary_input&lt;/code&gt; and &lt;code&gt;activate_feature&lt;/code&gt; as arguments. The tests themselves could then be grouped into a single meaningful (and useful!) test suite and the &lt;code&gt;test_class_vars_are_set&lt;/code&gt; eliminated entirely since it would be implicitly required by the function signature. Any further alterations I do to the code this covers can be easily and quickly tested by running a single test suite instead of having to run many small ones.&lt;/p&gt;
+&lt;p&gt;Check out the improved code:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;run_method_under_test_with_experiment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;activate_feature&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;necessary_input&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Runs method_under_test with our secret experiment set according to the&lt;/span&gt;
+&lt;span class="sd"&gt;    passed flag and returns the result.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;configure_experiment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;my_secret_feature&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;activate_feature&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;method_under_test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;necessary_input&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TestSecretFeature&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TestCase&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Test suite covering the soon-to-be-released Secret Feature&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;necessary_input&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;some required arg&amp;#39;&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_feature_off&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;run_method_under_test_with_experiment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;necessary_input&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;magic&amp;#39;&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_feature_on&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;run_method_under_test_with_experiment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;necessary_input&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;more magic&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Just like that, we have collapsed all our tests into a single descriptive test suite and we can reliably know that classes always contain meaningful collections of tests. Maybe most importantly, it's much simpler for the next poor dev who has to unravel the goal of my tests.&lt;/p&gt;
+&lt;h2&gt;test method names&lt;/h2&gt;
+&lt;p&gt;Next up, needlessly abbreviating test method/suite names!&lt;/p&gt;
+&lt;p&gt;In non-test code, there are some plausible arguments that long method names are cumbersome -- you will often call them multiple places and some additional brevity can be worthwhile. In my experience with tests however, something like 95% of the test methods or test suites I name will &lt;em&gt;never be typed again&lt;/em&gt; outside the method/class definition. This means long names not only don't cost me anything, they're essentially a free chance to eliminate docstrings that may be otherwise unnecessary.&lt;/p&gt;
+&lt;p&gt;Not too much else to say here, just consider the following before and after from some only-slightly-sanitized production code of mine:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;FilteringTest&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TestCase&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Tests that low scoring candidates are removed by filtering.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_return_few_candidates&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Test _filter_candidates correctly prunes results, below the request&amp;#39;s threshold.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Instead, let's just express those docstrings directly in the names. Easier to read, easier to debug if you only see failing test names, everyone wins!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;FilterCandidatesTest&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TestCase&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_candidates_below_score_threshold_are_not_returned&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;too few test suites&lt;/h2&gt;
+&lt;p&gt;A simple one, but something that's been on my mind. If we're using test classes 90% of the time for just organization purposes, then what use is it to clump together a large number of tests in a single suite? If I'm trying to tweak a particular feature, but have to choose between running either a single unit test or far too many of them, I'm probably not going to be doing small, iterative changes with lots of testing because it'll just be too slow.&lt;/p&gt;
+&lt;p&gt;Instead, break into a new class per distinct functionality. If you're awesome, this probably looks suspiciously close to one class per method under test, and a relatively small number of classes per object under test. If you're like me and still working toward that goal, you can still aim for making small, focused suites so that changes to code will break relatively few suites, and a single suite can be quickly re-run. Admittedly, this type of organization does depend on the particular choices of your chosen testing framework and its mechanism for determining what a suite is.&lt;/p&gt;
+&lt;h2&gt;not listening to what tests are telling me&lt;/h2&gt;
+&lt;p&gt;If I had to sum up the most important thing I'd learned in the last year from testing it's this point -- if it's hard to test something (class, function, whatever), you should assume there is room (maybe a lot of it) for improving it. This almost seems pointless to say, except that I cannot tell you how many times I've spent a day bumbling my way through writing/modifying just a couple tests on an old, crufty object without bothering any refactoring of the thing under test.&lt;/p&gt;
+&lt;p&gt;To rephrase, if something sucks to test, assume guilt until innocence is proven. It's almost never a bad exercise to look at your code with a critical eye toward untangling mixed responsibilities, ugly dependences, or sheer bloat. Worst case scenario, you don't see anything that can be fixed and you soldier on. But more likely, you will see something you can tweak to make both future coding and testing easier. Win win.&lt;/p&gt;
+&lt;p&gt;Know what rarely is a pain to test? The best code I've written. In fact, it's also often the best tested. Curious…&lt;/p&gt;
+&lt;h2&gt;always improving&lt;/h2&gt;
+&lt;p&gt;Well that's enough of my rambling, but I hope this gives you a few ideas for attacking your own tests. If nothing else, it is an excellent exercise to step back from the daily grind and trying to look for longer-term patterns you see. It's far too easy to get stuck in local optima because they're familiar, even if you yourself have experienced better! Here's to always improving.&lt;/p&gt;</content></entry><entry><title>"Testing with Mock"</title><link href="http://www.locallyoptimal.com/blog/2012/09/10/testing-with-mock/" rel="alternate"></link><published>2012-09-10T19:34:00-07:00</published><updated>2012-09-10T19:34:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2012-09-10:/blog/2012/09/10/testing-with-mock/</id><summary type="html">&lt;p&gt;More than any other area, I've found software testing to be the discipline which I knew the least about before joining up at Yelp full time. Sure, there was the normal insistence in my time as an undergraduate that I learn how to test units of code, and I'd heard plenty about the value of unit testing from any number of people or blogs, but when it came right down to it relatively few people I knew ever employed it to a meaningful degree during college and my graduate work. The simple truth was that projects rarely lasted long enough for the fruits of proper testing to be borne out.&lt;/p&gt;
+&lt;p&gt;Now I am sure plenty of people would disagree with that statement, pointing to how their various school projects were made better or simpler by judicious application of unit tests, but the goal of this post isn't arguing about whether or not testing is worthwhile. My goal is to dive in a little bit to one particular area of testing that I had essentially zero exposure to before joining industry -- the mocking of methods in tests.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;More than any other area, I've found software testing to be the discipline which I knew the least about before joining up at Yelp full time. Sure, there was the normal insistence in my time as an undergraduate that I learn how to test units of code, and I'd heard plenty about the value of unit testing from any number of people or blogs, but when it came right down to it relatively few people I knew ever employed it to a meaningful degree during college and my graduate work. The simple truth was that projects rarely lasted long enough for the fruits of proper testing to be borne out.&lt;/p&gt;
+&lt;p&gt;Now I am sure plenty of people would disagree with that statement, pointing to how their various school projects were made better or simpler by judicious application of unit tests, but the goal of this post isn't arguing about whether or not testing is worthwhile. My goal is to dive in a little bit to one particular area of testing that I had essentially zero exposure to before joining industry -- the mocking of methods in tests.&lt;/p&gt;
+
+
+&lt;h3&gt;The basics of mocks&lt;/h3&gt;
+&lt;p&gt;Given my complete ignorance the first time I was exposed to mocks, I'll start at the beginning -- a simple definition. Now there's some disagreement on the basic terms involved here, but I will default to &lt;a href="http://martinfowler.com/articles/mocksArentStubs.html"&gt;Martin Fowler's use of the work mock&lt;/a&gt;, and summarize it as follows.&lt;/p&gt;
+&lt;p&gt;To mock a method for a test involves verifying behavior. This can include:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;asserting that it is called the expected number of times&lt;/li&gt;
+&lt;li&gt;asserting that it is called with the expected arguments&lt;/li&gt;
+&lt;li&gt;and finally replacing its normal execution with the execution of a stand-in method (or a fixed return value)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You'll immediately notice two distinct purposes to mocking in tests. First, they define (moreover, assert!) an interface between the code under test and the method you are mocking out. This is done both by agreeing upon the arguments passed to the mocked method and by checking how many times the method is called. Separate from these interface tests, the method itself is replaced by an imposter for the sake of this test.&lt;/p&gt;
+&lt;p&gt;So I've briefly described the spirit of a mock, but have left it entirely without motivation. Isn't the entire point of tests to actually test the real system? If I replace part of my code with something else, doesn't this mean any bugs in the mocked out code will be hidden from my tests? Strictly speaking, these complaints are valid. Mocking out a method means, for that test, the method's true code will not be exercised.&lt;/p&gt;
+&lt;p&gt;But prepare yourself for this, because it blew my mind the first several times I heard it -- that is the entire point.&lt;/p&gt;
+&lt;h3&gt;Why mock at all?&lt;/h3&gt;
+&lt;p&gt;Outrage! Mutiny! What good is a test that doesn't actually test the code?! Well collect yourself, settle down, and I'll give you a real-world example that I hope will justify what I'm describing.&lt;/p&gt;
+&lt;p&gt;Let's imagine an extremely simple program, one almost too simple to test at all. Our goal is to write a tiny little wrapper around &lt;a href="https://developers.google.com/maps/documentation/geocoding/"&gt;Google's Geocoding API&lt;/a&gt;. In case you aren't already familiar with the concept of a geocoder, I'll summarize it very simply for our purposes as a black box that takes in a string, e.g. 'Mission District, San Francisco', and returns its best guesses at the location you are interested in, along with detailed information on each like longitude/latitude, city, state, country and so on.&lt;/p&gt;
+&lt;p&gt;So back to our program. Envision a simple application, which is meant to accept a city name and return you the list of American states which contain a city of that name. Our actual implementation will be a simple wrapper around Google's API where, if the original submitted city name was 'Foobar', we will search for 'Foobar, AL', 'Foobar, AK', and so on with each state name, recording when we get matches and returning the whole list at the end. Forgive me the clumsy example, but it will prove easy to reason about. &lt;/p&gt;
+&lt;p&gt;Now lets think about testing our little utility....what parts of our program really need to be tested? Let's throw together a few likely prospects:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We should test to make sure we're constructing our places to geocode correctly.&lt;/li&gt;
+&lt;li&gt;Our validation of Google's responses should be tested (if Google has a match for 'Foobar, CA', and we were searching for 'Foobar' as our city, do we add California to our list of matched states?)&lt;/li&gt;
+&lt;li&gt;And just for kicks we may as well make sure the whole system runs properly&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Cool...we've got our plan together. Let's assume we really want to test the
+above three pieces of our program and our code base is as shown below.&lt;/p&gt;
+&lt;p&gt;{% include_code count_cities.py %}&lt;/p&gt;
+&lt;p&gt;Looks like writing our first test is easy! We can just directly test the build_query_locations method and ensure it works as we expect. Our second test should be pretty easy too, as we can create some sample responses from Google and make sure we only accept the right ones. The third test though is irritating, since it depends on us actually calling Google's API in our test.&lt;/p&gt;
+&lt;p&gt;There are a few reasons this external dependency is unfortunate: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;It's slow! A round trip query takes in the neighborhood of 700 ms, which means one run of our program will take on the order of half a minute. Gross.&lt;/li&gt;
+&lt;li&gt;It probably doesn't need testing (by us). We generally trust Google to do the right thing. We are currently trying to unit test our own code, and where possible, we should assume that Google's API is a thoroughly tested black box.&lt;/li&gt;
+&lt;li&gt;Our own testing is now more complicated. What happens if I want to test how find_matching_states handles a geocoder result that comes back as &lt;code&gt;None&lt;/code&gt;? Or a city with accented characters? These are hard to generate if I'm actually calling out to my geocoding library and using the real result.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This is not a comprehensive list, it's merely three issues that apply to this particular block of code. Now imagine how these complaints scale up when you're talking about a commercial webapp and you can start to see why mocking is so important in tests.&lt;/p&gt;
+&lt;h3&gt;Fine, mocking is good. How do I do it?&lt;/h3&gt;
+&lt;p&gt;And now we're to the good stuff -- how to mock out methods in your own tests. Gary Bernhardt wrote up a &lt;a href="http://garybernhardt.github.com/python-mock-comparison/"&gt;comparison&lt;/a&gt; of various mocking libraries for python, all of which would work for your purposes. Personally, I've stuck with the mock library and been quite happy with it.&lt;/p&gt;
+&lt;p&gt;So enough rambling already, let's see this in action. I've written a single test below, aimed at unit testing the find_matching_states method. In particular, note how we manipulate what the &lt;code&gt;geocode_address&lt;/code&gt; call returns to make our testing simple, while still asserting that we are calling the method with the arguments we expect.&lt;/p&gt;
+&lt;p&gt;{% include_code count_cities_test.py %}&lt;/p&gt;
+&lt;p&gt;Note that with this test, the only thing we've stopped testing is the content of Google responses for particular arguments to &lt;code&gt;geocode_address&lt;/code&gt;. The danger (as always with mocking), is that we actually are uncertain of this response format or contents. If this were the case, we'd want to construct separate tests -- only operating on the &lt;code&gt;geocode_address&lt;/code&gt; method -- that verified the behavior we required. But in exchange for this, we've replaced a 700ms call with one that takes no time, gained control over the value returned by &lt;code&gt;geocode_address&lt;/code&gt; and in the case of an API like this, possibly saved ourselves real money! These are very real advantages that become even more valuable when employed at scale.&lt;/p&gt;
+&lt;p&gt;The simple fact is, you cannot reliably make every test an integration test at scale and -- more importantly -- you shouldn't want to do so. With any luck, this post has pointed out a few advantages of mocking in your tests and explained the overall reasoning behind the choice. All that remains is to pick your library of choice and learn to use it skillfully. And that is all there is to it. There's a ton to learn about how best to use tools like stubs and mocks in your code, but I have been repeatedly impressed by how much they have improved both the clarity and quality of my tests.&lt;/p&gt;</content></entry></feed>

@@ -1,450 +1,240 @@
-
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!doctype html>
+<html lang="">	
 <head>
-  <meta charset="utf-8">
-  <title>Executable python scripts via entry points - Locally Optimal</title>
-  <meta name="author" content="Scott Triglia">
+	<meta charset="utf-8"/>
+	<title>"Executable python scripts via entry points" - Locally Optimal</title>	
+	<meta name="author" content="Scott Triglia">
+	
 
-  
-  <meta name="description" content="A quick topic &#8211; executing a python module from the command line! When I last left my pet rss2sms project, it had been transformed into a basic &hellip;">
-  
+  <meta name="description" content="A quick topic -- executing a python module from the command line!">
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://striglia.github.com/blog/2014/03/14/executable-python-scripts-via-entry-points/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Locally Optimal" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-35190779-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+	<meta name="twitter:card" content="summary">
+	  <meta name="twitter:creator" content="@scott_triglia">
+	<meta name="twitter:title" content=""Executable python scripts via entry points"">
+	<meta name="twitter:description" content="A quick topic -- executing a python module from the command line!">
+	<meta name="twitter:url" content="http://www.locallyoptimal.com/blog/2014/03/14/executable-python-scripts-via-entry-points/">
 
 
+	<link rel="stylesheet" href="http://www.locallyoptimal.com/theme/css/main.css" type="text/css" />
+		
+	  <script type="text/javascript" src="http://www.locallyoptimal.com/theme/js/custom_scripts.js"></script>
+
+
+    <link href="http://www.locallyoptimal.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Locally Optimal Atom Feed" />
 </head>
+	
+<body>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Locally Optimal</a></h1>
-  
-    <h2>Hill climbing in SF</h2>
-  
-</hgroup>
+    <div class="container">
+	  
+	  <header role="banner">
+	    <div class="feeds">
+	      <a href="http://www.locallyoptimal.com/feeds/all.atom.xml" rel="alternate"><img src="http://www.locallyoptimal.com/theme/images/icons/feed-32px.png" alt="atom feed"/></a>
+	    </div>
+		<a href="http://www.locallyoptimal.com" class="title">Locally Optimal</a>
+      </header>
+	
+	  <div class="wrapper">
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:striglia.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder=""/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Executable Python Scripts via Entry Points</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-14T16:11:00-07:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p>A quick topic &#8211; executing a python module from the command line!</p>
-
-<!-- more -->
+		  <div role="main" class="content">
+	<article class="full">
+		
+		<h1>"Executable python scripts via entry points"</h1>
+		
+<div class="metadata">
+  <time datetime="2014-03-14T16:11:00-07:00" pubdate>Fri 14 March 2014</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://www.locallyoptimal.com/author/scott-triglia.html">Scott Triglia</a>
+    </address>
+  in <a href="http://www.locallyoptimal.com/category/python.html">python</a>
+</div>		
+		<p>A quick topic -- executing a python module from the command line!</p>
 
 
 <p>When <a href="http://locallyoptimal.com/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/">I last left</a> my pet rss2sms project, it had been transformed into a basic python package. Unfortunately, this means that my old method of running <code>python rss2sms.py --foobar</code> from the command line is not so simple anymore. In fact what I really want is to be able to just run <code>rss2sms --foobar</code> from the command line after I install the package.</p>
+<p>Luckily python has exactly what we need in the form of setuptools's <a href="http://pythonhosted.org//setuptools/setuptools.html#automatic-script-creation">console_script argument to entry_points</a>.</p>
+<p>Let's go ahead and add it to our setup.py:</p>
+<div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;rss2sms&quot;</span><span class="p">,</span>                                                             
+    <span class="n">version</span><span class="o">=</span><span class="n">find_version</span><span class="p">(</span><span class="s1">&#39;rss2sms&#39;</span><span class="p">,</span> <span class="s1">&#39;__init__.py&#39;</span><span class="p">),</span>                             
 
-<p>Luckily python has exactly what we need in the form of setuptools&#8217;s <a href="http://pythonhosted.org//setuptools/setuptools.html#automatic-script-creation">console_script argument to entry_points</a>.</p>
+<span class="c1"># ...the rest of our setup.py here....</span>
 
-<p>Let&#8217;s go ahead and add it to our setup.py:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">setup</span><span class="p">(</span>
-</span><span class='line'>  <span class="n">name</span><span class="o">=</span><span class="s">&quot;rss2sms&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">version</span><span class="o">=</span><span class="n">find_version</span><span class="p">(</span><span class="s">&#39;rss2sms&#39;</span><span class="p">,</span> <span class="s">&#39;__init__.py&#39;</span><span class="p">),</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># ...the rest of our setup.py here....</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
-</span><span class='line'>        <span class="s">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
-</span><span class='line'>            <span class="s">&#39;rss2sms=rss2sms:main&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="p">],</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+    <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>                                                              
+        <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>                                                    
+            <span class="s1">&#39;rss2sms=rss2sms:main&#39;</span><span class="p">,</span>                                             
+        <span class="p">],</span>                                                                      
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
 
 
-<p>So simple! Note that we&#8217;re linking the executable <code>rss2sms</code> here to running the python function <code>main</code> in the <code>rss2sms</code> module. If we look at that function, it just does the normal command line parsing and function calling that it always has.</p>
+<p>So simple! Note that we're linking the executable <code>rss2sms</code> here to running the python function <code>main</code> in the <code>rss2sms</code> module. If we look at that function, it just does the normal command line parsing and function calling that it always has.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>                                                                     
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">OptionParser</span><span class="p">()</span>                                                     
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;--url&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;rss_url&quot;</span><span class="p">,</span>                            
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;url of rss feed&quot;</span><span class="p">)</span>                             
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--to&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;to_num&quot;</span><span class="p">,</span>                              
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;cell number to send sms alerts to&quot;</span><span class="p">)</span>           
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;--from&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;from_num&quot;</span><span class="p">,</span>                          
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;cell number to send sms alerts to (overrides environment variable TWILIO_NUMBER)&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="s2">&quot;--id&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;rss_id_field&quot;</span><span class="p">,</span>                        
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;unique id rss field used for display in SMS and for equality comparison (defaults to &#39;link&#39;)&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;--display&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;rss_display_field&quot;</span><span class="p">,</span>              
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of rss field used for display in SMS (defaults to &#39;title&#39;)&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="s2">&quot;--cache-filename&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;cache_filename&quot;</span><span class="p">,</span>          
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;optional file to cache last post in&quot;</span><span class="p">)</span>         
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-</span><span class='line'>    <span class="n">parser</span> <span class="o">=</span> <span class="n">OptionParser</span><span class="p">()</span>
-</span><span class='line'>    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-u&quot;</span><span class="p">,</span> <span class="s">&quot;--url&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;rss_url&quot;</span><span class="p">,</span>
-</span><span class='line'>                            <span class="n">help</span><span class="o">=</span><span class="s">&quot;url of rss feed&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-t&quot;</span><span class="p">,</span> <span class="s">&quot;--to&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;to_num&quot;</span><span class="p">,</span>
-</span><span class='line'>                            <span class="n">help</span><span class="o">=</span><span class="s">&quot;cell number to send sms alerts to&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-f&quot;</span><span class="p">,</span> <span class="s">&quot;--from&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;from_num&quot;</span><span class="p">,</span>
-</span><span class='line'>                            <span class="n">help</span><span class="o">=</span><span class="s">&quot;cell number to send sms alerts to (overrides environment variable TWILIO_NUMBER)&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-i&quot;</span><span class="p">,</span> <span class="s">&quot;--id&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;rss_id_field&quot;</span><span class="p">,</span>
-</span><span class='line'>                            <span class="n">help</span><span class="o">=</span><span class="s">&quot;unique id rss field used for display in SMS and for equality comparison (defaults to &#39;link&#39;)&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-d&quot;</span><span class="p">,</span> <span class="s">&quot;--display&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;rss_display_field&quot;</span><span class="p">,</span>
-</span><span class='line'>                            <span class="n">help</span><span class="o">=</span><span class="s">&quot;name of rss field used for display in SMS (defaults to &#39;title&#39;)&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-c&quot;</span><span class="p">,</span> <span class="s">&quot;--cache-filename&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;cache_filename&quot;</span><span class="p">,</span>
-</span><span class='line'>                            <span class="n">help</span><span class="o">=</span><span class="s">&quot;optional file to cache last post in&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-</span><span class='line'>    <span class="n">rss2sms</span> <span class="o">=</span> <span class="n">Rss2Sms</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">options</span><span class="p">))</span>
-</span><span class='line'>    <span class="n">rss2sms</span><span class="o">.</span><span class="n">parse_and_alert</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
+    <span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>                                       
+    <span class="n">rss2sms</span> <span class="o">=</span> <span class="n">Rss2Sms</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">options</span><span class="p">))</span>                                          
+    <span class="n">rss2sms</span><span class="o">.</span><span class="n">parse_and_alert</span><span class="p">()</span> 
+</pre></div>
 
 
-<p>Now let&#8217;s start up a fresh virtualenv and test it out. We can use pip&#8217;s develop option to install a package by just passing it a path.</p>
+<p>Now let's start up a fresh virtualenv and test it out. We can use pip's develop option to install a package by just passing it a path.</p>
+<div class="highlight"><pre><span></span>~/Desktop/github/rss2sms (master) $ virtualenv entry_point_test; source entry_point_test/bin/activate
+New python executable in entry_point_test/bin/python
+Installing Setuptools...........done.
+Installing Pip..................done.
+(entry_point_test) ~/Desktop/github/rss2sms (master) $ pip install -e .
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~/Desktop/github/rss2sms (master) $ virtualenv entry_point_test; source entry_point_test/bin/activate
-</span><span class='line'>New python executable in entry_point_test/bin/python
-</span><span class='line'>Installing Setuptools..............................................................................................................................................................................................................................done.
-</span><span class='line'>Installing Pip.....................................................................................................................................................................................................................................................................................................................................done.
-</span><span class='line'>(entry_point_test) ~/Desktop/github/rss2sms (master) $ pip install -e .
-</span><span class='line'>
-</span><span class='line'>... lots of text from installation...
-</span><span class='line'>
-</span><span class='line'>(entry_point_test) ~/Desktop/github/rss2sms (master) $ rss2sms --help
-</span><span class='line'>Usage: rss2sms [options]
-</span><span class='line'>
-</span><span class='line'>Options:
-</span><span class='line'>  -h, --help            show this help message and exit
-</span><span class='line'>  -u RSS_URL, --url=RSS_URL
-</span><span class='line'>                        url of rss feed
-</span><span class='line'>  -t TO_NUM, --to=TO_NUM
-</span><span class='line'>                        cell number to send sms alerts to
-</span><span class='line'>  -f FROM_NUM, --from=FROM_NUM
-</span><span class='line'>                        cell number to send sms alerts to (overrides
-</span><span class='line'>                        environment variable TWILIO_NUMBER)
-</span><span class='line'>  -i RSS_ID_FIELD, --id=RSS_ID_FIELD
-</span><span class='line'>                        unique id rss field used for display in SMS and for
-</span><span class='line'>                        equality comparison (defaults to 'link')
-</span><span class='line'>  -d RSS_DISPLAY_FIELD, --display=RSS_DISPLAY_FIELD
-</span><span class='line'>                        name of rss field used for display in SMS (defaults to
-</span><span class='line'>                        'title')
-</span><span class='line'>  -c CACHE_FILENAME, --cache-filename=CACHE_FILENAME
-</span><span class='line'>                        optional file to cache last post in</span></code></pre></td></tr></table></div></figure>
+... lots of text from installation...
+
+(entry_point_test) ~/Desktop/github/rss2sms (master) $ rss2sms --help
+Usage: rss2sms [options]
+
+Options:
+  -h, --help            show this help message and exit
+  -u RSS_URL, --url=RSS_URL
+                        url of rss feed
+  -t TO_NUM, --to=TO_NUM
+                        cell number to send sms alerts to
+  -f FROM_NUM, --from=FROM_NUM
+                        cell number to send sms alerts to (overrides
+                        environment variable TWILIO_NUMBER)
+  -i RSS_ID_FIELD, --id=RSS_ID_FIELD
+                        unique id rss field used for display in SMS and for
+                        equality comparison (defaults to &#39;link&#39;)
+  -d RSS_DISPLAY_FIELD, --display=RSS_DISPLAY_FIELD
+                        name of rss field used for display in SMS (defaults to
+                        &#39;title&#39;)
+  -c CACHE_FILENAME, --cache-filename=CACHE_FILENAME
+                        optional file to cache last post in
+</pre></div>
 
 
 <p>And just like that we have an executable hooked up our python module. We can even use which to see how it works:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">entry_point_test</span><span class="p">)</span> <span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span> <span class="p">(</span><span class="n">master</span><span class="p">)</span> <span class="err">$</span> <span class="n">which</span> <span class="n">rss2sms</span>
+<span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">striglia</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span><span class="o">/</span><span class="n">entry_point_test</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">rss2sms</span>
+<span class="p">(</span><span class="n">entry_point_test</span><span class="p">)</span> <span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span> <span class="p">(</span><span class="n">master</span><span class="p">)</span> <span class="err">$</span> <span class="n">cat</span> <span class="sb">`which rss2sms`</span>
+<span class="c1">#!/Users/striglia/Desktop/github/rss2sms/entry_point_test/bin/python            </span>
+<span class="c1"># EASY-INSTALL-ENTRY-SCRIPT: &#39;rss2sms==0.0.1&#39;,&#39;console_scripts&#39;,&#39;rss2sms&#39;          </span>
+<span class="n">__requires__</span> <span class="o">=</span> <span class="s1">&#39;rss2sms==0.0.1&#39;</span>                                                 
+<span class="kn">import</span> <span class="nn">sys</span>                                                                      
+<span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">load_entry_point</span>                                      
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(entry_point_test) ~/Desktop/github/rss2sms (master) $ which rss2sms
-</span><span class='line'>/Users/striglia/Desktop/github/rss2sms/entry_point_test/bin/rss2sms
-</span><span class='line'>(entry_point_test) ~/Desktop/github/rss2sms (master) $ cat `which rss2sms`
-</span><span class='line'>#!/Users/striglia/Desktop/github/rss2sms/entry_point_test/bin/python            
-</span><span class='line'># EASY-INSTALL-ENTRY-SCRIPT: 'rss2sms==0.0.1','console_scripts','rss2sms'          
-</span><span class='line'>__requires__ = 'rss2sms==0.0.1'                                                 
-</span><span class='line'>import sys                                                                      
-</span><span class='line'>from pkg_resources import load_entry_point                                      
-</span><span class='line'>                                                                                
-</span><span class='line'>if __name__ == '__main__':                                                      
-</span><span class='line'>    sys.exit(                                                                   
-</span><span class='line'>        load_entry_point('rss2sms==0.0.1', 'console_scripts', 'rss2sms')()         
-</span><span class='line'>    )</span></code></pre></td></tr></table></div></figure>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>                                                      
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>                                                                   
+        <span class="n">load_entry_point</span><span class="p">(</span><span class="s1">&#39;rss2sms==0.0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;console_scripts&#39;</span><span class="p">,</span> <span class="s1">&#39;rss2sms&#39;</span><span class="p">)()</span>         
+    <span class="p">)</span>  
+</pre></div>
 
 
-<p>This executable is just a simple python module which, when we call it, uses the pkg_resources library to look up what python module our setup.py says we should call. All in all, a very painless way to distribute nice executables for your library.</p>
-</div>
+<p>This executable is just a simple python module which, when we call it, uses the pkg_resources library to look up what python module our setup.py says we should call. All in all, a very painless way to distribute nice executables for your library.</p>	
 
+	</article>
 
-  <footer>
-    <p class="meta">
-      
-  
+    <p>
+	<a href="https://twitter.com/share" class="twitter-share-button" data-via="" data-lang="en" data-size="large" data-related="">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</p>
 
-<span class="byline author vcard">Posted by <span class="fn">Scott Triglia</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-14T16:11:00-07:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/packaging/'>packaging</a>, <a class='category' href='/blog/categories/python/'>python</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  <ul class="share-buttons">
-    
-    <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocallyoptimal.com&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL)); return false;"><img src="/images/Facebook.png"></a></li>
-    
-    
-    <li><a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Flocallyoptimal.com&text=:%20http%3A%2F%2Flocallyoptimal.com&via=scott_triglia" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;"><img src="/images/Twitter.png"></a></li>
-    
-    
-    <li><a href="http://www.reddit.com/submit?url=http%3A%2F%2Flocallyoptimal.com&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img src="/images/Reddit.png"></a></li>
-    
-    <li><a href="https://getpocket.com/save?url=http%3A%2F%2Flocallyoptimal.com&title=" target="_blank" title="Add to Pocket" onclick="window.open('https://getpocket.com/save?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img src="/images/Pocket.png"></a></li>
-  </ul>
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/" title="Previous Post: Building a basic package pt. 1: Bare Bones">&laquo; Building a basic package pt. 1: Bare Bones</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2015/08/25/pyconau-field-notes/" title="Next Post: PyconAU 2015 field notes">PyconAU 2015 field notes &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-	<h1>About Me</h1>
-	<div style="margin-top:10px; ">
-		<img style class="left" height="120" width="120" src="http://imgur.com/hWFH5h8.jpg">
-		<p>I writes codes at Yelp.</p>
+	<div class="comments">
+	<h2>Comments !</h2>
+	    <div id="disqus_thread"></div>
+	    <script type="text/javascript">
+	       var disqus_identifier = "blog/2014/03/14/executable-python-scripts-via-entry-points/";
+	       (function() {
+	       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	       dsq.src = 'http://locallyoptimal.disqus.com/embed.js';
+	       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	      })();
+	    </script>
 	</div>
-        <a href="http://twitter.com/scott_triglia" class="twitter-follow-button" data-show-count="false">Follow @scott_triglia</a>
-</section>
-<!-- Begin MailChimp Signup Form -->
-<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
-<div id="mc_embed_signup">
-<form action="//locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-    <div id="mc_embed_signup_scroll">
-	<label for="mce-EMAIL">Subscribe to Locally Optimal</label>
-	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="you@gmail.com" required>
-    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-    <div style="position: absolute; left: -5000px;"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
-    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-    </div>
-</form>
-</div>
+
+		  </div>	
+		  
+		  <div class="sidebar">
+		    <div class="sidebar-container" id="sidebar-container-fixed">
+
+	            <aside>
+	              <h2>About</h2>
+			      <p>
+                    I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking.
+			      </p>
+			    </aside>
+
+		  <!-- Begin Mailchimp Signup Form -->
+                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
+                  <style type="text/css">
+                  	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+                  	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
+                  	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                  </style>
+                  <div id="mc_embed_signup">
+                  <form action="https://locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                      <div id="mc_embed_signup_scroll">
+                  	<label for="mce-EMAIL">Get new posts weekly</label>
+                  	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+                      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
+                      <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                      </div>
+                  </form>
+                  </div>
 
 <!--End mc_embed_signup-->
-<section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2016/06/04/notes-from-vanpyday-2016/">Notes from VanPyDay 2016</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/25/pyconau-field-notes/">PyconAU 2015 field notes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/14/executable-python-scripts-via-entry-points/">Executable python scripts via entry points</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/">Building a basic package pt. 1: Bare Bones</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/11/there-is-no-such-thing-as-magic/">There is no such thing as magic</a>
-      </li>
-    
-  </ul>
-</section>
 
+  	          <nav>
+	            <h2>Categories</h2>
+	            <ul>
+	                <li ><a href="http://www.locallyoptimal.com/category/conferences.html">conferences</a></li>
+	                <li ><a href="http://www.locallyoptimal.com/category/intervewing.html">intervewing</a></li>
+	                <li ><a href="http://www.locallyoptimal.com/category/misc.html">misc</a></li>
+	                <li class="active"><a href="http://www.locallyoptimal.com/category/python.html">python</a></li>
+	                <li ><a href="http://www.locallyoptimal.com/category/testing.html">testing</a></li>
+	            </ul>
+	          </nav>
 
-  
-</aside>
+	            <aside>
+	            <h2>Social</h2>
+			      <ul class="social">
+				    <li><a href="http://www.twitter.com/scott_triglia">Twitter</a><i></i></li>
+				    <li><a href="http://www.github.com/striglia">Github</a><i></i></li>
+				    <li><a href="http://www.linkedin.com/in/striglia">LinkedIn</a><i></i></li>
+			      </ul>
+			    </aside>
 
+	        </div>
+		  </div>
 
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - Scott Triglia -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+	  </div>
 
-</footer>
-  
+      <footer>
+		<p role="contentinfo">
+		  Scott Triglia - Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">pelican</a>. Theme <a href="https://github.com/fle/pelican-sober">pelican-sober</a>.
+    	</p>
 
-<script type="text/javascript">
-      var disqus_shortname = 'locallyoptimal';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://striglia.github.com/blog/2014/03/14/executable-python-scripts-via-entry-points/';
-        var disqus_url = 'http://striglia.github.com/blog/2014/03/14/executable-python-scripts-via-entry-points/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
+	  </footer>	
 
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
+	</div>
+	
+	  <script>
+		var _gaq=[['_setAccount','UA-35190779-1'],['_trackPageview']];
+		(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+		g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+		s.parentNode.insertBefore(g,s)}(document,'script'));
+	  </script>
 
 </body>
 </html>
