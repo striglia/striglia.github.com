@@ -1,6 +1,6 @@
 ---
 Title: Publish independently and publish often
-Date: 2018-03-24
+Date: 2019-03-24
 Category: misc
 ---
 
