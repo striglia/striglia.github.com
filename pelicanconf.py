@@ -34,6 +34,9 @@ SOCIAL = [
 	("LinkedIn", "http://www.linkedin.com/in/striglia"),
 ]
 
+STATIC_PATHS = ['extra/CNAME']
+EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'},}
+
 PLUGIN_PATHS = ['/Users/striglia/Desktop/github/pelican-plugins']
 PLUGINS = ['summary', 'gravatar']
 SUMMARY_END_MARKER = '<!-- more -->'
