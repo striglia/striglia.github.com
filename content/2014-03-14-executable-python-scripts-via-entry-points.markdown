@@ -59,8 +59,8 @@ Now let's start up a fresh virtualenv and test it out. We can use pip's develop 
 ```
 ~/Desktop/github/rss2sms (master) $ virtualenv entry_point_test; source entry_point_test/bin/activate
 New python executable in entry_point_test/bin/python
-Installing Setuptools..............................................................................................................................................................................................................................done.
-Installing Pip.....................................................................................................................................................................................................................................................................................................................................done.
+Installing Setuptools...........done.
+Installing Pip..................done.
 (entry_point_test) ~/Desktop/github/rss2sms (master) $ pip install -e .
 
 ... lots of text from installation...
