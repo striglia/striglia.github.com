@@ -33,4 +33,4 @@ So I'm going to try setting aside time for writing less informally and more expl
 * Check in another couple weeks and see if this is enough time or I need to adjust the duration. Maybe try one longer block and more, shorter blocks to see which works best.
 * Build a feedback loop of making sure every month or so that whatever setup I have is working (am I actually writing and publishing regularly?)
 
-The goal is to also make a point of more regularly writing *here* in a public and visible way. I've often felt frustrated at the lack of technical leadershpi writing on the web -- time to make sure mine is generally available at least.
+The goal is to also make a point of more regularly writing *here* in a public and visible way. I've often felt frustrated at the lack of technical leadership writing on the web -- time to make sure mine is generally available at least.
