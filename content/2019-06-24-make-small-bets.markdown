@@ -60,6 +60,7 @@ This all brings us to that important choice -- what bets should you pursue first
 Again, the safety net here is that **your choices and bets don't need to be 100% correct to be useful**. Any attempt will give you a feedback signal on the ROI for investing further, which can help you better position future bets.
 
 In total:
+
 1. Build deep context in your area
 2. Form a few opinions about where opportunity lies
 3. Place your small bets across some of these opportunities
