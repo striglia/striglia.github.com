@@ -32,31 +32,47 @@
 
 
       <article>
-        <h1><a href="http://www.locallyoptimal.com/blog/2019/03/28/delegating-safely-and-successfully/">Delegating safely and successfully</a></h1>
-        <p>At Yelp, I've been in a role we call Group Technical Lead (GTL) for a little over a year now. In short, it involves being the technical (aka non-people-manager) leader of a technical space that spans teams. The closest industry standard analog is probably Senior Staff Engineer. I worked in 2017-2018 as the GTL of Yelp's commerce platform  --  payments and billing infrastructure that powers food delivery, advertisements, and other paid products. However this year I've just transitioned to serving in the same GTL role for Yelp's ad platform. This is a pretty dramatic shift in teams and results in me owning a very different set of tasks. </p>
-<p>One of the obvious changes caused by me leaving Commerce is the work I used to do needs an owner! The one most at the front of my mind is the group's technical roadmap for the next couple years, but there are a number of other responsibilities that were very central to my job description and are left unowned in my absence.</p>
-<p>There are strong technical leaders staying in Commerce who I want to grow into my old role(s), but there's a fair concern that they might not be ready to immediately perform the same function. This comes up a lot even when you aren't switching teams. As you regularly acquire new, harder tasks the old work you used to do has to go somewhere. The question is how to delegate work you used to do while setting its new owner up for success.</p>
-<h2>Delegation a task doesn't imply zero involvement</h2>
-<p>A normal fear whenever you try to delegate something you used to own is that whoever you give it to might not know how to do it well. This is even more common when (like for me right now) you're delegating a task that wasn't easy for you down to someone who has less experience doing it than you.</p>
-<p>A common (but bad!) response to this is to just not delegate your task. This results in you getting overloaded (more work always arrives), the people around you never getting challenging opportunities to grow, and silos of knowledge where expertise doesn't get shared.</p>
-<p>I like to hack around this by frequently reminding myself that delegating a task doesn't need to imply having zero involvement! <a href="https://en.wikipedia.org/wiki/Responsibility_assignment_matrix#Key_responsibility_roles_%28RACI_model%29">The RACI model encourages</a> thinking of four possible ways to be involved in a project:</p>
+        <h1><a href="http://www.locallyoptimal.com/blog/2019/06/24/make-small-bets/">Make more bets, make them smaller, re-invest in what works</a></h1>
+        <p>As you go from coding from specs, to designing project plans, to building team roadmaps, to leading groups, there is a consistent theme of getting more comfortable with handling uncertainty. It goes from something you rarely have to think about to an omnipresent part of work life. Feedback loops take longer to return a signal on what's working, and the signal you do get is increasingly muddy and uncertain.</p>
+<p>As you tackle more uncertainty (about the future, about the project requirements, about how you're going to solve your task), it's extremely easy to get stuck in <a href="https://en.wikipedia.org/wiki/Analysis_paralysis">analysis paralysis</a> -- when the complexity of factors to consider makes you unable to actually make a choice in the end. One of the key skills to grow as a technical lead (or any wide-scope leader) is being able to take an incredibly complex problem and still make forward motion on it.</p>
+<p>I've written about this before from <a href="https://medium.com/@scott_triglia/ask-a-tech-lead-i-have-to-make-a-technical-decision-but-i-cant-know-the-right-answer-4c674f9f4a74">the perspective of iterated bets</a> and roughly suggested applying the scientific method. But recently talking through my own approach to problems like this I realized there's another angle I left out - making many bets in parallel.</p>
+<h3>Acting like a lean startup</h3>
+<p>One of the realities of the tech business is that the space we play in, all potential things we could build, is mind bogglingly large. We cannot possibly know before hand the right choices to make -- the only option is to discover as we go.</p>
+<p>Lucky for us, this concept of testing our theories out cheaply, seeing how they perform in the marketplace, and iterating based on the feedback we get is a well-explored topic in startup literature. If you want to read in more detail, I recommend <a href="http://theleanstartup.com">the Lean Startup</a>, which promotes the following familiar principles:</p>
 <ul>
-<li><strong>Responsible</strong>: You do the work to complete the task</li>
-<li><strong>Accountable</strong>: You are ultimately answerable for the correct and thorough completion of the deliverable or task</li>
-<li><strong>Consulted</strong>: You are consulted for your expert opinions when needed</li>
-<li><strong>Informed</strong>: You just hear about the task's progress (without blocking any decisions)</li>
+<li>Failing fast and cheap -- try to quickly get feedback before you invest tons of time into a plan. Will it work in practice?</li>
+<li>Develop an MVP -- don't gold plate your idea until it's been trialed in real life</li>
+<li>Validated learning -- get your product (in my case, usually technical/process/culture changes) out there and get feedback from customers.</li>
 </ul>
-<h2>Partial delegation via RACI</h2>
-<p>Thinking about this, you can see that I can hand off <em>Accountability</em> for the Commerce Roadmap while still helping (lightly <em>Responsible</em>), and definitely offering lots of <em>Consulting</em> help. This lets me not lead the effort, but still be around a lot for advice and keep an eye on any worst-case outcomes. My normal transition from full ownership to full delegation looks like this over time:</p>
-<ol>
-<li>I start fully Accountable, and probably Responsible too.</li>
-<li>I involve my replacement first, making them also co-Responsible for the task. We focus on talking through and pairing up for any work I do in my Accountable capacity.</li>
-<li>Next I delegate Accountable, but stay Consulted for sure and possibly Responsible if needed. This is the training wheels period -- I'm still very involved and can spot mistakes, but I'm reducing the choices I make and expecting my replacement to be more self sufficient.</li>
-<li>I try to let go of Responsible once I'm sure my day-to-day involvement isn't necessary, but stay Consulted. This is easiest if you slowly reduce your involvement over a period of time.</li>
-<li>Consulted often lasts for a while, but I aim to make sure the amount of time I'm spending is reducing over time.</li>
-<li>And eventually I can drop Consulted and just trust the delegate to handle it completely. If I long term need to care about the task, I can choose to stay Informed.</li>
-</ol>
-<p>Even though using acronyms runs the risk of making me start wearing a suit to work and saying SYNERGY a lot, I really like RACI as a way of helping me remember delegation isn't a big-bang binary choice. If you find it this useful, you might like me talking about it and other things <a href="https://www.youtube.com/watch?v=dWuRDbH4Xlw">in this talk on surviving overloading at work</a>. It's certainly feeling very relevant to me maintaining sanity during this team transition.</p>
+<p>It is valuable to think of your org (team, group, or larger) in this "startup" framework. Particularly for infrastructure/platform teams, there's a dangerous entropic pull toward an unhealthy "we build technology X" and away from a more solution oriented "we solve our customers problems". Focusing on cheap experiments teaches you about your market, what works, and where to direct your future investments.</p>
+<h3>Betting (and learning) in parallel</h3>
+<p>This brings us back to the title of the post -- making lots of small bets.</p>
+<p>My Medium post was written about major "fork in the road" choices (should I use technology A or B) that have bets which are inherently serialized. You need to pick a particular direction, but there aren't usually multiple simultaneous bets in progress.</p>
+<p>In contrast, if I'm thinking of how best to lead a team or group, I want to have a number of different irons in the fire at the same time. Some might be more process oriented ("make oncall more sustainable"), others more technical ("establish a unified interface for our platform"), and others cultural ("foster technical leadership/roadmaps at the team level").</p>
+<p>I prefer to have a number of these in progress at once. By necessity, this means I'm probably being less of a personal owner of each effort, and more of a program manager -- making sure some other owners are moving forward with each one, ensuring they're all advancing a coherent agenda.</p>
+<h3>Ensuring your various bets all advance the same goal</h3>
+<p>The main downside of making multiple small bets instead of one big one is fragmentation -- it's much easier to not be working in a consistent direction toward a single goal. This is true when making many small technical bets and it's equally true of the individual efforts of people or teams in your group.</p>
+<p>You can move mountains when you have many efforts aligned in the same direction, but you might also have your own efforts fighting each other and accomplish nothing. The key is to ensure your bets are all consistent, advancing the same agenda in a coherent direction.</p>
+<p><a href="https://thinkgrowth.org/what-elon-musk-taught-me-about-growing-a-business-c2c173f5bff3">One of my favorite explanations of this idea is this article/talk</a>, which expands on a quote originally from Elon Musk: "Every person in your company is a vector. Your progress is determined by the sum of all vectors."</p>
+<p>In my own technical work, building this alignment usually looks like the following orientation documents:</p>
+<ul>
+<li>A charter -- one or two pages that lays out my groups mission and orients us toward major challenges</li>
+<li>A roadmap -- a technical plan for major themes of work over the next 6-24 months</li>
+<li>A target architecture -- a map of how we want to think about the inter-relations of systems we own, and in particular their public interfaces to the world outside our group</li>
+</ul>
+<p>It's a funny thing -- none of these three documents are necessarily earth shattering on their own. You might very well read the charter and think "well of course that's what we do", or see the roadmap and say "sounds about right". The target architecture often falls out of date and needs updating regularly.</p>
+<p>But the beauty of these artifacts is they are still excellent at building and maintaining alignment. They're all ways of helping point our team's vectors in a consistent direction.</p>
+<h3>Identifying the right small bets for you</h3>
+<p>This all brings us to that important choice -- what bets should you pursue first?</p>
+<p><a href="https://twitter.com/scott_triglia/status/1017453906207571968">I'm a big believer in immersing yourself in the problem space, identifying concrete next steps, executing on them, and repeating.</a> For my own bets, they often end up being these "first steps" along various avenues identified in my technical roadmap or target architecture. It's often pretty easy to generally say "an interface between systems A and B needs to exist" or "oncall needs to be more sustainable", which helps focus attention and turn the problem from "what area should I work on" to "what's the right first step in this particular area".</p>
+<p>Again, the safety net here is that <strong>your choices and bets don't need to be 100% correct to be useful</strong>. Any attempt will give you a feedback signal on the ROI for investing further, which can help you better position future bets.</p>
+<p>In total:
+1. Build deep context in your area
+2. Form a few opinions about where opportunity lies
+3. Place your small bets across some of these opportunities
+4. See which ones pay out, which ones fail, and update your belief about future opportunity
+5. Repeat!</p>
+<p>If you have thoughts on how you attack the "where to invest" problem, or more detailed questions, I'd love to hear about them <a href="https://twitter.com/scott_triglia">on Twitter at @scott_triglia</a>.</p>
       </article>
 
       <hr />
@@ -65,6 +81,12 @@
           <h3>Last posts</h3>
           <ol class="archive">
     
+
+
+      <li>
+<a href="http://www.locallyoptimal.com/blog/2019/03/28/delegating-safely-and-successfully/" rel="bookmark" title="Permalink to Delegating safely and successfully">Delegating safely and successfully</a>
+  <time datetime="2019-03-28T00:00:00-07:00" pubdate>Thu 28 March 2019</time>
+</a>      </li>
 
 
       <li>
@@ -91,10 +113,6 @@
 </a>      </li>
 
 
-      <li>
-<a href="http://www.locallyoptimal.com/blog/2014/03/14/executable-python-scripts-via-entry-points/" rel="bookmark" title="Permalink to "Executable python scripts via entry points"">"Executable python scripts via entry points"</a>
-  <time datetime="2014-03-14T16:11:00-07:00" pubdate>Fri 14 March 2014</time>
-</a>      </li>
 
 
 
@@ -161,6 +179,7 @@
 	                <li ><a href="http://www.locallyoptimal.com/category/leadership.html">leadership</a></li>
 	                <li ><a href="http://www.locallyoptimal.com/category/misc.html">misc</a></li>
 	                <li ><a href="http://www.locallyoptimal.com/category/python.html">python</a></li>
+	                <li ><a href="http://www.locallyoptimal.com/category/roadmaps.html">roadmaps</a></li>
 	                <li ><a href="http://www.locallyoptimal.com/category/testing.html">testing</a></li>
 	                <li ><a href="http://www.locallyoptimal.com/category/time-management.html">time-management</a></li>
 	            </ul>
