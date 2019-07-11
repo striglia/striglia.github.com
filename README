@@ -1,0 +1,9 @@
+To test locally:
+* `make regenerate` to rebuild static site
+* `make serve` to serve on localhost:8000
+
+To commit to git:
+* Just git commit as normal, typically changes to the `content` directory
+
+To publish:
+* `make github` to rebuild static site and push to github pages branch (`$GITHUB_PAGES_BRANCH` in Makefile)
