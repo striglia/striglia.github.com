@@ -1,0 +1,85 @@
+---
+Title: Building consensus iteratively with feedback spirals
+Date: 2019-07-11
+Category: making-decisions
+---
+
+Building true consensus is hard work! By its nature, it implies you've taken time to hear lots of opinions, convince people on the margins by addressing their concerns, and probably spent some of your time discussing with those who will never agree with you. Often the goal of getting true consensus and buy-in from a broad group of people can feel impossibly hard. 
+
+One of the paths toward consensus is eliciting and incorporating feedback regularly. Unfortunately, many projects do this too little, and too late. A classic failure mode is gathering feedback after decisions have been made and executed on, like a long argument in code review about the fundamental architectural choices underpinning the whole design. This produces wasted effort, frustrated people, and overwhelmed reviewers.
+
+Wouldn't it be better if we treated feedback like we do agile engineering projects -- getting feedback early and often instead of in a huge big-bang at the final approval step?
+
+## Gathering feedback iteratively
+
+So this is my shot at trying to codify how I approach gathering iterative, small feedback for my own controversial architectures or decisions.
+
+The main mistake we're trying to avoid is waiting too long for feedback. It is a natural mistake -- releasing things for feedback early feels risky! It's easier for your reviewers to not understand ("why is this so messy?" or "this is incomplete, I can't review?") -- you must work harder to share the same context and expectations.
+
+If you haven't seen it before, [the concept of "30% feedback"](https://blog.sandglaz.com/30-percent-feedback-rule/) proposes getting earlier feedback on a messier version of your final idea. I really like this, but the most obvious problem is it only splits your feedback into two big chunks (the 30% mark and the final 100% mark). I want to use that same reasoning, but make it fundamentally continuous and let myself regularly check in for feedback whenever I need it along the path from raw idea to final consensus.
+
+Without any further ado, here's our approach to building consensus with iterative feedback:
+
+1. Start small with deciding on the basic thrust of your idea and what problem it solves. Share with a core group of project peers or respected advisors. Get feedback on the clarity of problem statement and your directional plan of attack.
+1. Expand the feedback group to include your planned final stakeholders and decision makers. This is the 30% feedback point. Ask for preliminary agreement that this solution looks promising. Get feedback on the shape of your solution and anything you've de-scoped from the problem.
+1. Reach the widest point of feedback. Be pretty sure of the details of what you want to do and why. Offer chance for feedback to everyone, especially those who won't be in the final decision making group.
+1. Start shrinking the feedback circle toward the core group of decision makers, making fewer, smaller changes, and finalizing the plan. 
+1. Finally the decision makers make the final go/no-go call, based on the proposal crystallized from all this feedback.
+
+With this pool of reviewers first expanding and then shrinking, you can imagine why I call this "feedback spirals" 😄
+
+Let's dive into each of these stages in more depth.
+
+
+### Finding your MVP and getting directional feedback
+
+There's great literature ([The Lean Startup](http://theleanstartup.com/principles), any book about agile, etc.) endorsing early feedback, cheap MVPs, and iterative work for engineering projects, so let's steal those concepts.
+
+Our goal is twofold: discover the simplest statement of the problem we're trying to tackle and form a directional opinion about how we're going to solve it. 
+
+I recommend using a structured format and keeping your first approach small. I like the [Amazon 2 pager](https://medium.com/@inowland/using-6-page-and-2-page-documents-to-make-organizational-decisions-3216badde909) in this case, and focusing in particular on making sure my proposed solution is particularly high level. The written format is particularly good at forcing a clear problem statement up front and offering a concrete artifact of the plan as you go along.
+
+The MVP I like is a directional position on how we're going to solve our problem. This should not be a concrete, detailed proposal at this point, but rather a "big idea" or directional solution. If a later proposal will be "30% done", this is more like 10%. Our goal is to frame the very general target of our solution, of course with the knowledge that future investigation may well change our opinion on the best approach.
+
+Once we are satisfied with our initial 2 pager, we get the very earliest feedback! I recommend the first reviewers is a small group of supporters and interested parties with enough experience to be able to give loose, direction feedback about an idea that is barely even defined. Use this feedback to build a consensus _direction_ for the start of your project. 
+
+
+
+### Expanding to 30% feedback and beyond
+
+After we've settled on our problem we're trying to solve, and a directional solution, it is time for us to iteratively work out the details, getting feedback as we go.
+
+The 30% mark is arbitrary here -- remember the value of our fully iterated approach is there _isn't_ a single magical point where we need to get our early feedback exactly right. Instead treat it as a continuum, where we're regularly **expanding whom** we get feedback from and hopefully also regularly **reducing how much change** this feedback has on our project's design. 
+
+Our goal is a narrowing of changes, where over time we can be building confidence in our project's proposal. Though you might worry about all this feedback slowing a project down, in practice I've found it actually increases how quickly I can safely move, secure in the belief that there's growing momentum behind what I'm proposing. 
+
+
+### Reaching the point of maximum feedback 
+
+At this point, your proposal should be mostly unchanging. I aim now for the largest circle of reviewers, including the majority of the engineers or other teams who will be most impacted by the change. This offers me the most chances for hearing novel feedback and lets the whole team buy into the idea. My goal here is not to get review from "experts only" -- but to now confirm with the larger team that the idea makes sense and will work. Often this is where you'll discover last minute details that seemed fine in the abstract but don't work in the detail.
+
+This is not only the largest reviewer group, it's also hopefully the last time our project's actual details change. From here on out we'll be moving from building consensus to acting on the final result of that consensus. 
+
+### Making a decision and committing to it
+
+Now for all that hard work, we return to a final small group to make the final call. I like this to contain a lot of the original 10-30% reviewers, since they've had the longest context over the lifetime of the design. The upside of this process is we've formed a proposal that's included feedback from a huge diversity of sources, and got repeated, ongoing consensus as we went along.
+
+In a more traditional, waterfall approach to project decisions, this would be the moment of truth where you throw the project to reviewers and cross your fingers. Some feedback would be minor, but some will be second guessing the very underpinnings of your solution. Reviewers in this situation can slip into a role that is more antagonist than collaborator -- bringing objections that are too fundamental to be solved with any change except going back to the drawing board.
+
+However that's the beauty of our iterative approach. The final call is made on the strength of layered feedback at every step of the process, including an original direction set and ratified by at least some members of the final decision committee. The goal is always to discover disagreement or fundamental concerns as early as possible. 
+
+**Put another way, I strongly believe that every final decision point should be as boring and pre-determined as possible.** Be skeptical of long periods without feedback, and of a decision process that produces surprises at the end.
+
+### In conclusion (what does this get us)
+
+Consensus is incredibly valuable, but it's also hard won. A smooth feedback process gives you the best of both worlds -- smooth momentum that isn't delayed by arguing over proposal fundamentals and a final decision that feels effortless and widely agreed upon.
+
+To get there, avoid "design everything up front" quagmires by focusing on a problem statement and directional  MVP and immediately getting feedback from a core group. 
+
+Build regular consensus up gradually over time, growing confidence that your idea makes sense in the concrete, and broadening your feedback circle to build consensus wider and watch for mistakes others might catch.
+
+As feedback starts to solidify behind a consistent solution, start shrinking the feedback circle. Watch to make sure the magnitude of changes is reducing regularly, and build confidence that this is a good enough "first approach" to commit to executing.
+
+Finally return to a relatively small decision making group you trust to make the final call. Running this process in the open and including feedback from a large group balances transparency for big decisions with an efficient decision process that doesn't devolve into design-by-committee. Document your final decision and the justification for it in public, so those not in the deciding group can follow your reasoning.
+
+In the end, hopefully you get the best of all worlds with excellent decisions and easy consensus. There's a reason we prefer agile projects over waterfall ones -- your decision making process deserves the same. Try out feedback spirals and let me know how well it works for you, or what process you've used to avoid these same pitfalls.
