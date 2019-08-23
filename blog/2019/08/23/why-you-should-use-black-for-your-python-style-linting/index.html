@@ -2,9 +2,18 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>Locally Optimal</title>	
+	<title>Why you should use Black for your Python style linting - Locally Optimal</title>	
 	<meta name="author" content="Scott Triglia">
 	
+
+  <meta name="description" content="This was written in early 2019 as an internal proposal for why Yelp should adopt Python's Black library for style linting. The document’s style is heavily modeled after Amazon’s 6 pagers (detail here). It's early to declare whether that effort worked or not (though early feedback was positive …">
+
+	<meta name="twitter:card" content="summary">
+	  <meta name="twitter:creator" content="@scott_triglia">
+	<meta name="twitter:title" content="Why you should use Black for your Python style linting">
+	<meta name="twitter:description" content="This was written in early 2019 as an internal proposal for why Yelp should adopt Python's Black library for style linting. The document’s style is heavily modeled after Amazon’s 6 pagers (detail here). It's early to declare whether that effort worked or not (though early feedback was positive …">
+	<meta name="twitter:url" content="http://www.locallyoptimal.com/blog/2019/08/23/why-you-should-use-black-for-your-python-style-linting/">
+
 
 	<link rel="stylesheet" href="http://www.locallyoptimal.com/theme/css/main.css" type="text/css" />
 		
@@ -28,12 +37,18 @@
 	  <div class="wrapper">
 
 		  <div role="main" class="content">
-
-
-
-      <article>
-        <h1><a href="http://www.locallyoptimal.com/blog/2019/08/23/why-you-should-use-black-for-your-python-style-linting/">Why you should use Black for your Python style linting</a></h1>
-        <p><em>This was written in early 2019 as an internal proposal for why Yelp should adopt Python's Black library for style linting. The document’s style is heavily modeled after Amazon’s 6 pagers (<a href="https://medium.com/@inowland/using-6-page-and-2-page-documents-to-make-organizational-decisions-3216badde909">detail here</a>). It's early to declare whether that effort worked or not (though early feedback was positive), but while writing this up I felt there were too few public position papers advocating for Black usage. So here's at least one more, in case it is useful to others.</em></p>
+	<article class="full">
+		
+		<h1>Why you should use Black for your Python style linting</h1>
+		
+<div class="metadata">
+  <time datetime="2019-08-23T00:00:00-07:00" pubdate>Fri 23 August 2019</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://www.locallyoptimal.com/author/scott-triglia.html">Scott Triglia</a>
+    </address>
+  in <a href="http://www.locallyoptimal.com/category/python.html">python</a>
+</div>		
+		<p><em>This was written in early 2019 as an internal proposal for why Yelp should adopt Python's Black library for style linting. The document’s style is heavily modeled after Amazon’s 6 pagers (<a href="https://medium.com/@inowland/using-6-page-and-2-page-documents-to-make-organizational-decisions-3216badde909">detail here</a>). It's early to declare whether that effort worked or not (though early feedback was positive), but while writing this up I felt there were too few public position papers advocating for Black usage. So here's at least one more, in case it is useful to others.</em></p>
 <h2>Document Purpose</h2>
 <p>Decide if our various current Python style linting solutions (autopep8, pylint, flake8) should be replaced or simplified with an opinionated auto-formatter library called Black.</p>
 <h2>Background</h2>
@@ -124,75 +139,27 @@
 <p>All those tiny little costs add up to something that's not so tiny. And it's so easy to make it just disappear, for the low low cost of swallowing one's pride, by simply adopting an opinionated autoformatter.</p>
 <p><a href="https://news.ycombinator.com/item?id=19940767">(source)</a> The way you can tell that black is good is that everyone mildly dislikes a few things about it, but they're usually different things.</p>
 <p>That's usually a good clue that you've hit real middle-ground. I blackify my projects once we hit 3 contributors.</p>
-<p><a href="https://news.ycombinator.com/item?id=19941466">(source)</a> I like auto-formatting, because it makes PRs less stressful to commit, and makes review comments more focused on stuff that actually matters. How exactly the code gets formatted is not something I care much about, just that it happens consistently, and I don't have to think about it.</p>
-      </article>
+<p><a href="https://news.ycombinator.com/item?id=19941466">(source)</a> I like auto-formatting, because it makes PRs less stressful to commit, and makes review comments more focused on stuff that actually matters. How exactly the code gets formatted is not something I care much about, just that it happens consistently, and I don't have to think about it.</p>	
 
-      <hr />
+	</article>
 
-        <div>
-          <h3>Last posts</h3>
-          <ol class="archive">
-    
+    <p>
+	<a href="https://twitter.com/share" class="twitter-share-button" data-via="" data-lang="en" data-size="large" data-related="">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</p>
 
-
-      <li>
-<a href="http://www.locallyoptimal.com/blog/2019/07/11/building-consensus-iteratively-with-feedback-spirals/" rel="bookmark" title="Permalink to Building consensus iteratively with feedback spirals">Building consensus iteratively with feedback spirals</a>
-  <time datetime="2019-07-11T00:00:00-07:00" pubdate>Thu 11 July 2019</time>
-</a>      </li>
-
-
-      <li>
-<a href="http://www.locallyoptimal.com/blog/2019/06/24/make-small-bets/" rel="bookmark" title="Permalink to Make more bets, make them smaller, re-invest in what works">Make more bets, make them smaller, re-invest in what works</a>
-  <time datetime="2019-06-24T00:00:00-07:00" pubdate>Mon 24 June 2019</time>
-</a>      </li>
-
-
-      <li>
-<a href="http://www.locallyoptimal.com/blog/2019/03/28/delegating-safely-and-successfully/" rel="bookmark" title="Permalink to Delegating safely and successfully">Delegating safely and successfully</a>
-  <time datetime="2019-03-28T00:00:00-07:00" pubdate>Thu 28 March 2019</time>
-</a>      </li>
-
-
-      <li>
-<a href="http://www.locallyoptimal.com/blog/2019/03/26/if-it-isnt-scheduled-it-wont-happen/" rel="bookmark" title="Permalink to If it isn't scheduled, it won't happen">If it isn't scheduled, it won't happen</a>
-  <time datetime="2019-03-26T00:00:00-07:00" pubdate>Tue 26 March 2019</time>
-</a>      </li>
-
-
-      <li>
-<a href="http://www.locallyoptimal.com/blog/2019/03/24/publish-independently-publish-often/" rel="bookmark" title="Permalink to Publish independently and publish often">Publish independently and publish often</a>
-  <time datetime="2019-03-24T00:00:00-07:00" pubdate>Sun 24 March 2019</time>
-</a>      </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          </ol>
-        </div>
+	<div class="comments">
+	<h2>Comments !</h2>
+	    <div id="disqus_thread"></div>
+	    <script type="text/javascript">
+	       var disqus_identifier = "blog/2019/08/23/why-you-should-use-black-for-your-python-style-linting/";
+	       (function() {
+	       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	       dsq.src = 'http://locallyoptimal.disqus.com/embed.js';
+	       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	      })();
+	    </script>
+	</div>
 
 		  </div>	
 		  
@@ -235,7 +202,7 @@
 	                <li ><a href="http://www.locallyoptimal.com/category/leadership.html">leadership</a></li>
 	                <li ><a href="http://www.locallyoptimal.com/category/making-decisions.html">making-decisions</a></li>
 	                <li ><a href="http://www.locallyoptimal.com/category/misc.html">misc</a></li>
-	                <li ><a href="http://www.locallyoptimal.com/category/python.html">python</a></li>
+	                <li class="active"><a href="http://www.locallyoptimal.com/category/python.html">python</a></li>
 	                <li ><a href="http://www.locallyoptimal.com/category/roadmaps.html">roadmaps</a></li>
 	                <li ><a href="http://www.locallyoptimal.com/category/testing.html">testing</a></li>
 	                <li ><a href="http://www.locallyoptimal.com/category/time-management.html">time-management</a></li>

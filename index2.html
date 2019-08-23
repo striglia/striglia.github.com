@@ -32,49 +32,99 @@
 
 
       <article>
-        <h1><a href="http://www.locallyoptimal.com/blog/2019/07/11/building-consensus-iteratively-with-feedback-spirals/">Building consensus iteratively with feedback spirals</a></h1>
-        <p>Building true consensus is hard work! By its nature, it implies you've taken time to hear lots of opinions, convince people on the margins by addressing their concerns, and probably spent some of your time discussing with those who will never agree with you. Often the goal of getting true consensus and buy-in from a broad group of people can feel impossibly hard. </p>
-<p>One of the paths toward consensus is eliciting and incorporating feedback regularly. Unfortunately, many projects do this too little, and too late. A classic failure mode is gathering feedback after decisions have been made and executed on, like a long argument in code review about the fundamental architectural choices underpinning the whole design. This produces wasted effort, frustrated people, and overwhelmed reviewers.</p>
-<p>Wouldn't it be better if we treated feedback like we do agile engineering projects -- getting feedback early and often instead of in a huge big-bang at the final approval step?</p>
-<h2>Gathering feedback iteratively</h2>
-<p>So this is my shot at trying to codify how I approach gathering iterative, small feedback for my own controversial architectures or decisions.</p>
-<p>The main mistake we're trying to avoid is waiting too long for feedback. It is a natural mistake -- releasing things for feedback early feels risky! It's easier for your reviewers to not understand ("why is this so messy?" or "this is incomplete, I can't review?") -- you must work harder to share the same context and expectations.</p>
-<p>If you haven't seen it before, <a href="https://blog.sandglaz.com/30-percent-feedback-rule/">the concept of "30% feedback"</a> proposes getting earlier feedback on a messier version of your final idea. I really like this, but the most obvious problem is it only splits your feedback into two big chunks (the 30% mark and the final 100% mark). I want to use that same reasoning, but make it fundamentally continuous and let myself regularly check in for feedback whenever I need it along the path from raw idea to final consensus.</p>
-<p>Without any further ado, here's our approach to building consensus with iterative feedback:</p>
+        <h1><a href="http://www.locallyoptimal.com/blog/2019/08/23/why-you-should-use-black-for-your-python-style-linting/">Why you should use Black for your Python style linting</a></h1>
+        <p><em>This was written in early 2019 as an internal proposal for why Yelp should adopt Python's Black library for style linting. The document’s style is heavily modeled after Amazon’s 6 pagers (<a href="https://medium.com/@inowland/using-6-page-and-2-page-documents-to-make-organizational-decisions-3216badde909">detail here</a>). It's early to declare whether that effort worked or not (though early feedback was positive), but while writing this up I felt there were too few public position papers advocating for Black usage. So here's at least one more, in case it is useful to others.</em></p>
+<h2>Document Purpose</h2>
+<p>Decide if our various current Python style linting solutions (autopep8, pylint, flake8) should be replaced or simplified with an opinionated auto-formatter library called Black.</p>
+<h2>Background</h2>
+<p>Historically, we have always had a recommended Python style. Originally this was a wiki page, then various levels of <a href="https://en.wikipedia.org/wiki/Lint_(software)">automated linting</a> including different combinations and configurations of tools like autopep8, flake8, and pylint. </p>
+<p>There’s significant overlap within these tools, but roughly they break down into a few areas of focus:</p>
 <ol>
-<li>Start small with deciding on the basic thrust of your idea and what problem it solves. Share with a core group of project peers or respected advisors. Get feedback on the clarity of problem statement and your directional plan of attack.</li>
-<li>Expand the feedback group to include your planned final stakeholders and decision makers. This is the 30% feedback point. Ask for preliminary agreement that this solution looks promising. Get feedback on the shape of your solution and anything you've de-scoped from the problem.</li>
-<li>Reach the widest point of feedback. Be pretty sure of the details of what you want to do and why. Offer chance for feedback to everyone, especially those who won't be in the final decision making group.</li>
-<li>Start shrinking the feedback circle toward the core group of decision makers, making fewer, smaller changes, and finalizing the plan. </li>
-<li>Finally the decision makers make the final go/no-go call, based on the proposal crystallized from all this feedback.</li>
+<li>Pycodestyle: identifies <a href="https://www.python.org/dev/peps/pep-0008/">pep8</a> style violations</li>
+<li>autopep8: automatically fixes most violations identified by pycodestyle</li>
+<li><a href="https://github.com/asottile/add-trailing-comma">Add-trailing-comma</a>, a precommit hook that does various style enforcing (not just trailing commas). </li>
+<li>Pylint: throws warnings or errors for a combination of programming and style issues</li>
+<li>Pyflakes: similar to pylint, except <em>never</em> complains about style</li>
+<li>Flake8: wraps pyflakes and pycodestyle; roughly combines the two</li>
 </ol>
-<p>With this pool of reviewers first expanding and then shrinking, you can imagine why I call this "feedback spirals" 😄</p>
-<p>Let's dive into each of these stages in more depth.</p>
-<h3>Finding your MVP and getting directional feedback</h3>
-<p>There's great literature (<a href="http://theleanstartup.com/principles">The Lean Startup</a>, any book about agile, etc.) endorsing early feedback, cheap MVPs, and iterative work for engineering projects, so let's steal those concepts.</p>
-<p>Our goal is twofold: discover the simplest statement of the problem we're trying to tackle and form a directional opinion about how we're going to solve it. </p>
-<p>I recommend using a structured format and keeping your first approach small. I like the <a href="https://medium.com/@inowland/using-6-page-and-2-page-documents-to-make-organizational-decisions-3216badde909">Amazon 2 pager</a> in this case, and focusing in particular on making sure my proposed solution is particularly high level. The written format is particularly good at forcing a clear problem statement up front and offering a concrete artifact of the plan as you go along.</p>
-<p>The MVP I like is a directional position on how we're going to solve our problem. This should not be a concrete, detailed proposal at this point, but rather a "big idea" or directional solution. If a later proposal will be "30% done", this is more like 10%. Our goal is to frame the very general target of our solution, of course with the knowledge that future investigation may well change our opinion on the best approach.</p>
-<p>Once we are satisfied with our initial 2 pager, we get the very earliest feedback! I recommend the first reviewers is a small group of supporters and interested parties with enough experience to be able to give loose, direction feedback about an idea that is barely even defined. Use this feedback to build a consensus <em>direction</em> for the start of your project. </p>
-<h3>Expanding to 30% feedback and beyond</h3>
-<p>After we've settled on our problem we're trying to solve, and a directional solution, it is time for us to iteratively work out the details, getting feedback as we go.</p>
-<p>The 30% mark is arbitrary here -- remember the value of our fully iterated approach is there <em>isn't</em> a single magical point where we need to get our early feedback exactly right. Instead treat it as a continuum, where we're regularly <strong>expanding whom</strong> we get feedback from and hopefully also regularly <strong>reducing how much change</strong> this feedback has on our project's design. </p>
-<p>Our goal is a narrowing of changes, where over time we can be building confidence in our project's proposal. Though you might worry about all this feedback slowing a project down, in practice I've found it actually increases how quickly I can safely move, secure in the belief that there's growing momentum behind what I'm proposing. </p>
-<h3>Reaching the point of maximum feedback</h3>
-<p>At this point, your proposal should be mostly unchanging. I aim now for the largest circle of reviewers, including the majority of the engineers or other teams who will be most impacted by the change. This offers me the most chances for hearing novel feedback and lets the whole team buy into the idea. My goal here is not to get review from "experts only" -- but to now confirm with the larger team that the idea makes sense and will work. Often this is where you'll discover last minute details that seemed fine in the abstract but don't work in the detail.</p>
-<p>This is not only the largest reviewer group, it's also hopefully the last time our project's actual details change. From here on out we'll be moving from building consensus to acting on the final result of that consensus. </p>
-<h3>Making a decision and committing to it</h3>
-<p>Now for all that hard work, we return to a final small group to make the final call. I like this to contain a lot of the original 10-30% reviewers, since they've had the longest context over the lifetime of the design. The upside of this process is we've formed a proposal that's included feedback from a huge diversity of sources, and got repeated, ongoing consensus as we went along.</p>
-<p>In a more traditional, waterfall approach to project decisions, this would be the moment of truth where you throw the project to reviewers and cross your fingers. Some feedback would be minor, but some will be second guessing the very underpinnings of your solution. Reviewers in this situation can slip into a role that is more antagonist than collaborator -- bringing objections that are too fundamental to be solved with any change except going back to the drawing board.</p>
-<p>However that's the beauty of our iterative approach. The final call is made on the strength of layered feedback at every step of the process, including an original direction set and ratified by at least some members of the final decision committee. The goal is always to discover disagreement or fundamental concerns as early as possible. </p>
-<p><strong>Put another way, I strongly believe that every final decision point should be as boring and pre-determined as possible.</strong> Be skeptical of long periods without feedback, and of a decision process that produces surprises at the end.</p>
-<h3>In conclusion (what does this get us)</h3>
-<p>Consensus is incredibly valuable, but it's also hard won. A smooth feedback process gives you the best of both worlds -- smooth momentum that isn't delayed by arguing over proposal fundamentals and a final decision that feels effortless and widely agreed upon.</p>
-<p>To get there, avoid "design everything up front" quagmires by focusing on a problem statement and directional  MVP and immediately getting feedback from a core group. </p>
-<p>Build regular consensus up gradually over time, growing confidence that your idea makes sense in the concrete, and broadening your feedback circle to build consensus wider and watch for mistakes others might catch.</p>
-<p>As feedback starts to solidify behind a consistent solution, start shrinking the feedback circle. Watch to make sure the magnitude of changes is reducing regularly, and build confidence that this is a good enough "first approach" to commit to executing.</p>
-<p>Finally return to a relatively small decision making group you trust to make the final call. Running this process in the open and including feedback from a large group balances transparency for big decisions with an efficient decision process that doesn't devolve into design-by-committee. Document your final decision and the justification for it in public, so those not in the deciding group can follow your reasoning.</p>
-<p>In the end, hopefully you get the best of all worlds with excellent decisions and easy consensus. There's a reason we prefer agile projects over waterfall ones -- your decision making process deserves the same. Try out feedback spirals and let me know how well it works for you, or what process you've used to avoid these same pitfalls.</p>
+<p>Empirically, we largely seem to have standardized on the pair of flake8 and autopep8, though with lots of variation in their configuration.</p>
+<p>We use <a href="https://pre-commit.com/">pre-commit</a> to enforce most of these linting solutions at the time of git commit. Pre-commit itself has <a href="https://pre-commit.com/hooks.html">a large set of additional optional hooks</a>, many of which solve individual style problems (e.g. bad indentation). </p>
+<p>Other languages have seen a movement toward minimally configurable, autoformatting solutions: Go started it <a href="https://golang.org/cmd/gofmt/">with gofmt</a> and JS <a href="https://prettier.io/">has prettier</a>. They’ve both seen successful adoption because they are simple to use, remove formatting as a bikeshed issue, and generally let you focus on the actual code you’re writing, not manual adherence to best practices.</p>
+<p><a href="https://black.readthedocs.io/en/stable/index.html">Python has an equivalent library called black</a>. It has seen growing popularity within the Python community, including adoption and recommendation from major repos (<a href="https://github.com/python-attrs/attrs/blob/master/.pre-commit-config.yaml#L2">attrs</a> and <a href="https://github.com/pydanny/cookiecutter-django/issues/1601">django</a>) and testimonials <a href="https://black.readthedocs.io/en/stable/index.html">from very experienced Python developers</a>. The library bakes in opinionated enforcement of PEP8 and some additional best practices,<a href="https://black.readthedocs.io/en/stable/the_black_code_style.html"> explained in more detail here</a>.</p>
+<h2>Problem</h2>
+<p>We do not use black for Python and many of our current Python linting solutions present with various problems.</p>
+<p>Significant pain points with our status quo are inconsistency of configuration and manual resolution of errors. Both of these are addressed by adopting an auto-formatting linter like black.</p>
+<h4>Inconsistency</h4>
+<p>Unfortunately, we apply style linters inconsistently across our repos. Some of these happen in tox files, some in pre-commit config, some in both. </p>
+<p>Even if we agree which tools to use, each of them supports a tremendous amount of configurability (see <a href="https://pypi.org/project/autopep8/#id3">autopep8</a> and <a href="http://flake8.pycqa.org/en/latest/user/options.html">flake8</a> documentation). This produces lots of variation in practice and demands more choices about what is or isn’t best style. In practice, there is no common agreed choices for all these values.</p>
+<p>In the end, this inconsistency across repos makes collaboration, team changes, and onboarding new hires all harder than necessary. </p>
+<h4>Manual resolution of errors</h4>
+<p>As a general rule, these tools do not all consistently fix problems they identify. Autopep8 is the closest, but it is also the most narrowly scoped.</p>
+<p>Any case of linters only <em>identifying</em> style issues leaves developers to manual resolve them, often only after an attempted <code>git commit</code> or <code>make test</code> fails at the last step.</p>
+<p>Some style linting issues (e.g. breaking up a long function signature) are only partially enforced by tools like flake8, resulting in lots of style nitpicks at code review time. This produces extra work for all involved and can be a source of disagreement between engineers where our style guides are unclear. </p>
+<p>Finally, the manual resolution still leaves opportunity for minor differences in actual solved states since the linters tend to only forbid the worst offences (e.g. 150 character function signature lines) instead of enforcing a consistent solution (e.g. always splitting long function signatures onto one line per argument).</p>
+<h2>Possible Solutions</h2>
+<p>Like the library it recommends, this whitepaper is opinionated -- we should standardize our various style linters and only use black. That said, there are still options for how we should go about it.</p>
+<p>The main choice seems to be around how aggressive we are about accepting black’s default configuration.</p>
+<p>Note that for a variety of non-style linting concerns, we should run flake8 after Black. From the Black documentation, this would look like a flake8 configuration of:</p>
+<div class="highlight"><pre><span></span>    [flake8]
+    select = C,E,F,W,B,B950
+    extend-ignore = E501
+</pre></div>
+
+
+<h4>Black with default configuration</h4>
+<p>The simplest solution -- just run Black with zero configuration. This accepts all of Black’s opinions as correct and in return gives us an extremely simple setup and mental model. </p>
+<p>We can run as a pre-commit hook with only a few lines:</p>
+<div class="highlight"><pre><span></span>    -   repo: https://github.com/ambv/black
+        rev: stable
+        hooks:
+        - id: black
+          language_version: python3.6
+</pre></div>
+
+
+<p>Black auto-detects the python version of the file under linting, so this should work in both Python 2 and 3 repos.</p>
+<h4>Black with per-repo configuration</h4>
+<p>We can also choose to roll out Black with some use of its limited configurable opinions. The most interesting of these is modifying line length and its standardization of double quotes.</p>
+<p><code>--line-length</code> would allow us to alter the default of 88 character cutoff. The advantage here seems minimal (this was picked wisely, using empirical data), but it is an option to allow 120 chars or something similar.</p>
+<p><code>--skip-string-normalization</code> would allow single quoted strings (instead of Black’s default of enforcing only double quotes). This is one of the most controversial opinions of Black and may be a source of strong resistance to the change. Using this flag loosens the consistency of our codebase, but may help avoid controversy with this proposal.</p>
+<p>Note that if we change these settings per repo, we’ll also need to keep flake8 config consistent. This introduces an additional slight amount of upkeep. </p>
+<p>For this option, we’d likely leave these settings to the discretion of each repo, with the encouragement being “use Black’s defaults unless you feel extremely strongly”.</p>
+<h2>Recommended Solution</h2>
+<p>Let’s use Black as a pre-commit hook with standard (default) configuration, alongside flake8 for non-style linting.</p>
+<p>The fact that Black contains some individual controversial choices (e.g. standardizing on double quotes for strings) is overwhelmed by the value of automating style nitpicks away and offering all our engineers a consistent, open-source standardized style across repos.</p>
+<p>For a more detailed argument in favor of this approach, <a href="https://github.com/django/deps/blob/master/accepted/0008-black.rst">see the Django project’s reasoning for the same choice.</a></p>
+<p>If it feels useful, we can also include documentation and evangelizing <a href="https://black.readthedocs.io/en/stable/editor_integration.html">of native IDE integrations</a> for black.</p>
+<p>Documentation should be central and include:</p>
+<ul>
+<li>This document explaining the motivation behind the change</li>
+<li>Links to <a href="https://black.readthedocs.io/en/stable/the_black_code_style.html">https://black.readthedocs.io/en/stable/the_black_code_style.html</a>, which has a FAQ for the most common questions about “why is black choosing to do this particular change”.</li>
+<li>Probably at least one external reference of choice like <a href="https://www.mattlayman.com/blog/2018/python-code-black/">https://www.mattlayman.com/blog/2018/python-code-black/</a> or <a href="https://prettier.io/docs/en/why-prettier.html">https://prettier.io/docs/en/why-prettier.html</a> which gives more context on benefits.</li>
+</ul>
+<h2>Proposed plan of action</h2>
+<p>Make the central wiki page described above.</p>
+<p>Select two small, low-developer-count repos and get social buy in to trial this proposal. Like most linting choices, this is not an easily reversed choice once applied but we can at least use <code>pre-commit run --all-files</code> to apply the style changes in a single, easily identified git commit. If desired, we can make the commit as a special one-off git author to make this change more obvious when viewing git history later.</p>
+<p>If the small repo rollouts reports positive or neutral developer happiness, measured via a brief survey, we can progress wider. More general rollout should likely follow the same rollout strategy as initial repos, including any best practices learned.</p>
+<p>If all goes extremely well and momentum builds, eventually we should 1) standardize this as the standard, recommended solution, and 2) apply this same process everywhere.</p>
+<p>Anticipating a concern: <a href="https://black.readthedocs.io/en/stable/installation_and_usage.html#note-this-is-a-beta-product">the current “Beta”</a> disclaimer should be removed soon according to the Black maintainer (<a href="https://github.com/python/black/issues/517">source</a>). We’d presumably wait for this step to be official before completing any full rollout.</p>
+<h2>Appendix -- Prettier’s take on why you should use an auto-formatter</h2>
+<p>Prettier (the JS equivalent of Black) has a tremendous “why use Prettier” page explaining their philosophy and justification. It is at <a href="https://prettier.io/docs/en/why-prettier.html">https://prettier.io/docs/en/why-prettier.html</a>  and you are strongly recommended to read it.</p>
+<h2>Appendix -- Discussion from HN with relevant excerpts</h2>
+<p>Original discussion: <a href="https://news.ycombinator.com/item?id=19939806">https://news.ycombinator.com/item?id=19939806</a>. General sentiment of people who had used it long term seems positive.</p>
+<p><a href="https://news.ycombinator.com/item?id=19942253">(source)</a> I was initially grumpy about my org adopting black because I preferred single quotes, but the level of standardization is a huge win in my book. I never even think about my code style anymore, I just write it and then run black.</p>
+<p><a href="https://news.ycombinator.com/item?id=19941182">(source)</a> if the progress of prettier (js) over the past few years is any indicator of what will happen with black, there will likely be incremental improvements in black that address the poor formatting cases you’re concerned about. i remember when prettier first came out, i was not convinced until my “standard” for formatting was met. but it was met eventually.</p>
+<p><a href="https://news.ycombinator.com/item?id=19941124">(source)</a> While I agree that [this particular] formatting choice looks a little weird. The primary benefit of a formatter is that the formatting is always the same not. It's less important that it matches everyone's preferences and more important that it always formats the code the same way.</p>
+<p><a href="https://news.ycombinator.com/item?id=19941119">(source)</a> I often dislike autoformatter output too, but then I remember that while no-one likes what the autoformatter does to <em>their</em> code, everyone likes what the autoformatter does to their coworkers' code, and then I chill out about it.</p>
+<p>Having a standard is more important than the standard being excellent.</p>
+<p><a href="https://news.ycombinator.com/item?id=19941321">(source)</a> Let me take a shot at why it's important. We spend years peering at code hunting for tiny, miniscule mistakes. Thus we're training ourselves, quite rigorously, to spot minor deviations.</p>
+<p>We're also irrational in the moment: our aesthetic sense is bothered by certain patterns, and our social sense wants to assign blame for this "wrongness" to individuals.</p>
+<p>An auto-formatter removes a ton of deviations that don't matter, and desocializes the aesthetics. This saves code reviewers time and stress and helps them focus on what actually matters in the code.</p>
+<p><a href="https://news.ycombinator.com/item?id=19941284">(source)</a> There's a tiny but existent cost that's incurred every time formatting rules that aren't diff-stable result in a noisy code review that takes longer to read, or makes it harder for reviewers to discern the real changes from the formatting junk. There's a tiny but existent cost when excess delta makes it harder to gitblame. There's a tiny but existent cost when people have to stop and think about how to format their code manually. Or when they have to stop and debate formatting. Or when they read someone else's code slightly more slowly because different formatting rules make it harder for them to skim it or rely on pattern recognition instead of careful reading to understand its structure.</p>
+<p>All those tiny little costs add up to something that's not so tiny. And it's so easy to make it just disappear, for the low low cost of swallowing one's pride, by simply adopting an opinionated autoformatter.</p>
+<p><a href="https://news.ycombinator.com/item?id=19940767">(source)</a> The way you can tell that black is good is that everyone mildly dislikes a few things about it, but they're usually different things.</p>
+<p>That's usually a good clue that you've hit real middle-ground. I blackify my projects once we hit 3 contributors.</p>
+<p><a href="https://news.ycombinator.com/item?id=19941466">(source)</a> I like auto-formatting, because it makes PRs less stressful to commit, and makes review comments more focused on stuff that actually matters. How exactly the code gets formatted is not something I care much about, just that it happens consistently, and I don't have to think about it.</p>
       </article>
 
       <hr />
@@ -83,6 +133,12 @@
           <h3>Last posts</h3>
           <ol class="archive">
     
+
+
+      <li>
+<a href="http://www.locallyoptimal.com/blog/2019/07/11/building-consensus-iteratively-with-feedback-spirals/" rel="bookmark" title="Permalink to Building consensus iteratively with feedback spirals">Building consensus iteratively with feedback spirals</a>
+  <time datetime="2019-07-11T00:00:00-07:00" pubdate>Thu 11 July 2019</time>
+</a>      </li>
 
 
       <li>
@@ -109,10 +165,6 @@
 </a>      </li>
 
 
-      <li>
-<a href="http://www.locallyoptimal.com/blog/2016/06/04/notes-from-vanpyday-2016/" rel="bookmark" title="Permalink to "Notes from VanPyDay 2016"">"Notes from VanPyDay 2016"</a>
-  <time datetime="2016-06-04T15:14:00-07:00" pubdate>Sat 04 June 2016</time>
-</a>      </li>
 
 
 
