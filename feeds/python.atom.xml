@@ -33,21 +33,21 @@
 &lt;p&gt;Like the library it recommends, this whitepaper is opinionated -- we should standardize our various style linters and only use black. That said, there are still options for how we should go about it.&lt;/p&gt;
 &lt;p&gt;The main choice seems to be around how aggressive we are about accepting black’s default configuration.&lt;/p&gt;
 &lt;p&gt;Note that for a variety of non-style linting concerns, we should run flake8 after Black. From the Black documentation, this would look like a flake8 configuration of:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    [flake8]
-    select = C,E,F,W,B,B950
-    extend-ignore = E501
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;flake8&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;W&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;B950&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;ignore&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;E501&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4&gt;Black with default configuration&lt;/h4&gt;
 &lt;p&gt;The simplest solution -- just run Black with zero configuration. This accepts all of Black’s opinions as correct and in return gives us an extremely simple setup and mental model. &lt;/p&gt;
 &lt;p&gt;We can run as a pre-commit hook with only a few lines:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    -   repo: https://github.com/ambv/black
-        rev: stable
-        hooks:
-        - id: black
-          language_version: python3.6
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;    -   repo: https://github.com/ambv/black&lt;/span&gt;
+&lt;span class="err"&gt;        rev: stable&lt;/span&gt;
+&lt;span class="err"&gt;        hooks:&lt;/span&gt;
+&lt;span class="err"&gt;        - id: black&lt;/span&gt;
+&lt;span class="err"&gt;          language_version: python3.6&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Black auto-detects the python version of the file under linting, so this should work in both Python 2 and 3 repos.&lt;/p&gt;
@@ -90,14 +90,14 @@
 &lt;p&gt;All those tiny little costs add up to something that's not so tiny. And it's so easy to make it just disappear, for the low low cost of swallowing one's pride, by simply adopting an opinionated autoformatter.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://news.ycombinator.com/item?id=19940767"&gt;(source)&lt;/a&gt; The way you can tell that black is good is that everyone mildly dislikes a few things about it, but they're usually different things.&lt;/p&gt;
 &lt;p&gt;That's usually a good clue that you've hit real middle-ground. I blackify my projects once we hit 3 contributors.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://news.ycombinator.com/item?id=19941466"&gt;(source)&lt;/a&gt; I like auto-formatting, because it makes PRs less stressful to commit, and makes review comments more focused on stuff that actually matters. How exactly the code gets formatted is not something I care much about, just that it happens consistently, and I don't have to think about it.&lt;/p&gt;</content></entry><entry><title>"Executable python scripts via entry points"</title><link href="http://www.locallyoptimal.com/blog/2014/03/14/executable-python-scripts-via-entry-points/" rel="alternate"></link><published>2014-03-14T16:11:00-07:00</published><updated>2014-03-14T16:11:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2014-03-14:/blog/2014/03/14/executable-python-scripts-via-entry-points/</id><summary type="html">&lt;p&gt;A quick topic -- executing a python module from the command line!&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://news.ycombinator.com/item?id=19941466"&gt;(source)&lt;/a&gt; I like auto-formatting, because it makes PRs less stressful to commit, and makes review comments more focused on stuff that actually matters. How exactly the code gets formatted is not something I care much about, just that it happens consistently, and I don't have to think about it.&lt;/p&gt;</content><category term="python"></category></entry><entry><title>"Executable python scripts via entry points"</title><link href="http://www.locallyoptimal.com/blog/2014/03/14/executable-python-scripts-via-entry-points/" rel="alternate"></link><published>2014-03-14T16:11:00-07:00</published><updated>2014-03-14T16:11:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2014-03-14:/blog/2014/03/14/executable-python-scripts-via-entry-points/</id><summary type="html">&lt;p&gt;A quick topic -- executing a python module from the command line!&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;A quick topic -- executing a python module from the command line!&lt;/p&gt;
 
 
 &lt;p&gt;When &lt;a href="http://locallyoptimal.com/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/"&gt;I last left&lt;/a&gt; my pet rss2sms project, it had been transformed into a basic python package. Unfortunately, this means that my old method of running &lt;code&gt;python rss2sms.py --foobar&lt;/code&gt; from the command line is not so simple anymore. In fact what I really want is to be able to just run &lt;code&gt;rss2sms --foobar&lt;/code&gt; from the command line after I install the package.&lt;/p&gt;
 &lt;p&gt;Luckily python has exactly what we need in the form of setuptools's &lt;a href="http://pythonhosted.org//setuptools/setuptools.html#automatic-script-creation"&gt;console_script argument to entry_points&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Let's go ahead and add it to our setup.py:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;rss2sms&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                                                             
     &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;find_version&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;rss2sms&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__init__.py&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;                             
 
@@ -109,11 +109,11 @@
         &lt;span class="p"&gt;],&lt;/span&gt;                                                                      
     &lt;span class="p"&gt;},&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;So simple! Note that we're linking the executable &lt;code&gt;rss2sms&lt;/code&gt; here to running the python function &lt;code&gt;main&lt;/code&gt; in the &lt;code&gt;rss2sms&lt;/code&gt; module. If we look at that function, it just does the normal command line parsing and function calling that it always has.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;                                                                     
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;                                                                     
     &lt;span class="n"&gt;parser&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OptionParser&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;                                                     
     &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_option&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;-u&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;--url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dest&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;rss_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                            
                             &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;url of rss feed&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;                             
@@ -131,43 +131,43 @@
     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;options&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parse_args&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;                                       
     &lt;span class="n"&gt;rss2sms&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Rss2Sms&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="nb"&gt;vars&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;options&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;                                          
     &lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parse_and_alert&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; 
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Now let's start up a fresh virtualenv and test it out. We can use pip's develop option to install a package by just passing it a path.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~/Desktop/github/rss2sms (master) $ virtualenv entry_point_test; source entry_point_test/bin/activate
-New python executable in entry_point_test/bin/python
-Installing Setuptools...........done.
-Installing Pip..................done.
-(entry_point_test) ~/Desktop/github/rss2sms (master) $ pip install -e .
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;virtualenv&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;entry_point_test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;entry_point_test&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;activate&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;New&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;executable&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;entry_point_test&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;Installing&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Setuptools&lt;/span&gt;&lt;span class="p"&gt;...........&lt;/span&gt;&lt;span class="n"&gt;done&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;Installing&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Pip&lt;/span&gt;&lt;span class="p"&gt;..................&lt;/span&gt;&lt;span class="n"&gt;done&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;entry_point_test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pip&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;install&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-... lots of text from installation...
+&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;lots&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;text&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;installation&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-(entry_point_test) ~/Desktop/github/rss2sms (master) $ rss2sms --help
-Usage: rss2sms [options]
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;entry_point_test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--help&lt;/span&gt;
+&lt;span class="k"&gt;Usage&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;options&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-Options:
-  -h, --help            show this help message and exit
-  -u RSS_URL, --url=RSS_URL
-                        url of rss feed
-  -t TO_NUM, --to=TO_NUM
-                        cell number to send sms alerts to
-  -f FROM_NUM, --from=FROM_NUM
-                        cell number to send sms alerts to (overrides
-                        environment variable TWILIO_NUMBER)
-  -i RSS_ID_FIELD, --id=RSS_ID_FIELD
-                        unique id rss field used for display in SMS and for
-                        equality comparison (defaults to &amp;#39;link&amp;#39;)
-  -d RSS_DISPLAY_FIELD, --display=RSS_DISPLAY_FIELD
-                        name of rss field used for display in SMS (defaults to
-                        &amp;#39;title&amp;#39;)
-  -c CACHE_FILENAME, --cache-filename=CACHE_FILENAME
-                        optional file to cache last post in
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="nl"&gt;Options&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--help            show this help message and exit&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;u&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;RSS_URL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--url=RSS_URL&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;rss&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;feed&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;TO_NUM&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--to=TO_NUM&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="n"&gt;cell&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;send&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sms&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;alerts&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;FROM_NUM&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--from=FROM_NUM&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="n"&gt;cell&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;send&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sms&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;alerts&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;overrides&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="n"&gt;environment&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;variable&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;TWILIO_NUMBER&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;RSS_ID_FIELD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--id=RSS_ID_FIELD&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="k"&gt;unique&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;rss&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;field&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;used&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;display&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;SMS&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;and&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="n"&gt;equality&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;comparison&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;defaults&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;link&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;RSS_DISPLAY_FIELD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--display=RSS_DISPLAY_FIELD&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;rss&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;field&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;used&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;display&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;SMS&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;defaults&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;CACHE_FILENAME&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--cache-filename=CACHE_FILENAME&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="n"&gt;optional&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;file&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cache&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;last&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;And just like that we have an executable hooked up our python module. We can even use which to see how it works:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;entry_point_test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;rss2sms&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;entry_point_test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;rss2sms&lt;/span&gt;
 &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Users&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;striglia&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;entry_point_test&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt;
 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;entry_point_test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="sb"&gt;`which rss2sms`&lt;/span&gt;
 &lt;span class="c1"&gt;#!/Users/striglia/Desktop/github/rss2sms/entry_point_test/bin/python            &lt;/span&gt;
@@ -180,10 +180,10 @@ Options:
     &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;                                                                   
         &lt;span class="n"&gt;load_entry_point&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;rss2sms==0.0.1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;console_scripts&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rss2sms&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)()&lt;/span&gt;         
     &lt;span class="p"&gt;)&lt;/span&gt;  
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;This executable is just a simple python module which, when we call it, uses the pkg_resources library to look up what python module our setup.py says we should call. All in all, a very painless way to distribute nice executables for your library.&lt;/p&gt;</content></entry><entry><title>"Building a basic package pt. 1: Bare Bones"</title><link href="http://www.locallyoptimal.com/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/" rel="alternate"></link><published>2014-03-14T13:44:00-07:00</published><updated>2014-03-14T13:44:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2014-03-14:/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/</id><summary type="html">&lt;p&gt;Every once in a while I get the itch to turn some one off script I wrote into a proper package. Turns out advice on the subject is a little scattered, and if you're anything like me it can be frustrating to track down relevant posts on the entire subject. So, just for fun, let's walk through the process of taking a one-off script I wrote and making it into a nice python package, complete with isolated testing, uploading to pypi, and convenient installation.&lt;/p&gt;
+&lt;p&gt;This executable is just a simple python module which, when we call it, uses the pkg_resources library to look up what python module our setup.py says we should call. All in all, a very painless way to distribute nice executables for your library.&lt;/p&gt;</content><category term="python"></category></entry><entry><title>"Building a basic package pt. 1: Bare Bones"</title><link href="http://www.locallyoptimal.com/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/" rel="alternate"></link><published>2014-03-14T13:44:00-07:00</published><updated>2014-03-14T13:44:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2014-03-14:/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/</id><summary type="html">&lt;p&gt;Every once in a while I get the itch to turn some one off script I wrote into a proper package. Turns out advice on the subject is a little scattered, and if you're anything like me it can be frustrating to track down relevant posts on the entire subject. So, just for fun, let's walk through the process of taking a one-off script I wrote and making it into a nice python package, complete with isolated testing, uploading to pypi, and convenient installation.&lt;/p&gt;
 &lt;p&gt;Now knowing my blogging habits, I'm splitting this into a few small posts in the hopes that I actually get through them. So lets take a current project I have and decide where to start.&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Every once in a while I get the itch to turn some one off script I wrote into a proper package. Turns out advice on the subject is a little scattered, and if you're anything like me it can be frustrating to track down relevant posts on the entire subject. So, just for fun, let's walk through the process of taking a one-off script I wrote and making it into a nice python package, complete with isolated testing, uploading to pypi, and convenient installation.&lt;/p&gt;
 &lt;p&gt;Now knowing my blogging habits, I'm splitting this into a few small posts in the hopes that I actually get through them. So lets take a current project I have and decide where to start.&lt;/p&gt;
@@ -202,43 +202,43 @@ Options:
 &lt;p&gt;One of the easiest steps we can take toward making a package is to imitate the proper directory structure. The kind folks over at the Python Packaging Authority (aka pypa) have &lt;a href="http://python-packaging-user-guide.readthedocs.org/en/latest/index.html"&gt;assembled a user guide&lt;/a&gt; for fellow travelers on the road to packaging nirvana. Unfortunately, it is very much a work in progress and a little thin on details in my opinion.&lt;/p&gt;
 &lt;p&gt;As a result, we'll mostly be mimicking the pypa's sample project, &lt;a href="https://github.com/pypa/sampleproject"&gt;found on their github&lt;/a&gt;. Let's compare our current project's structure against that.&lt;/p&gt;
 &lt;p&gt;rss2sms:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;- .gitignore
-- README.md
-- rss2sms.py
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;- .gitignore&lt;/span&gt;
+&lt;span class="err"&gt;- README.md&lt;/span&gt;
+&lt;span class="err"&gt;- rss2sms.py&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;pypa's sample project:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;- sample/
-- tests/
-- .gitignore
-- README.md
-- DESCRIPTION.rst
-- MANIFEST.in
-- setup.py
-- setup.cfg
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;- sample/&lt;/span&gt;
+&lt;span class="err"&gt;- tests/&lt;/span&gt;
+&lt;span class="err"&gt;- .gitignore&lt;/span&gt;
+&lt;span class="err"&gt;- README.md&lt;/span&gt;
+&lt;span class="err"&gt;- DESCRIPTION.rst&lt;/span&gt;
+&lt;span class="err"&gt;- MANIFEST.in&lt;/span&gt;
+&lt;span class="err"&gt;- setup.py&lt;/span&gt;
+&lt;span class="err"&gt;- setup.cfg&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Well...looks like we need some changes. Let's walk through a couple of these and explain what they're doing.&lt;/p&gt;
 &lt;p&gt;The most noticeable feature of a python package is the package directory. It will hold all the code necessary to run our package once it's installed. Let's start there and simply move our main module inside a directory named after the project. And just for fun, let's make a stub test directory that we can fill in properly later on.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; ~/Desktop/github/rss2sms (master) $ st
-On branch master
-Your branch is up-to-date with &amp;#39;origin/master&amp;#39;.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;st&lt;/span&gt;
+&lt;span class="k"&gt;On&lt;/span&gt; &lt;span class="n"&gt;branch&lt;/span&gt; &lt;span class="n"&gt;master&lt;/span&gt;
+&lt;span class="n"&gt;Your&lt;/span&gt; &lt;span class="n"&gt;branch&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;up&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;date&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;origin/master&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
 
-Changes to be committed:
-  (use &amp;quot;git reset HEAD &amp;lt;file&amp;gt;...&amp;quot; to unstage)
+&lt;span class="n"&gt;Changes&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="k"&gt;committed&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;use&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;git reset HEAD &amp;lt;file&amp;gt;...&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;unstage&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-    renamed:    rss2sms.py -&amp;gt; rss2sms/__init__.py
-    new file:   tests/__init__.py
-&lt;/pre&gt;&lt;/div&gt;
+    &lt;span class="n"&gt;renamed&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;    &lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+    &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;   &lt;span class="n"&gt;tests&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Perfect. Now comparing to the sample package, the only remaining requirement is a &lt;code&gt;setup.py&lt;/code&gt; module to tell python the basic details about our package.&lt;/p&gt;
 &lt;h2&gt;setup.py&lt;/h2&gt;
 &lt;p&gt;As you may be aware, the history of python packaging is not particularly simple or straightforward. There are many &lt;a href="http://blog.startifact.com/posts/older/a-history-of-python-packaging.html"&gt;blog posts&lt;/a&gt;, good &lt;a href="http://pyvideo.org/video/1601/twisted-history-of-python-packaging"&gt;talks at pycon&lt;/a&gt;, and a variety of other sources to learn about the details. Some day I may even take a shot at a summary here. But for now, we're going to bypass all the history and jump straight to building a current &lt;code&gt;setup.py&lt;/code&gt; for our package.&lt;/p&gt;
 &lt;p&gt;That said, let's take the &lt;a href="https://github.com/pypa/sampleproject/blob/master/setup.py"&gt;basic setup.py&lt;/a&gt; and mold it to our purposes. I've inlined our basic version below:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;setuptools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;find_packages&lt;/span&gt;                                     
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;setuptools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;find_packages&lt;/span&gt;                                     
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;codecs&lt;/span&gt;                                                                   
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;                                                                       
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;                                                                          
@@ -296,16 +296,16 @@ Changes to be committed:
         &lt;span class="p"&gt;],&lt;/span&gt;                                                                      
     &lt;span class="p"&gt;},&lt;/span&gt;                                                                          
 &lt;span class="p"&gt;)&lt;/span&gt;                                          
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Before we move on, let's make a brief note of the &lt;code&gt;install_requires&lt;/code&gt; directive.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;install_requires=[                                                          
-        &amp;#39;feedparser&amp;#39;,                                                           
-        &amp;#39;tinyurl&amp;#39;,                                                              
-        &amp;#39;twilio&amp;#39;,                                                               
-    ],
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;install_requires=[                                                          &lt;/span&gt;
+&lt;span class="err"&gt;        &amp;#39;feedparser&amp;#39;,                                                           &lt;/span&gt;
+&lt;span class="err"&gt;        &amp;#39;tinyurl&amp;#39;,                                                              &lt;/span&gt;
+&lt;span class="err"&gt;        &amp;#39;twilio&amp;#39;,                                                               &lt;/span&gt;
+&lt;span class="err"&gt;    ],&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;This is where our package can specify all the other python packages it depends on to work. In my original script, I just blindly imported things and assumed they were available. In this new way, we can specify what we need and python will automatically install them when we install our package.&lt;/p&gt;
@@ -313,47 +313,47 @@ Changes to be committed:
 &lt;p&gt;And final feature I'd like to add, even though it's not in the sample package, is a Makefile. You might be wondering why we need a Makefile at all here. Truth is, we don't really need one. The project is not that complicated and we don't need to actually build any dependencies to run the code.&lt;/p&gt;
 &lt;p&gt;That said, I like Makefiles as a generic interface to standard tasks for the package. In our case, I'd like there to be simple, implementation-agnostic commands to clean the project up and to run our tests.&lt;/p&gt;
 &lt;p&gt;This is pretty cheap to do with a Makefile. In fact, we can add this simple Makefile to do what I just described:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~/Desktop/github/rss2sms (master) $ cat Makefile 
-clean:
-    find ./ -name &amp;quot;*.pyc&amp;quot; -delete
-test:
-    py.test tests
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;~/Desktop/github/rss2sms (master) $ cat Makefile &lt;/span&gt;
+&lt;span class="c"&gt;clean:&lt;/span&gt;
+&lt;span class="c"&gt;    find ./ -name &amp;quot;*.pyc&amp;quot; -delete&lt;/span&gt;
+&lt;span class="c"&gt;test:&lt;/span&gt;
+&lt;span class="c"&gt;    py.test tests&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Nothing complicated here yet, but it gives us the room to expand later on. Note that I am using the excellent &lt;a href="http://pytest.org/latest/"&gt;py.test package&lt;/a&gt; to do my testing. I'm sure I'll talk more about how much I like it later, but you should definitely check it out in the meantime.&lt;/p&gt;
 &lt;h2&gt;Wrapping Up&lt;/h2&gt;
 &lt;p&gt;With that, we're basically set. We have the core package structure down, and we can try to install our package locally. Let's test it out:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~/Desktop/github/rss2sms (master) $ virtualenv venv
-New python executable in venv/bin/python
-Installing Setuptools..............................................................................................................................................................................................................................done.
-Installing Pip.....................................................................................................................................................................................................................................................................................................................................done.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;virtualenv&lt;/span&gt; &lt;span class="n"&gt;venv&lt;/span&gt;
+&lt;span class="k"&gt;New&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;executable&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;venv&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;
+&lt;span class="n"&gt;Installing&lt;/span&gt; &lt;span class="n"&gt;Setuptools&lt;/span&gt;&lt;span class="p"&gt;..............................................................................................................................................................................................................................&lt;/span&gt;&lt;span class="n"&gt;done&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;span class="n"&gt;Installing&lt;/span&gt; &lt;span class="n"&gt;Pip&lt;/span&gt;&lt;span class="p"&gt;.....................................................................................................................................................................................................................................................................................................................................&lt;/span&gt;&lt;span class="n"&gt;done&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
 
- ~/Desktop/github/rss2sms (master) $ source venv/bin/activate
+ &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="k"&gt;source&lt;/span&gt; &lt;span class="n"&gt;venv&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;activate&lt;/span&gt;
 
- (venv) ~/Desktop/github/rss2sms (master) $ python setup.py develop
- running develop
-running egg_info
-writing requirements to rss2sms.egg-info/requires.txt
-writing rss2sms.egg-info/PKG-INFO
-writing top-level names to rss2sms.egg-info/top_level.txt
-writing dependency_links to rss2sms.egg-info/dependency_links.txt
-writing entry points to rss2sms.egg-info/entry_points.txt
-reading manifest file &amp;#39;rss2sms.egg-info/SOURCES.txt&amp;#39;
-writing manifest file &amp;#39;rss2sms.egg-info/SOURCES.txt&amp;#39;
-running build_ext
-Creating /Users/striglia/Desktop/github/rss2sms/venv/lib/python2.7/site-packages/rss2sms.egg-link (link to .)
-Adding rss2sms 0.0.1 to easy-install.pth file
-Installing rss2sms script to /Users/striglia/Desktop/github/rss2sms/venv/bin
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;venv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;develop&lt;/span&gt;
+ &lt;span class="n"&gt;running&lt;/span&gt; &lt;span class="n"&gt;develop&lt;/span&gt;
+&lt;span class="n"&gt;running&lt;/span&gt; &lt;span class="n"&gt;egg_info&lt;/span&gt;
+&lt;span class="n"&gt;writing&lt;/span&gt; &lt;span class="n"&gt;requirements&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;egg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;requires&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
+&lt;span class="n"&gt;writing&lt;/span&gt; &lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;egg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;PKG&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;INFO&lt;/span&gt;
+&lt;span class="n"&gt;writing&lt;/span&gt; &lt;span class="n"&gt;top&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;level&lt;/span&gt; &lt;span class="k"&gt;names&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;egg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;top_level&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
+&lt;span class="n"&gt;writing&lt;/span&gt; &lt;span class="n"&gt;dependency_links&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;egg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dependency_links&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
+&lt;span class="n"&gt;writing&lt;/span&gt; &lt;span class="n"&gt;entry&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;egg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;entry_points&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
+&lt;span class="n"&gt;reading&lt;/span&gt; &lt;span class="n"&gt;manifest&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rss2sms.egg-info/SOURCES.txt&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;writing&lt;/span&gt; &lt;span class="n"&gt;manifest&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rss2sms.egg-info/SOURCES.txt&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;running&lt;/span&gt; &lt;span class="n"&gt;build_ext&lt;/span&gt;
+&lt;span class="n"&gt;Creating&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Users&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;striglia&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;venv&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;python2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;site&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;packages&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;egg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;link&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;link&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="p"&gt;.)&lt;/span&gt;
+&lt;span class="n"&gt;Adding&lt;/span&gt; &lt;span class="n"&gt;rss2sms&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;easy&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;install&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pth&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;
+&lt;span class="n"&gt;Installing&lt;/span&gt; &lt;span class="n"&gt;rss2sms&lt;/span&gt; &lt;span class="n"&gt;script&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Users&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;striglia&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;venv&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;
 
-&amp;lt;many more lines of text here&amp;gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;many&lt;/span&gt; &lt;span class="k"&gt;more&lt;/span&gt; &lt;span class="n"&gt;lines&lt;/span&gt; &lt;span class="k"&gt;of&lt;/span&gt; &lt;span class="nb"&gt;text&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
 
-Installed /Users/striglia/Desktop/github/rss2sms/venv/lib/python2.7/site-packages/httplib2-0.8-py2.7.egg
-Finished processing dependencies for rss2sms==0.0.1
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="n"&gt;Installed&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Users&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;striglia&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Desktop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;venv&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;python2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;site&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;packages&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;httplib2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;py2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;egg&lt;/span&gt;
+&lt;span class="n"&gt;Finished&lt;/span&gt; &lt;span class="n"&gt;processing&lt;/span&gt; &lt;span class="n"&gt;dependencies&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;rss2sms&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Success! We have a package we can install locally, which knows about its dependencies (courtesy of setup.py) and which has very rudimentary testing and documentation. In future iterations of this series, I hope to jump into a lot of interesting topics - particularly better testing setups, simple invocations of our script from the command line, and even uploading to pypi. Until then, you can find all the code described &lt;a href="https://github.com/striglia/rss2sms/tree/v0.0.1"&gt;here on my github&lt;/a&gt;, under the tagged version 0.0.1 of rss2sms.&lt;/p&gt;</content></entry><entry><title>"There is no such thing as magic"</title><link href="http://www.locallyoptimal.com/blog/2014/03/11/there-is-no-such-thing-as-magic/" rel="alternate"></link><published>2014-03-11T22:43:00-07:00</published><updated>2014-03-11T22:43:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2014-03-11:/blog/2014/03/11/there-is-no-such-thing-as-magic/</id><summary type="html">&lt;p&gt;Do you know my favorite fact about programming? In the end, everything is build from code and you can understand it all -- there is absolutely no magic. With enough effort, almost everything you interact with can be dug into, demystified, and explained. I know I often interact with various tools I use as if they were black boxes, either for lack of time, lack of interest, or a fear that I wouldn't understand them if I tried. But let's fight back against that.&lt;/p&gt;
+&lt;p&gt;Success! We have a package we can install locally, which knows about its dependencies (courtesy of setup.py) and which has very rudimentary testing and documentation. In future iterations of this series, I hope to jump into a lot of interesting topics - particularly better testing setups, simple invocations of our script from the command line, and even uploading to pypi. Until then, you can find all the code described &lt;a href="https://github.com/striglia/rss2sms/tree/v0.0.1"&gt;here on my github&lt;/a&gt;, under the tagged version 0.0.1 of rss2sms.&lt;/p&gt;</content><category term="python"></category></entry><entry><title>"There is no such thing as magic"</title><link href="http://www.locallyoptimal.com/blog/2014/03/11/there-is-no-such-thing-as-magic/" rel="alternate"></link><published>2014-03-11T22:43:00-07:00</published><updated>2014-03-11T22:43:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2014-03-11:/blog/2014/03/11/there-is-no-such-thing-as-magic/</id><summary type="html">&lt;p&gt;Do you know my favorite fact about programming? In the end, everything is build from code and you can understand it all -- there is absolutely no magic. With enough effort, almost everything you interact with can be dug into, demystified, and explained. I know I often interact with various tools I use as if they were black boxes, either for lack of time, lack of interest, or a fear that I wouldn't understand them if I tried. But let's fight back against that.&lt;/p&gt;
 &lt;p&gt;So for this post, let's understand what's going on with python's &lt;a href="http://www.virtualenv.org/"&gt;virtualenv package&lt;/a&gt;.&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Do you know my favorite fact about programming? In the end, everything is build from code and you can understand it all -- there is absolutely no magic. With enough effort, almost everything you interact with can be dug into, demystified, and explained. I know I often interact with various tools I use as if they were black boxes, either for lack of time, lack of interest, or a fear that I wouldn't understand them if I tried. But let's fight back against that.&lt;/p&gt;
 &lt;p&gt;So for this post, let's understand what's going on with python's &lt;a href="http://www.virtualenv.org/"&gt;virtualenv package&lt;/a&gt;.&lt;/p&gt;
@@ -364,17 +364,17 @@ Finished processing dependencies for rss2sms==0.0.1
 &lt;h3&gt;A little backstory&lt;/h3&gt;
 &lt;p&gt;I'll explain by virtue of a story about my travails with scipy. If you don't know, installing scipy/numpy on OS X has historically been...challenging. Numerous system-level dependencies, old versions of numpy pre-installed on the machine both complicate what is already a non-trivial installation procedure. This leads to a ton of posts like &lt;a href="http://stackoverflow.com/questions/11517164/scipy-numpy-matplotlib-troubles-on-osx"&gt;this&lt;/a&gt; or &lt;a href="http://penandpants.com/2012/02/24/install-python/"&gt;this&lt;/a&gt; and even extensive &lt;a href="http://www.thisisthegreenroom.com/2011/installing-python-numpy-scipy-matplotlib-and-ipython-on-lion/"&gt;step-by-step guides&lt;/a&gt;. Although scipy suffers from some complications surrounding required non-python bits (like fortran compilers), the most frequent problem I've had installing is simply having conflicting versions of numpy installed.&lt;/p&gt;
 &lt;p&gt;That brings us to Virtualenv, and its use case. Macs come helpfully pre-installed with an old and unhelpful version of numpy.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ python -c &lt;span class="s1"&gt;&amp;#39;import numpy; print numpy; print numpy.__version__&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ python -c &lt;span class="s1"&gt;&amp;#39;import numpy; print numpy; print numpy.__version__&amp;#39;&lt;/span&gt;
 &amp;lt;module &lt;span class="s1"&gt;&amp;#39;numpy&amp;#39;&lt;/span&gt; from &lt;span class="s1"&gt;&amp;#39;/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/numpy/__init__.pyc&amp;#39;&lt;/span&gt;&amp;gt;
 &lt;span class="m"&gt;1&lt;/span&gt;.5.1
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Well that won't work well with my hope to use the (very cool) data analysis library &lt;code&gt;pandas&lt;/code&gt;. In fact, the &lt;a href="http://pandas.pydata.org/pandas-docs/stable/install.html"&gt;pandas installation page&lt;/a&gt; kindly points out that it requires numpy 1.6.1 or higher! How can we install pandas without changing the system installed version of numpy? Enter virtualenv.&lt;/p&gt;
 &lt;h3&gt;Our very first virtualenv&lt;/h3&gt;
 &lt;p&gt;I promised I'd start out with a quick example, so let's show how virtualenv solves our little scipy snafu in a pinch.&lt;/p&gt;
 &lt;p&gt;Virtualenvs are their own little world -- by default they are entirely isolated from your system installed python packages. First lets install virtualenv (the last thing we'll need to install globally!) and set up a sample env.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; ~  $ sudo pip install virtualenv
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt; ~  $ sudo pip install virtualenv
 Downloading/unpacking virtualenv
   Running setup.py egg_info &lt;span class="k"&gt;for&lt;/span&gt; package virtualenv
 
@@ -398,11 +398,11 @@ Installing Pip..................................................................
 ~  $ &lt;span class="nb"&gt;source&lt;/span&gt; my_first_env/bin/activate
 &lt;span class="o"&gt;(&lt;/span&gt;my_first_env&lt;span class="o"&gt;)&lt;/span&gt; ~  $ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;hello world&amp;#39;&lt;/span&gt;
 hello world
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Excellent! We installed virtualenv on our system using pip, created a virtualenv called &lt;code&gt;my_first_env&lt;/code&gt;, and finally activated it. This means that python is now entirely isolated from system packages. Let's prove it to ourselves by trying to import some packages we know are installed on this machine.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;my_first_env&lt;span class="o"&gt;)&lt;/span&gt; ~  $ python -c &lt;span class="s1"&gt;&amp;#39;import pytz; print pytz&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;(&lt;/span&gt;my_first_env&lt;span class="o"&gt;)&lt;/span&gt; ~  $ python -c &lt;span class="s1"&gt;&amp;#39;import pytz; print pytz&amp;#39;&lt;/span&gt;
 Traceback &lt;span class="o"&gt;(&lt;/span&gt;most recent call last&lt;span class="o"&gt;)&lt;/span&gt;:
   File &lt;span class="s2"&gt;&amp;quot;&amp;lt;string&amp;gt;&amp;quot;&lt;/span&gt;, line &lt;span class="m"&gt;1&lt;/span&gt;, in &amp;lt;module&amp;gt;
 ImportError: No module named pytz
@@ -410,19 +410,19 @@ ImportError: No module named pytz
 Traceback &lt;span class="o"&gt;(&lt;/span&gt;most recent call last&lt;span class="o"&gt;)&lt;/span&gt;:
   File &lt;span class="s2"&gt;&amp;quot;&amp;lt;string&amp;gt;&amp;quot;&lt;/span&gt;, line &lt;span class="m"&gt;1&lt;/span&gt;, in &amp;lt;module&amp;gt;
 ImportError: No module named numpy
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;And we can also test the same commands outside our virtualenv to confirm they work!&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;my_first_env&lt;span class="o"&gt;)&lt;/span&gt; ~  $ deactivate
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;(&lt;/span&gt;my_first_env&lt;span class="o"&gt;)&lt;/span&gt; ~  $ deactivate
  ~  $ python -c &lt;span class="s1"&gt;&amp;#39;import pytz; print pytz&amp;#39;&lt;/span&gt;
 &amp;lt;module &lt;span class="s1"&gt;&amp;#39;pytz&amp;#39;&lt;/span&gt; from &lt;span class="s1"&gt;&amp;#39;/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pytz/__init__.pyc&amp;#39;&lt;/span&gt;&amp;gt;
  ~  $ &lt;span class="nb"&gt;source&lt;/span&gt; my_first_env/bin/activate
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Interesting. And how about installing that fresh new package we had our eyes on?&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;my_first_env&lt;span class="o"&gt;)&lt;/span&gt; ~  $ pip install pandas
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;(&lt;/span&gt;my_first_env&lt;span class="o"&gt;)&lt;/span&gt; ~  $ pip install pandas
 Downloading/unpacking pandas
   Downloading pandas-0.12.0.tar.gz &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.2MB&lt;span class="o"&gt;)&lt;/span&gt;: &lt;span class="m"&gt;3&lt;/span&gt;.2MB downloaded
 
@@ -430,7 +430,7 @@ Downloading/unpacking pandas
 
 Successfully installed pandas python-dateutil pytz six
 Cleaning up...
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;And there we go! We can now happily play around with all of the installed packages inside of our virtual environment and we did it without affecting any other users of this computer, or requiring global install privileges.&lt;/p&gt;
@@ -443,7 +443,7 @@ Cleaning up...
 &lt;p&gt;There are three main scripts we keep calling to create, activate, and deactivate a virtualenv -- &lt;code&gt;virtualenv&lt;/code&gt;, &lt;code&gt;venv/bin/activate&lt;/code&gt; and &lt;code&gt;deactivate&lt;/code&gt;. Let's deal with creating the environment with &lt;code&gt;virtualenv&lt;/code&gt; before jumping into activation/deactivation.&lt;/p&gt;
 &lt;h3&gt;Creating a virtualenv&lt;/h3&gt;
 &lt;p&gt;Opening up the file at &lt;code&gt;which virtualenv&lt;/code&gt; drops me into the source:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/python                                                               &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/python                                                               &lt;/span&gt;
 &lt;span class="c1"&gt;# EASY-INSTALL-ENTRY-SCRIPT: &amp;#39;virtualenv==1.10.1&amp;#39;,&amp;#39;console_scripts&amp;#39;,&amp;#39;virtualenv&amp;#39;&lt;/span&gt;
 &lt;span class="n"&gt;__requires__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;virtualenv==1.10.1&amp;#39;&lt;/span&gt;                                             
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;                                                                      
@@ -452,24 +452,24 @@ Cleaning up...
 &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;                                                                       
    &lt;span class="n"&gt;load_entry_point&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;virtualenv==1.10.1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;console_scripts&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;virtualenv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)()&lt;/span&gt;       
 &lt;span class="p"&gt;)&lt;/span&gt;  
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Well that's not very helpful. Looks like running &lt;code&gt;virtualenv&lt;/code&gt; is actually just executing this bit of code. Time to see if we can figure out what &lt;code&gt;load_entry_point&lt;/code&gt; is and what it is actually calling.&lt;/p&gt;
 &lt;p&gt;A little googling later, we find &lt;a href="http://stackoverflow.com/a/9615473"&gt;this SO post&lt;/a&gt; on the subject. Looks like in nice python packages, entry points are defined in &lt;code&gt;setup.py&lt;/code&gt; and automatically linked to runnable scripts at installation time. We can download the source from &lt;a href="https://pypi.python.org/pypi/virtualenv"&gt;pypi&lt;/a&gt; and take a look ourselves.&lt;/p&gt;
 &lt;p&gt;Sure enough, when we open up &lt;code&gt;setup.py&lt;/code&gt; we see the entry_point dict we were promised:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;setup_params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;                                                            
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;setup_params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;                                                            
     &lt;span class="s1"&gt;&amp;#39;entry_points&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;                                                       
         &lt;span class="s1"&gt;&amp;#39;console_scripts&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;                                                
             &lt;span class="s1"&gt;&amp;#39;virtualenv=virtualenv:main&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                                   
             &lt;span class="s1"&gt;&amp;#39;virtualenv-&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt;.&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt;=virtualenv:main&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;version_info&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;          
         &lt;span class="p"&gt;],&lt;/span&gt;                                                                  
     &lt;span class="p"&gt;},&lt;/span&gt;                                                                      
-    &lt;span class="s1"&gt;&amp;#39;zip_safe&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                                                      
+    &lt;span class="s1"&gt;&amp;#39;zip_safe&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                                                      
     &lt;span class="s1"&gt;&amp;#39;test_suite&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;nose.collector&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                                         
     &lt;span class="s1"&gt;&amp;#39;tests_require&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;nose&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Mock&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;                                      
 &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Indeed they seem to be linking the runnable &lt;code&gt;virtualenv&lt;/code&gt; python script to the &lt;code&gt;main&lt;/code&gt; function of virtualenv.py. Let's see what that looks like. The content of the main function appears to roughly follow these steps:&lt;/p&gt;
@@ -480,10 +480,10 @@ Cleaning up...
 &lt;li&gt;Call the &lt;code&gt;create_environment&lt;/code&gt; method!&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Well now that last one sounds quite relevant! Here's the full text of the create_environment method:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;create_environment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;home_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;site_packages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;clear&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                                   
-                       &lt;span class="n"&gt;unzip_setuptools&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                                                       
-                       &lt;span class="n"&gt;prompt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;search_dirs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;never_download&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                          
-                       &lt;span class="n"&gt;no_setuptools&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;no_pip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;symlink&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;                             
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;create_environment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;home_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;site_packages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;clear&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                                   
+                       &lt;span class="n"&gt;unzip_setuptools&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                                                       
+                       &lt;span class="n"&gt;prompt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;search_dirs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;never_download&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;                          
+                       &lt;span class="n"&gt;no_setuptools&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;no_pip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;symlink&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;                             
     &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;                                                                                              &lt;/span&gt;
 &lt;span class="sd"&gt;    Creates a new environment in ``home_dir``.                                                       &lt;/span&gt;
 
@@ -507,7 +507,7 @@ Cleaning up...
             &lt;span class="n"&gt;install_sdist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Pip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;pip-*.tar.gz&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;py_executable&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;search_dirs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;                         
 
     &lt;span class="n"&gt;install_activate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;home_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bin_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;prompt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Now we're getting somewhere! It looks like the basic steps are:&lt;/p&gt;
@@ -521,14 +521,14 @@ Cleaning up...
 &lt;h3&gt;Activating and Deactivating&lt;/h3&gt;
 &lt;p&gt;So that leaves the question of what &lt;code&gt;activate&lt;/code&gt; and &lt;code&gt;deactivate&lt;/code&gt; are up to. We can inspect the activate script easily enough by running &lt;code&gt;vim my_first_env/bin/activate&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;The first thing we notice is that a bash function &lt;code&gt;deactivate&lt;/code&gt; is defined immediately. We'll get back to this later in this section, but this is actually the definition of the &lt;code&gt;deactivate&lt;/code&gt; method we call to leave the virtualenv. The relevant lines are so brief, you might miss them entirely:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;_OLD_VIRTUAL_PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;                                                       
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nv"&gt;_OLD_VIRTUAL_PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;                                                       
 &lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$VIRTUAL_ENV&lt;/span&gt;&lt;span class="s2"&gt;/bin:&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;                                                   
 &lt;span class="nb"&gt;export&lt;/span&gt; PATH
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Note that we're saving the old &lt;code&gt;PATH&lt;/code&gt; and making a new one, with our local virtualenv prepended! This means that the next time we run &lt;code&gt;python&lt;/code&gt;, we'll get the interpreter we installed into our virtualenv, which is pointed at all our own libraries instead of the default system-installed interpreter. With that in mind, let's look at the &lt;code&gt;deactivate&lt;/code&gt; function.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;deactivate &lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;                                                                 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;deactivate &lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;                                                                 
     &lt;span class="nb"&gt;unset&lt;/span&gt; pydoc                                                                 
 
     &lt;span class="c1"&gt;# reset old environment variables                                           &lt;/span&gt;
@@ -562,7 +562,7 @@ Cleaning up...
         &lt;span class="nb"&gt;unset&lt;/span&gt; -f deactivate                                                     
     &lt;span class="k"&gt;fi&lt;/span&gt;                                                                          
 &lt;span class="o"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;The important part here is the resetting of old environment variables (notably &lt;code&gt;PATH&lt;/code&gt;).&lt;/p&gt;
@@ -571,21 +571,21 @@ Cleaning up...
 &lt;h2&gt;Just the beginning&lt;/h2&gt;
 &lt;p&gt;Just like that, we've taken a nontrivial tool and pulled it apart into understandable pieces. I certainly didn't understand every part of what we found immediately (and that's perfectly okay and expected!), but through some persistent searching and effort, it all makes sense. And every time I go through this process with a new tool, I find myself understanding more and more of what is going on, and gaining greater familiarity with various python tools.&lt;/p&gt;
 &lt;p&gt;On the subject of virtualenv in particular, I've since discovered &lt;a href="http://blip.tv/pycon-us-videos-2009-2010-2011/pycon-2011-reverse-engineering-ian-bicking-s-brain-inside-pip-and-virtualenv-4899496"&gt;this excellent overview of the its guts&lt;/a&gt; from PyCon 2011. Take a look if you're interested in even more detail on the subject (like why does using a particular python interpreter change where I look up system packages).&lt;/p&gt;
-&lt;p&gt;So go find something you don't understand! I've been elbow deep in learning the various horrors of python packaging lately, so perhaps I'll continue this series with a look into some aspect of that. Either way, I hope I've encouraged you to not be afraid of jumping into unfamiliar territory and transforming code from mysterious to understood.&lt;/p&gt;</content></entry><entry><title>"Elegant n-gram generation in Python"</title><link href="http://www.locallyoptimal.com/blog/2013/01/20/elegant-n-gram-generation-in-python/" rel="alternate"></link><published>2013-01-20T12:51:00-08:00</published><updated>2013-01-20T12:51:00-08:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2013-01-20:/blog/2013/01/20/elegant-n-gram-generation-in-python/</id><summary type="html">&lt;p&gt;A quick few snippets of code today -- solving how to compactly and elegantly generate n-grams from your favorite iterable.&lt;/p&gt;
+&lt;p&gt;So go find something you don't understand! I've been elbow deep in learning the various horrors of python packaging lately, so perhaps I'll continue this series with a look into some aspect of that. Either way, I hope I've encouraged you to not be afraid of jumping into unfamiliar territory and transforming code from mysterious to understood.&lt;/p&gt;</content><category term="python"></category></entry><entry><title>"Elegant n-gram generation in Python"</title><link href="http://www.locallyoptimal.com/blog/2013/01/20/elegant-n-gram-generation-in-python/" rel="alternate"></link><published>2013-01-20T12:51:00-08:00</published><updated>2013-01-20T12:51:00-08:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2013-01-20:/blog/2013/01/20/elegant-n-gram-generation-in-python/</id><summary type="html">&lt;p&gt;A quick few snippets of code today -- solving how to compactly and elegantly generate n-grams from your favorite iterable.&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;A quick few snippets of code today -- solving how to compactly and elegantly generate n-grams from your favorite iterable.&lt;/p&gt;
 
 
 &lt;p&gt;For starters, let's talk about generating all bigrams from a python list (or anything we can iterate over). We'll write it generally so it can work over lists, strings, or whatever else you care to make iterable. Finally, I'll show the more general extension at the end.&lt;/p&gt;
 &lt;h2&gt;The obvious way&lt;/h2&gt;
 &lt;p&gt;So our first shot here can be done with a single walk through our list:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;all&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;this&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;happened&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;more&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;or&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;less&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;input_list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;all&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;this&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;happened&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;more&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;or&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;less&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;find_bigrams&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;bigram_list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
         &lt;span class="n"&gt;bigram_list&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;bigram_list&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;You could easily suggest that this for loop may be better written with zip() instead of just range(), but the basic idea would be the same -- iterate over each element and manually combine it with the one directly following it.&lt;/p&gt;
@@ -594,37 +594,37 @@ Cleaning up...
 &lt;h2&gt;Slicing and Zipping&lt;/h2&gt;
 &lt;p&gt;Let's take advantage of python's &lt;a href="http://docs.python.org/2/library/functions.html#zip"&gt;zip builtin&lt;/a&gt; to build our bigrams. Zip takes a list of iterables and constructs a new list of tuples where the first list contains the first elements of the inputs, the second list contains the second elements of the inputs, and so on. Given this fact, it will construct our bigrams for us if we can just pass it two lists that contain the first and second elements of each bigram.&lt;/p&gt;
 &lt;p&gt;In fact, a little thought shows us that we can do this by simply passing in our original &lt;code&gt;input_list&lt;/code&gt; once normally and once offset by one element. This gives us our second version of &lt;code&gt;find_bigrams&lt;/code&gt;.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;all&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;this&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;happened&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;more&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;or&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;less&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;input_list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;all&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;this&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;happened&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;more&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;or&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;less&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;find_bigrams&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:])&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Hey now that is something you can show off around the office!&lt;/p&gt;
 &lt;h2&gt;Generalizing&lt;/h2&gt;
 &lt;p&gt;Okay but seriously, let's not get too excited. We still need to pass in a bunch of arguments to zip(), arguments which will have to change if we want to do anything but generate bigrams. So let's fix that. What if we want to generate n-grams from a list and we wish to cleanly do that in a general way?&lt;/p&gt;
 &lt;p&gt;If we write out what our zip() invocation looks like for various n-grams, we see a pattern:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Bigrams&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Bigrams&lt;/span&gt;
 &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:])&lt;/span&gt;
 &lt;span class="c1"&gt;# Trigrams&lt;/span&gt;
 &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:],&lt;/span&gt; &lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;:])&lt;/span&gt;
 &lt;span class="c1"&gt;# and so on&lt;/span&gt;
 &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:],&lt;/span&gt; &lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;:],&lt;/span&gt; &lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:])&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Notice the pattern? If we could construct those arguments programmatically, just given the N we want to generate n-grams for, we'd be all set! So let's do that. We're going to leverage two things -- list comprehensions and the &lt;code&gt;*&lt;/code&gt; operator to build up our arguments.&lt;/p&gt;
 &lt;p&gt;We can easily write a list comprehension to build up the list of inputs - &lt;code&gt;[input_list[i:] for i in range(n)]&lt;/code&gt;. After we've done this, we need to take a list of arguments and unlist them. This is the exact purpose of the underused &lt;code&gt;*&lt;/code&gt; operator in python. It is perfect for our purpose, taking a list and passing all elements into a function call.&lt;/p&gt;
 &lt;p&gt;And now we have all our ingredients organized for our general find_ngram method.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;all&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;this&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;happened&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;more&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;or&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;less&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;input_list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;all&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;this&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;happened&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;more&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;or&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;less&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;find_ngrams&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;input_list&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;And there you go! It is worth noting that this is probably a suggestion too clever for it's own good…but it's also a great opportunity to practice the application of list comprehensions and the itertools module. Happy hacking!&lt;/p&gt;</content></entry><entry><title>"Hiding complexity with Context Managers"</title><link href="http://www.locallyoptimal.com/blog/2012/10/21/hiding-complexity-with-context-managers/" rel="alternate"></link><published>2012-10-21T14:53:00-07:00</published><updated>2012-10-21T14:53:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2012-10-21:/blog/2012/10/21/hiding-complexity-with-context-managers/</id><summary type="html">&lt;p&gt;Very reliably, my favorite part of programming is the simple process of taking a series of steps that I used to have to do by hand and packaging it up in a nice, reusable form. It's pretty wonderful that it remains just as rewarding now as it did when I wrote my first function in C++ 8 years ago.&lt;/p&gt;
+&lt;p&gt;And there you go! It is worth noting that this is probably a suggestion too clever for it's own good…but it's also a great opportunity to practice the application of list comprehensions and the itertools module. Happy hacking!&lt;/p&gt;</content><category term="python"></category></entry><entry><title>"Hiding complexity with Context Managers"</title><link href="http://www.locallyoptimal.com/blog/2012/10/21/hiding-complexity-with-context-managers/" rel="alternate"></link><published>2012-10-21T14:53:00-07:00</published><updated>2012-10-21T14:53:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2012-10-21:/blog/2012/10/21/hiding-complexity-with-context-managers/</id><summary type="html">&lt;p&gt;Very reliably, my favorite part of programming is the simple process of taking a series of steps that I used to have to do by hand and packaging it up in a nice, reusable form. It's pretty wonderful that it remains just as rewarding now as it did when I wrote my first function in C++ 8 years ago.&lt;/p&gt;
 &lt;p&gt;So in that spirit, I figured I'd write down a few thoughts on python's context managers -- the latest built-in feature that I've grown quite attached to. &lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Very reliably, my favorite part of programming is the simple process of taking a series of steps that I used to have to do by hand and packaging it up in a nice, reusable form. It's pretty wonderful that it remains just as rewarding now as it did when I wrote my first function in C++ 8 years ago.&lt;/p&gt;
 &lt;p&gt;So in that spirit, I figured I'd write down a few thoughts on python's context managers -- the latest built-in feature that I've grown quite attached to. &lt;/p&gt;
@@ -633,23 +633,23 @@ Cleaning up...
 &lt;h2&gt;The basics&lt;/h2&gt;
 &lt;p&gt;Context managers are, at their most basic, blocks of code which do something when they are entered and exited. You can see the full description of them in the excellent &lt;a href="http://docs.python.org/reference/datamodel.html#context-managers"&gt;python docs page&lt;/a&gt; or &lt;a href="http://www.python.org/dev/peps/pep-0343/"&gt;PEP 343&lt;/a&gt;. Suffice it to say, they execute code when their &lt;code&gt;with&lt;/code&gt; block is entered and exited, allowing nice convenience methods to exist. An excellent (built in!) example is reading from a file while making sure to close it again at the end…in fact you likely have used this already once or twice.&lt;/p&gt;
 &lt;p&gt;Old and busted:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;input_file = open(&amp;#39;config.txt&amp;#39;, &amp;#39;r&amp;#39;)
-print input_file.read()
-input_file.close()
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;input_file = open(&amp;#39;config.txt&amp;#39;, &amp;#39;r&amp;#39;)&lt;/span&gt;
+&lt;span class="err"&gt;print input_file.read()&lt;/span&gt;
+&lt;span class="err"&gt;input_file.close()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Nice and convenient:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;with open(&amp;#39;config.txt&amp;#39;, &amp;#39;r) as input_file:
-    print input_file.read()
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;with open(&amp;#39;config.txt&amp;#39;, &amp;#39;r) as input_file:&lt;/span&gt;
+&lt;span class="err"&gt;    print input_file.read()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Behind the scenes, the &lt;code&gt;with&lt;/code&gt; statement is opening the file, binding the file object to the input_file variable, and then closing the file again after we exit the code block. Nothing complicated at all, but this provides a very nice tool for creating really pretty contexts that can do a lot of the heavy lifting behind the scenes.&lt;/p&gt;
 &lt;h2&gt;Writing our own&lt;/h2&gt;
 &lt;p&gt;So that's the basic idea, but the natural next step is wanting to write one of your own! You can consult the python docs to learn how to set up your own context manager class, but I prefer leveraging a simpler approach where possible.&lt;/p&gt;
 &lt;p&gt;Our secret is going to be &lt;code&gt;contextlib&lt;/code&gt;'s &lt;code&gt;contextmanager&lt;/code&gt; decorator. Using it is as simple as decorating an appropriate function with &lt;code&gt;@contextmanager&lt;/code&gt;. Let's write a toy example to show off the various parts of flow through a context manager.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;contextlib&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;contextmanager&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;contextlib&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;contextmanager&lt;/span&gt;
 
 &lt;span class="nd"&gt;@contextmanager&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;our_toy_context_manager&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;enter_msg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;exit_msg&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -660,15 +660,15 @@ input_file.close()
 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;our_toy_context_manager&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;entering!&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;exiting!&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;inner_msg&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;inner_msg&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;When run, this produces:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~/Desktop  $ python toy_context_manager.py 
-entering!
-returned value!
-exiting!
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;~/Desktop  $ python toy_context_manager.py &lt;/span&gt;
+&lt;span class="err"&gt;entering!&lt;/span&gt;
+&lt;span class="err"&gt;returned value!&lt;/span&gt;
+&lt;span class="err"&gt;exiting!&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Let's dive into how this decorator works. Keep in mind we can separate context managers into "before" and "after" blocks of code.&lt;/p&gt;
@@ -686,21 +686,21 @@ from contextlib import contextmanager&lt;/p&gt;
 &lt;p&gt;@contextmanager
 def mock_frobinator(results):
     """A mocked Frobinate object for convenient testing.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Patches out both logging and caching to simplify execution.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;Patches&lt;/span&gt; &lt;span class="k"&gt;out&lt;/span&gt; &lt;span class="k"&gt;both&lt;/span&gt; &lt;span class="n"&gt;logging&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;caching&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;simplify&lt;/span&gt; &lt;span class="n"&gt;execution&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
 
-Yields a Mock for the frobinate method.
+&lt;span class="n"&gt;Yields&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;Mock&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;frobinate&lt;/span&gt; &lt;span class="k"&gt;method&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
 
-Args:
-    results - This will be set to always be the return value of calling Frobinator.frobinate.
-&amp;quot;&amp;quot;&amp;quot;
-frobinator = Frobinator()
-mocked_frobinate = Mock(return_value=results)
+&lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;will&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;always&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="k"&gt;of&lt;/span&gt; &lt;span class="n"&gt;calling&lt;/span&gt; &lt;span class="n"&gt;Frobinator&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;frobinate&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;span class="ss"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="err"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;frobinator&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Frobinator&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;mocked_frobinate&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Mock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;return_value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-with patch.object(frobinator, &amp;#39;frobinate&amp;#39;, mocked_frobinate):
-    with patch.object(frobinator, &amp;#39;get_cached_results&amp;#39;, Mock(return_value=None)):
-            with patch.object(frobinator, &amp;#39;write_to_log&amp;#39;, Mock()):
-                yield mocked_frobinate
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;patch&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;object&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;frobinator&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;frobinate&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mocked_frobinate&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;patch&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;object&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;frobinator&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;get_cached_results&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Mock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;return_value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
+            &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;patch&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;object&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;frobinator&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;write_to_log&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Mock&lt;/span&gt;&lt;span class="p"&gt;()):&lt;/span&gt;
+                &lt;span class="n"&gt;yield&lt;/span&gt; &lt;span class="n"&gt;mocked_frobinate&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;if &lt;strong&gt;name&lt;/strong&gt; == '&lt;strong&gt;main&lt;/strong&gt;':
@@ -713,7 +713,7 @@ with patch.object(frobinator, &amp;#39;frobinate&amp;#39;, mocked_frobinate):
 ```&lt;/p&gt;
 &lt;p&gt;And just like that, we have a fairly complicated testing fixture hidden away from view, and a nice, convenient context manager exposed for others to use. And if we need to change what we're mocking out, or even disable a new part of the Frobinator, we can do it in a single place instead of every test which uses it.&lt;/p&gt;
 &lt;h2&gt;Final thoughts&lt;/h2&gt;
-&lt;p&gt;Context managers are a great tool…not least of all because they provide a new metaphor (enter, do stuff, exit) for you to use where it makes the most sense. And after all that's the real benefit of diving into all these python standard library modules -- the more tricks you have up your sleeve, the better you can pick and choose the right tool for each job.&lt;/p&gt;</content></entry><entry><title>"Why namedtuples?"</title><link href="http://www.locallyoptimal.com/blog/2012/09/08/why-namedtuples/" rel="alternate"></link><published>2012-09-08T22:36:00-07:00</published><updated>2012-09-08T22:36:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2012-09-08:/blog/2012/09/08/why-namedtuples/</id><summary type="html">&lt;p&gt;If you had asked me to explain all I knew about Python's namedtuple class at
+&lt;p&gt;Context managers are a great tool…not least of all because they provide a new metaphor (enter, do stuff, exit) for you to use where it makes the most sense. And after all that's the real benefit of diving into all these python standard library modules -- the more tricks you have up your sleeve, the better you can pick and choose the right tool for each job.&lt;/p&gt;</content><category term="python"></category></entry><entry><title>"Why namedtuples?"</title><link href="http://www.locallyoptimal.com/blog/2012/09/08/why-namedtuples/" rel="alternate"></link><published>2012-09-08T22:36:00-07:00</published><updated>2012-09-08T22:36:00-07:00</updated><author><name>Scott Triglia</name></author><id>tag:www.locallyoptimal.com,2012-09-08:/blog/2012/09/08/why-namedtuples/</id><summary type="html">&lt;p&gt;If you had asked me to explain all I knew about Python's namedtuple class at
 the start of this year, I would have probably muttered something about
 mutability and trailed off into an uncomfortable silence. The fact of the
 matter was, I had seen them used once or twice but never really understood the
@@ -734,17 +734,17 @@ simplest example that still motivates its use. In the case of namedtuples, I'm
 partial to the example below, which compares two proposed implementations of
 a latitude/longitude coordinate -- something I get a lot of experience with in
 my day to day work life -- and does some basic manipulation of their contents.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# The primitive approach&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# The primitive approach&lt;/span&gt;
 &lt;span class="n"&gt;lat_lng&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;37.78&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;122.40&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;The latitude is &lt;/span&gt;&lt;span class="si"&gt;%f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;lat_lng&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;The longitude is &lt;/span&gt;&lt;span class="si"&gt;%f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;lat_lng&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;The latitude is &lt;/span&gt;&lt;span class="si"&gt;%f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;lat_lng&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;The longitude is &lt;/span&gt;&lt;span class="si"&gt;%f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;lat_lng&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 
 &lt;span class="c1"&gt;# The glorious namedtuple&lt;/span&gt;
 &lt;span class="n"&gt;LatLng&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;namedtuple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;LatLng&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;latitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;longitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
 &lt;span class="n"&gt;lat_lng&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;LatLng&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;37.78&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;122.40&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;The latitude is &lt;/span&gt;&lt;span class="si"&gt;%f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;lat_lng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;latitude&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;The longitude is &lt;/span&gt;&lt;span class="si"&gt;%f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;lat_lng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;longitude&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;The latitude is &lt;/span&gt;&lt;span class="si"&gt;%f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;lat_lng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;latitude&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;The longitude is &lt;/span&gt;&lt;span class="si"&gt;%f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;lat_lng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;longitude&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;By itself, this example is a little forced, but you can already see some benefits:&lt;/p&gt;
@@ -759,13 +759,13 @@ would do everything we wanted without all this fuss. This brings us to the most
 important difference between namedtuples and normal Python classes --
 attributes in namedtuple subclasses are immutable once created, much like the
 tuples for which the class is named. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt;&amp;gt;&amp;gt; LatLng = namedtuple(&amp;#39;LatLng&amp;#39;, [&amp;#39;latitude&amp;#39;, &amp;#39;longitude&amp;#39;])
-&amp;gt;&amp;gt;&amp;gt; lat_lng = LatLng(37.78, -122.40) 
-&amp;gt;&amp;gt;&amp;gt; lat_lng.latitude = 9.23
-Traceback (most recent call last):
-  File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt;
-AttributeError: can&amp;#39;t set attribute
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;&amp;gt;&amp;gt;&amp;gt; LatLng = namedtuple(&amp;#39;LatLng&amp;#39;, [&amp;#39;latitude&amp;#39;, &amp;#39;longitude&amp;#39;])&lt;/span&gt;
+&lt;span class="err"&gt;&amp;gt;&amp;gt;&amp;gt; lat_lng = LatLng(37.78, -122.40) &lt;/span&gt;
+&lt;span class="err"&gt;&amp;gt;&amp;gt;&amp;gt; lat_lng.latitude = 9.23&lt;/span&gt;
+&lt;span class="err"&gt;Traceback (most recent call last):&lt;/span&gt;
+&lt;span class="err"&gt;  File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;AttributeError: can&amp;#39;t set attribute&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Why do I care about mutability?&lt;/h3&gt;
@@ -777,12 +777,12 @@ merits of immutability with a couple examples, hard-won lessons I've taught
 myself several times over.&lt;/p&gt;
 &lt;p&gt;Anyone who has spent more than a couple weeks programming Python has probably
 been bitten by accidentally modifying a data structure they thought was fixed:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;totally_innocent_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;movie_list&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;totally_innocent_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;movie_list&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;movie_list&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;You Got Served&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;the_best_movies_of_all_time&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;The Godfather&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Citizen Kane&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;2001: A Space Odyssey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="n"&gt;totally_innocent_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;the_best_movies_of_all_time&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Just because you think your data structure is properly structured and validated
@@ -796,12 +796,12 @@ mutable when you don't want it to be can lead to trouble.&lt;/p&gt;
 &lt;h3&gt;And what if I need more than simple attributes?&lt;/h3&gt;
 &lt;p&gt;In most of my personal uses of namedtuples, I inevitably have some additional functionality I wanted from the class -- often some computed result of the various attributes built into the class. Sounds an awful lot like a property right? Give something like the following a shot. You get all the benefits of knowing your core data isn't going to be accidentally modified while also getting fancy properties on the side!&lt;/p&gt;
 &lt;p&gt;{% include_code namedtuple_properties.py %}&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Everything in moderation&lt;/h3&gt;
 &lt;p&gt;So I hope I've at least suggested to you the benefits of trying out
 namedtuples, for both code readability and safety. It's certainly possible to
 take this too far, but at the very least it's an excellent way to learn a new
-approach and get to investigate some of Python's more niche features.&lt;/p&gt;</content></entry></feed>
+approach and get to investigate some of Python's more niche features.&lt;/p&gt;</content><category term="python"></category></entry></feed>

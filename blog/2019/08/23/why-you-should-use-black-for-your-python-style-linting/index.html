@@ -82,21 +82,21 @@
 <p>Like the library it recommends, this whitepaper is opinionated -- we should standardize our various style linters and only use black. That said, there are still options for how we should go about it.</p>
 <p>The main choice seems to be around how aggressive we are about accepting black’s default configuration.</p>
 <p>Note that for a variety of non-style linting concerns, we should run flake8 after Black. From the Black documentation, this would look like a flake8 configuration of:</p>
-<div class="highlight"><pre><span></span>    [flake8]
-    select = C,E,F,W,B,B950
-    extend-ignore = E501
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="o">[</span><span class="n">flake8</span><span class="o">]</span><span class="w"></span>
+<span class="w">    </span><span class="k">select</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">B950</span><span class="w"></span>
+<span class="w">    </span><span class="n">extend</span><span class="o">-</span><span class="k">ignore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">E501</span><span class="w"></span>
+</code></pre></div>
 
 
 <h4>Black with default configuration</h4>
 <p>The simplest solution -- just run Black with zero configuration. This accepts all of Black’s opinions as correct and in return gives us an extremely simple setup and mental model. </p>
 <p>We can run as a pre-commit hook with only a few lines:</p>
-<div class="highlight"><pre><span></span>    -   repo: https://github.com/ambv/black
-        rev: stable
-        hooks:
-        - id: black
-          language_version: python3.6
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">    -   repo: https://github.com/ambv/black</span>
+<span class="err">        rev: stable</span>
+<span class="err">        hooks:</span>
+<span class="err">        - id: black</span>
+<span class="err">          language_version: python3.6</span>
+</code></pre></div>
 
 
 <p>Black auto-detects the python version of the file under linting, so this should work in both Python 2 and 3 repos.</p>
@@ -172,27 +172,6 @@
                     I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking.
 			      </p>
 			    </aside>
-
-		  <!-- Begin Mailchimp Signup Form -->
-                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
-                  <style type="text/css">
-                  	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
-                  	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                  	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                  </style>
-                  <div id="mc_embed_signup">
-                  <form action="https://locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                      <div id="mc_embed_signup_scroll">
-                  	<label for="mce-EMAIL">Get new posts weekly</label>
-                  	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
-                      <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                      </div>
-                  </form>
-                  </div>
-
-<!--End mc_embed_signup-->
 
   	          <nav>
 	            <h2>Categories</h2>

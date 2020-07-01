@@ -65,43 +65,43 @@
 <p>One of the easiest steps we can take toward making a package is to imitate the proper directory structure. The kind folks over at the Python Packaging Authority (aka pypa) have <a href="http://python-packaging-user-guide.readthedocs.org/en/latest/index.html">assembled a user guide</a> for fellow travelers on the road to packaging nirvana. Unfortunately, it is very much a work in progress and a little thin on details in my opinion.</p>
 <p>As a result, we'll mostly be mimicking the pypa's sample project, <a href="https://github.com/pypa/sampleproject">found on their github</a>. Let's compare our current project's structure against that.</p>
 <p>rss2sms:</p>
-<div class="highlight"><pre><span></span>- .gitignore
-- README.md
-- rss2sms.py
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">- .gitignore</span>
+<span class="err">- README.md</span>
+<span class="err">- rss2sms.py</span>
+</code></pre></div>
 
 
 <p>pypa's sample project:</p>
-<div class="highlight"><pre><span></span>- sample/
-- tests/
-- .gitignore
-- README.md
-- DESCRIPTION.rst
-- MANIFEST.in
-- setup.py
-- setup.cfg
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">- sample/</span>
+<span class="err">- tests/</span>
+<span class="err">- .gitignore</span>
+<span class="err">- README.md</span>
+<span class="err">- DESCRIPTION.rst</span>
+<span class="err">- MANIFEST.in</span>
+<span class="err">- setup.py</span>
+<span class="err">- setup.cfg</span>
+</code></pre></div>
 
 
 <p>Well...looks like we need some changes. Let's walk through a couple of these and explain what they're doing.</p>
 <p>The most noticeable feature of a python package is the package directory. It will hold all the code necessary to run our package once it's installed. Let's start there and simply move our main module inside a directory named after the project. And just for fun, let's make a stub test directory that we can fill in properly later on.</p>
-<div class="highlight"><pre><span></span> ~/Desktop/github/rss2sms (master) $ st
-On branch master
-Your branch is up-to-date with &#39;origin/master&#39;.
+<div class="highlight"><pre><span></span><code> <span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span> <span class="p">(</span><span class="n">master</span><span class="p">)</span> <span class="err">$</span> <span class="n">st</span>
+<span class="k">On</span> <span class="n">branch</span> <span class="n">master</span>
+<span class="n">Your</span> <span class="n">branch</span> <span class="k">is</span> <span class="n">up</span><span class="o">-</span><span class="k">to</span><span class="o">-</span><span class="nb">date</span> <span class="k">with</span> <span class="s1">&#39;origin/master&#39;</span><span class="p">.</span>
 
-Changes to be committed:
-  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+<span class="n">Changes</span> <span class="k">to</span> <span class="n">be</span> <span class="k">committed</span><span class="p">:</span>
+  <span class="p">(</span><span class="n">use</span> <span class="ss">&quot;git reset HEAD &lt;file&gt;...&quot;</span> <span class="k">to</span> <span class="n">unstage</span><span class="p">)</span>
 
-    renamed:    rss2sms.py -&gt; rss2sms/__init__.py
-    new file:   tests/__init__.py
-</pre></div>
+    <span class="n">renamed</span><span class="p">:</span>    <span class="n">rss2sms</span><span class="p">.</span><span class="n">py</span> <span class="o">-&gt;</span> <span class="n">rss2sms</span><span class="o">/</span><span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="k">new</span> <span class="n">file</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div>
 
 
 <p>Perfect. Now comparing to the sample package, the only remaining requirement is a <code>setup.py</code> module to tell python the basic details about our package.</p>
 <h2>setup.py</h2>
 <p>As you may be aware, the history of python packaging is not particularly simple or straightforward. There are many <a href="http://blog.startifact.com/posts/older/a-history-of-python-packaging.html">blog posts</a>, good <a href="http://pyvideo.org/video/1601/twisted-history-of-python-packaging">talks at pycon</a>, and a variety of other sources to learn about the details. Some day I may even take a shot at a summary here. But for now, we're going to bypass all the history and jump straight to building a current <code>setup.py</code> for our package.</p>
 <p>That said, let's take the <a href="https://github.com/pypa/sampleproject/blob/master/setup.py">basic setup.py</a> and mold it to our purposes. I've inlined our basic version below:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>                                     
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>                                     
 <span class="kn">import</span> <span class="nn">codecs</span>                                                                   
 <span class="kn">import</span> <span class="nn">os</span>                                                                       
 <span class="kn">import</span> <span class="nn">re</span>                                                                          
@@ -159,16 +159,16 @@ Changes to be committed:
         <span class="p">],</span>                                                                      
     <span class="p">},</span>                                                                          
 <span class="p">)</span>                                          
-</pre></div>
+</code></pre></div>
 
 
 <p>Before we move on, let's make a brief note of the <code>install_requires</code> directive.</p>
-<div class="highlight"><pre><span></span>install_requires=[                                                          
-        &#39;feedparser&#39;,                                                           
-        &#39;tinyurl&#39;,                                                              
-        &#39;twilio&#39;,                                                               
-    ],
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">install_requires=[                                                          </span>
+<span class="err">        &#39;feedparser&#39;,                                                           </span>
+<span class="err">        &#39;tinyurl&#39;,                                                              </span>
+<span class="err">        &#39;twilio&#39;,                                                               </span>
+<span class="err">    ],</span>
+</code></pre></div>
 
 
 <p>This is where our package can specify all the other python packages it depends on to work. In my original script, I just blindly imported things and assumed they were available. In this new way, we can specify what we need and python will automatically install them when we install our package.</p>
@@ -176,44 +176,44 @@ Changes to be committed:
 <p>And final feature I'd like to add, even though it's not in the sample package, is a Makefile. You might be wondering why we need a Makefile at all here. Truth is, we don't really need one. The project is not that complicated and we don't need to actually build any dependencies to run the code.</p>
 <p>That said, I like Makefiles as a generic interface to standard tasks for the package. In our case, I'd like there to be simple, implementation-agnostic commands to clean the project up and to run our tests.</p>
 <p>This is pretty cheap to do with a Makefile. In fact, we can add this simple Makefile to do what I just described:</p>
-<div class="highlight"><pre><span></span>~/Desktop/github/rss2sms (master) $ cat Makefile 
-clean:
-    find ./ -name &quot;*.pyc&quot; -delete
-test:
-    py.test tests
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">~/Desktop/github/rss2sms (master) $ cat Makefile </span>
+<span class="c">clean:</span>
+<span class="c">    find ./ -name &quot;*.pyc&quot; -delete</span>
+<span class="c">test:</span>
+<span class="c">    py.test tests</span>
+</code></pre></div>
 
 
 <p>Nothing complicated here yet, but it gives us the room to expand later on. Note that I am using the excellent <a href="http://pytest.org/latest/">py.test package</a> to do my testing. I'm sure I'll talk more about how much I like it later, but you should definitely check it out in the meantime.</p>
 <h2>Wrapping Up</h2>
 <p>With that, we're basically set. We have the core package structure down, and we can try to install our package locally. Let's test it out:</p>
-<div class="highlight"><pre><span></span>~/Desktop/github/rss2sms (master) $ virtualenv venv
-New python executable in venv/bin/python
-Installing Setuptools..............................................................................................................................................................................................................................done.
-Installing Pip.....................................................................................................................................................................................................................................................................................................................................done.
+<div class="highlight"><pre><span></span><code><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span> <span class="p">(</span><span class="n">master</span><span class="p">)</span> <span class="err">$</span> <span class="n">virtualenv</span> <span class="n">venv</span>
+<span class="k">New</span> <span class="n">python</span> <span class="n">executable</span> <span class="k">in</span> <span class="n">venv</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">python</span>
+<span class="n">Installing</span> <span class="n">Setuptools</span><span class="p">..............................................................................................................................................................................................................................</span><span class="n">done</span><span class="p">.</span>
+<span class="n">Installing</span> <span class="n">Pip</span><span class="p">.....................................................................................................................................................................................................................................................................................................................................</span><span class="n">done</span><span class="p">.</span>
 
- ~/Desktop/github/rss2sms (master) $ source venv/bin/activate
+ <span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span> <span class="p">(</span><span class="n">master</span><span class="p">)</span> <span class="err">$</span> <span class="k">source</span> <span class="n">venv</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">activate</span>
 
- (venv) ~/Desktop/github/rss2sms (master) $ python setup.py develop
- running develop
-running egg_info
-writing requirements to rss2sms.egg-info/requires.txt
-writing rss2sms.egg-info/PKG-INFO
-writing top-level names to rss2sms.egg-info/top_level.txt
-writing dependency_links to rss2sms.egg-info/dependency_links.txt
-writing entry points to rss2sms.egg-info/entry_points.txt
-reading manifest file &#39;rss2sms.egg-info/SOURCES.txt&#39;
-writing manifest file &#39;rss2sms.egg-info/SOURCES.txt&#39;
-running build_ext
-Creating /Users/striglia/Desktop/github/rss2sms/venv/lib/python2.7/site-packages/rss2sms.egg-link (link to .)
-Adding rss2sms 0.0.1 to easy-install.pth file
-Installing rss2sms script to /Users/striglia/Desktop/github/rss2sms/venv/bin
+ <span class="p">(</span><span class="n">venv</span><span class="p">)</span> <span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span> <span class="p">(</span><span class="n">master</span><span class="p">)</span> <span class="err">$</span> <span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">develop</span>
+ <span class="n">running</span> <span class="n">develop</span>
+<span class="n">running</span> <span class="n">egg_info</span>
+<span class="n">writing</span> <span class="n">requirements</span> <span class="k">to</span> <span class="n">rss2sms</span><span class="p">.</span><span class="n">egg</span><span class="o">-</span><span class="n">info</span><span class="o">/</span><span class="n">requires</span><span class="p">.</span><span class="n">txt</span>
+<span class="n">writing</span> <span class="n">rss2sms</span><span class="p">.</span><span class="n">egg</span><span class="o">-</span><span class="n">info</span><span class="o">/</span><span class="n">PKG</span><span class="o">-</span><span class="n">INFO</span>
+<span class="n">writing</span> <span class="n">top</span><span class="o">-</span><span class="k">level</span> <span class="k">names</span> <span class="k">to</span> <span class="n">rss2sms</span><span class="p">.</span><span class="n">egg</span><span class="o">-</span><span class="n">info</span><span class="o">/</span><span class="n">top_level</span><span class="p">.</span><span class="n">txt</span>
+<span class="n">writing</span> <span class="n">dependency_links</span> <span class="k">to</span> <span class="n">rss2sms</span><span class="p">.</span><span class="n">egg</span><span class="o">-</span><span class="n">info</span><span class="o">/</span><span class="n">dependency_links</span><span class="p">.</span><span class="n">txt</span>
+<span class="n">writing</span> <span class="n">entry</span> <span class="n">points</span> <span class="k">to</span> <span class="n">rss2sms</span><span class="p">.</span><span class="n">egg</span><span class="o">-</span><span class="n">info</span><span class="o">/</span><span class="n">entry_points</span><span class="p">.</span><span class="n">txt</span>
+<span class="n">reading</span> <span class="n">manifest</span> <span class="n">file</span> <span class="s1">&#39;rss2sms.egg-info/SOURCES.txt&#39;</span>
+<span class="n">writing</span> <span class="n">manifest</span> <span class="n">file</span> <span class="s1">&#39;rss2sms.egg-info/SOURCES.txt&#39;</span>
+<span class="n">running</span> <span class="n">build_ext</span>
+<span class="n">Creating</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">striglia</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span><span class="o">/</span><span class="n">venv</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="p">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rss2sms</span><span class="p">.</span><span class="n">egg</span><span class="o">-</span><span class="n">link</span> <span class="p">(</span><span class="n">link</span> <span class="k">to</span> <span class="p">.)</span>
+<span class="n">Adding</span> <span class="n">rss2sms</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span> <span class="k">to</span> <span class="n">easy</span><span class="o">-</span><span class="n">install</span><span class="p">.</span><span class="n">pth</span> <span class="n">file</span>
+<span class="n">Installing</span> <span class="n">rss2sms</span> <span class="n">script</span> <span class="k">to</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">striglia</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span><span class="o">/</span><span class="n">venv</span><span class="o">/</span><span class="n">bin</span>
 
-&lt;many more lines of text here&gt;
+<span class="o">&lt;</span><span class="n">many</span> <span class="k">more</span> <span class="n">lines</span> <span class="k">of</span> <span class="nb">text</span> <span class="n">here</span><span class="o">&gt;</span>
 
-Installed /Users/striglia/Desktop/github/rss2sms/venv/lib/python2.7/site-packages/httplib2-0.8-py2.7.egg
-Finished processing dependencies for rss2sms==0.0.1
-</pre></div>
+<span class="n">Installed</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">striglia</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span><span class="o">/</span><span class="n">venv</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="p">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">httplib2</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">8</span><span class="o">-</span><span class="n">py2</span><span class="p">.</span><span class="mi">7</span><span class="p">.</span><span class="n">egg</span>
+<span class="n">Finished</span> <span class="n">processing</span> <span class="n">dependencies</span> <span class="k">for</span> <span class="n">rss2sms</span><span class="o">==</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span>
+</code></pre></div>
 
 
 <p>Success! We have a package we can install locally, which knows about its dependencies (courtesy of setup.py) and which has very rudimentary testing and documentation. In future iterations of this series, I hope to jump into a lot of interesting topics - particularly better testing setups, simple invocations of our script from the command line, and even uploading to pypi. Until then, you can find all the code described <a href="https://github.com/striglia/rss2sms/tree/v0.0.1">here on my github</a>, under the tagged version 0.0.1 of rss2sms.</p>	
@@ -249,27 +249,6 @@ Finished processing dependencies for rss2sms==0.0.1
                     I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking.
 			      </p>
 			    </aside>
-
-		  <!-- Begin Mailchimp Signup Form -->
-                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
-                  <style type="text/css">
-                  	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
-                  	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                  	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                  </style>
-                  <div id="mc_embed_signup">
-                  <form action="https://locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                      <div id="mc_embed_signup_scroll">
-                  	<label for="mce-EMAIL">Get new posts weekly</label>
-                  	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
-                      <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                      </div>
-                  </form>
-                  </div>
-
-<!--End mc_embed_signup-->
 
   	          <nav>
 	            <h2>Categories</h2>

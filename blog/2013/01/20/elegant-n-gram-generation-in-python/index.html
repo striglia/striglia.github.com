@@ -54,14 +54,14 @@
 <p>For starters, let's talk about generating all bigrams from a python list (or anything we can iterate over). We'll write it generally so it can work over lists, strings, or whatever else you care to make iterable. Finally, I'll show the more general extension at the end.</p>
 <h2>The obvious way</h2>
 <p>So our first shot here can be done with a single walk through our list:</p>
-<div class="highlight"><pre><span></span><span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;this&#39;</span><span class="p">,</span> <span class="s1">&#39;happened&#39;</span><span class="p">,</span> <span class="s1">&#39;more&#39;</span><span class="p">,</span> <span class="s1">&#39;or&#39;</span><span class="p">,</span> <span class="s1">&#39;less&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;this&#39;</span><span class="p">,</span> <span class="s1">&#39;happened&#39;</span><span class="p">,</span> <span class="s1">&#39;more&#39;</span><span class="p">,</span> <span class="s1">&#39;or&#39;</span><span class="p">,</span> <span class="s1">&#39;less&#39;</span><span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">find_bigrams</span><span class="p">(</span><span class="n">input_list</span><span class="p">):</span>
     <span class="n">bigram_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
         <span class="n">bigram_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">input_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">input_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">bigram_list</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>You could easily suggest that this for loop may be better written with zip() instead of just range(), but the basic idea would be the same -- iterate over each element and manually combine it with the one directly following it.</p>
@@ -70,34 +70,34 @@
 <h2>Slicing and Zipping</h2>
 <p>Let's take advantage of python's <a href="http://docs.python.org/2/library/functions.html#zip">zip builtin</a> to build our bigrams. Zip takes a list of iterables and constructs a new list of tuples where the first list contains the first elements of the inputs, the second list contains the second elements of the inputs, and so on. Given this fact, it will construct our bigrams for us if we can just pass it two lists that contain the first and second elements of each bigram.</p>
 <p>In fact, a little thought shows us that we can do this by simply passing in our original <code>input_list</code> once normally and once offset by one element. This gives us our second version of <code>find_bigrams</code>.</p>
-<div class="highlight"><pre><span></span><span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;this&#39;</span><span class="p">,</span> <span class="s1">&#39;happened&#39;</span><span class="p">,</span> <span class="s1">&#39;more&#39;</span><span class="p">,</span> <span class="s1">&#39;or&#39;</span><span class="p">,</span> <span class="s1">&#39;less&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;this&#39;</span><span class="p">,</span> <span class="s1">&#39;happened&#39;</span><span class="p">,</span> <span class="s1">&#39;more&#39;</span><span class="p">,</span> <span class="s1">&#39;or&#39;</span><span class="p">,</span> <span class="s1">&#39;less&#39;</span><span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">find_bigrams</span><span class="p">(</span><span class="n">input_list</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Hey now that is something you can show off around the office!</p>
 <h2>Generalizing</h2>
 <p>Okay but seriously, let's not get too excited. We still need to pass in a bunch of arguments to zip(), arguments which will have to change if we want to do anything but generate bigrams. So let's fix that. What if we want to generate n-grams from a list and we wish to cleanly do that in a general way?</p>
 <p>If we write out what our zip() invocation looks like for various n-grams, we see a pattern:</p>
-<div class="highlight"><pre><span></span><span class="c1"># Bigrams</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Bigrams</span>
 <span class="nb">zip</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 <span class="c1"># Trigrams</span>
 <span class="nb">zip</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
 <span class="c1"># and so on</span>
 <span class="nb">zip</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">2</span><span class="p">:],</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Notice the pattern? If we could construct those arguments programmatically, just given the N we want to generate n-grams for, we'd be all set! So let's do that. We're going to leverage two things -- list comprehensions and the <code>*</code> operator to build up our arguments.</p>
 <p>We can easily write a list comprehension to build up the list of inputs - <code>[input_list[i:] for i in range(n)]</code>. After we've done this, we need to take a list of arguments and unlist them. This is the exact purpose of the underused <code>*</code> operator in python. It is perfect for our purpose, taking a list and passing all elements into a function call.</p>
 <p>And now we have all our ingredients organized for our general find_ngram method.</p>
-<div class="highlight"><pre><span></span><span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;this&#39;</span><span class="p">,</span> <span class="s1">&#39;happened&#39;</span><span class="p">,</span> <span class="s1">&#39;more&#39;</span><span class="p">,</span> <span class="s1">&#39;or&#39;</span><span class="p">,</span> <span class="s1">&#39;less&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;this&#39;</span><span class="p">,</span> <span class="s1">&#39;happened&#39;</span><span class="p">,</span> <span class="s1">&#39;more&#39;</span><span class="p">,</span> <span class="s1">&#39;or&#39;</span><span class="p">,</span> <span class="s1">&#39;less&#39;</span><span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">find_ngrams</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">input_list</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>And there you go! It is worth noting that this is probably a suggestion too clever for it's own good…but it's also a great opportunity to practice the application of list comprehensions and the itertools module. Happy hacking!</p>	
@@ -133,27 +133,6 @@
                     I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking.
 			      </p>
 			    </aside>
-
-		  <!-- Begin Mailchimp Signup Form -->
-                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
-                  <style type="text/css">
-                  	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
-                  	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                  	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                  </style>
-                  <div id="mc_embed_signup">
-                  <form action="https://locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                      <div id="mc_embed_signup_scroll">
-                  	<label for="mce-EMAIL">Get new posts weekly</label>
-                  	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
-                      <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                      </div>
-                  </form>
-                  </div>
-
-<!--End mc_embed_signup-->
 
   	          <nav>
 	            <h2>Categories</h2>

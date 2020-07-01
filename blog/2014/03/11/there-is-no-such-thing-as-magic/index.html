@@ -57,17 +57,17 @@
 <h3>A little backstory</h3>
 <p>I'll explain by virtue of a story about my travails with scipy. If you don't know, installing scipy/numpy on OS X has historically been...challenging. Numerous system-level dependencies, old versions of numpy pre-installed on the machine both complicate what is already a non-trivial installation procedure. This leads to a ton of posts like <a href="http://stackoverflow.com/questions/11517164/scipy-numpy-matplotlib-troubles-on-osx">this</a> or <a href="http://penandpants.com/2012/02/24/install-python/">this</a> and even extensive <a href="http://www.thisisthegreenroom.com/2011/installing-python-numpy-scipy-matplotlib-and-ipython-on-lion/">step-by-step guides</a>. Although scipy suffers from some complications surrounding required non-python bits (like fortran compilers), the most frequent problem I've had installing is simply having conflicting versions of numpy installed.</p>
 <p>That brings us to Virtualenv, and its use case. Macs come helpfully pre-installed with an old and unhelpful version of numpy.</p>
-<div class="highlight"><pre><span></span>$ python -c <span class="s1">&#39;import numpy; print numpy; print numpy.__version__&#39;</span>
+<div class="highlight"><pre><span></span><code>$ python -c <span class="s1">&#39;import numpy; print numpy; print numpy.__version__&#39;</span>
 &lt;module <span class="s1">&#39;numpy&#39;</span> from <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/numpy/__init__.pyc&#39;</span>&gt;
 <span class="m">1</span>.5.1
-</pre></div>
+</code></pre></div>
 
 
 <p>Well that won't work well with my hope to use the (very cool) data analysis library <code>pandas</code>. In fact, the <a href="http://pandas.pydata.org/pandas-docs/stable/install.html">pandas installation page</a> kindly points out that it requires numpy 1.6.1 or higher! How can we install pandas without changing the system installed version of numpy? Enter virtualenv.</p>
 <h3>Our very first virtualenv</h3>
 <p>I promised I'd start out with a quick example, so let's show how virtualenv solves our little scipy snafu in a pinch.</p>
 <p>Virtualenvs are their own little world -- by default they are entirely isolated from your system installed python packages. First lets install virtualenv (the last thing we'll need to install globally!) and set up a sample env.</p>
-<div class="highlight"><pre><span></span> ~  $ sudo pip install virtualenv
+<div class="highlight"><pre><span></span><code> ~  $ sudo pip install virtualenv
 Downloading/unpacking virtualenv
   Running setup.py egg_info <span class="k">for</span> package virtualenv
 
@@ -91,11 +91,11 @@ Installing Pip..................................................................
 ~  $ <span class="nb">source</span> my_first_env/bin/activate
 <span class="o">(</span>my_first_env<span class="o">)</span> ~  $ <span class="nb">echo</span> <span class="s1">&#39;hello world&#39;</span>
 hello world
-</pre></div>
+</code></pre></div>
 
 
 <p>Excellent! We installed virtualenv on our system using pip, created a virtualenv called <code>my_first_env</code>, and finally activated it. This means that python is now entirely isolated from system packages. Let's prove it to ourselves by trying to import some packages we know are installed on this machine.</p>
-<div class="highlight"><pre><span></span><span class="o">(</span>my_first_env<span class="o">)</span> ~  $ python -c <span class="s1">&#39;import pytz; print pytz&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="o">(</span>my_first_env<span class="o">)</span> ~  $ python -c <span class="s1">&#39;import pytz; print pytz&#39;</span>
 Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
   File <span class="s2">&quot;&lt;string&gt;&quot;</span>, line <span class="m">1</span>, in &lt;module&gt;
 ImportError: No module named pytz
@@ -103,19 +103,19 @@ ImportError: No module named pytz
 Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
   File <span class="s2">&quot;&lt;string&gt;&quot;</span>, line <span class="m">1</span>, in &lt;module&gt;
 ImportError: No module named numpy
-</pre></div>
+</code></pre></div>
 
 
 <p>And we can also test the same commands outside our virtualenv to confirm they work!</p>
-<div class="highlight"><pre><span></span><span class="o">(</span>my_first_env<span class="o">)</span> ~  $ deactivate
+<div class="highlight"><pre><span></span><code><span class="o">(</span>my_first_env<span class="o">)</span> ~  $ deactivate
  ~  $ python -c <span class="s1">&#39;import pytz; print pytz&#39;</span>
 &lt;module <span class="s1">&#39;pytz&#39;</span> from <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pytz/__init__.pyc&#39;</span>&gt;
  ~  $ <span class="nb">source</span> my_first_env/bin/activate
-</pre></div>
+</code></pre></div>
 
 
 <p>Interesting. And how about installing that fresh new package we had our eyes on?</p>
-<div class="highlight"><pre><span></span><span class="o">(</span>my_first_env<span class="o">)</span> ~  $ pip install pandas
+<div class="highlight"><pre><span></span><code><span class="o">(</span>my_first_env<span class="o">)</span> ~  $ pip install pandas
 Downloading/unpacking pandas
   Downloading pandas-0.12.0.tar.gz <span class="o">(</span><span class="m">3</span>.2MB<span class="o">)</span>: <span class="m">3</span>.2MB downloaded
 
@@ -123,7 +123,7 @@ Downloading/unpacking pandas
 
 Successfully installed pandas python-dateutil pytz six
 Cleaning up...
-</pre></div>
+</code></pre></div>
 
 
 <p>And there we go! We can now happily play around with all of the installed packages inside of our virtual environment and we did it without affecting any other users of this computer, or requiring global install privileges.</p>
@@ -136,7 +136,7 @@ Cleaning up...
 <p>There are three main scripts we keep calling to create, activate, and deactivate a virtualenv -- <code>virtualenv</code>, <code>venv/bin/activate</code> and <code>deactivate</code>. Let's deal with creating the environment with <code>virtualenv</code> before jumping into activation/deactivation.</p>
 <h3>Creating a virtualenv</h3>
 <p>Opening up the file at <code>which virtualenv</code> drops me into the source:</p>
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python                                                               </span>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/python                                                               </span>
 <span class="c1"># EASY-INSTALL-ENTRY-SCRIPT: &#39;virtualenv==1.10.1&#39;,&#39;console_scripts&#39;,&#39;virtualenv&#39;</span>
 <span class="n">__requires__</span> <span class="o">=</span> <span class="s1">&#39;virtualenv==1.10.1&#39;</span>                                             
 <span class="kn">import</span> <span class="nn">sys</span>                                                                      
@@ -145,24 +145,24 @@ Cleaning up...
 <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>                                                                       
    <span class="n">load_entry_point</span><span class="p">(</span><span class="s1">&#39;virtualenv==1.10.1&#39;</span><span class="p">,</span> <span class="s1">&#39;console_scripts&#39;</span><span class="p">,</span> <span class="s1">&#39;virtualenv&#39;</span><span class="p">)()</span>       
 <span class="p">)</span>  
-</pre></div>
+</code></pre></div>
 
 
 <p>Well that's not very helpful. Looks like running <code>virtualenv</code> is actually just executing this bit of code. Time to see if we can figure out what <code>load_entry_point</code> is and what it is actually calling.</p>
 <p>A little googling later, we find <a href="http://stackoverflow.com/a/9615473">this SO post</a> on the subject. Looks like in nice python packages, entry points are defined in <code>setup.py</code> and automatically linked to runnable scripts at installation time. We can download the source from <a href="https://pypi.python.org/pypi/virtualenv">pypi</a> and take a look ourselves.</p>
 <p>Sure enough, when we open up <code>setup.py</code> we see the entry_point dict we were promised:</p>
-<div class="highlight"><pre><span></span><span class="n">setup_params</span> <span class="o">=</span> <span class="p">{</span>                                                            
+<div class="highlight"><pre><span></span><code><span class="n">setup_params</span> <span class="o">=</span> <span class="p">{</span>                                                            
     <span class="s1">&#39;entry_points&#39;</span><span class="p">:</span> <span class="p">{</span>                                                       
         <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>                                                
             <span class="s1">&#39;virtualenv=virtualenv:main&#39;</span><span class="p">,</span>                                   
             <span class="s1">&#39;virtualenv-</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">=virtualenv:main&#39;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>          
         <span class="p">],</span>                                                                  
     <span class="p">},</span>                                                                      
-    <span class="s1">&#39;zip_safe&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>                                                      
+    <span class="s1">&#39;zip_safe&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>                                                      
     <span class="s1">&#39;test_suite&#39;</span><span class="p">:</span> <span class="s1">&#39;nose.collector&#39;</span><span class="p">,</span>                                         
     <span class="s1">&#39;tests_require&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;nose&#39;</span><span class="p">,</span> <span class="s1">&#39;Mock&#39;</span><span class="p">],</span>                                      
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Indeed they seem to be linking the runnable <code>virtualenv</code> python script to the <code>main</code> function of virtualenv.py. Let's see what that looks like. The content of the main function appears to roughly follow these steps:</p>
@@ -173,10 +173,10 @@ Cleaning up...
 <li>Call the <code>create_environment</code> method!</li>
 </ul>
 <p>Well now that last one sounds quite relevant! Here's the full text of the create_environment method:</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_environment</span><span class="p">(</span><span class="n">home_dir</span><span class="p">,</span> <span class="n">site_packages</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>                                   
-                       <span class="n">unzip_setuptools</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>                                                       
-                       <span class="n">prompt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">search_dirs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">never_download</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>                          
-                       <span class="n">no_setuptools</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">no_pip</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">symlink</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>                             
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_environment</span><span class="p">(</span><span class="n">home_dir</span><span class="p">,</span> <span class="n">site_packages</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                                   
+                       <span class="n">unzip_setuptools</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                                                       
+                       <span class="n">prompt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">search_dirs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">never_download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                          
+                       <span class="n">no_setuptools</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">no_pip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">symlink</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>                             
     <span class="sd">&quot;&quot;&quot;                                                                                              </span>
 <span class="sd">    Creates a new environment in ``home_dir``.                                                       </span>
 
@@ -200,7 +200,7 @@ Cleaning up...
             <span class="n">install_sdist</span><span class="p">(</span><span class="s1">&#39;Pip&#39;</span><span class="p">,</span> <span class="s1">&#39;pip-*.tar.gz&#39;</span><span class="p">,</span> <span class="n">py_executable</span><span class="p">,</span> <span class="n">search_dirs</span><span class="p">)</span>                         
 
     <span class="n">install_activate</span><span class="p">(</span><span class="n">home_dir</span><span class="p">,</span> <span class="n">bin_dir</span><span class="p">,</span> <span class="n">prompt</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Now we're getting somewhere! It looks like the basic steps are:</p>
@@ -214,14 +214,14 @@ Cleaning up...
 <h3>Activating and Deactivating</h3>
 <p>So that leaves the question of what <code>activate</code> and <code>deactivate</code> are up to. We can inspect the activate script easily enough by running <code>vim my_first_env/bin/activate</code>.</p>
 <p>The first thing we notice is that a bash function <code>deactivate</code> is defined immediately. We'll get back to this later in this section, but this is actually the definition of the <code>deactivate</code> method we call to leave the virtualenv. The relevant lines are so brief, you might miss them entirely:</p>
-<div class="highlight"><pre><span></span><span class="nv">_OLD_VIRTUAL_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">&quot;</span>                                                       
+<div class="highlight"><pre><span></span><code><span class="nv">_OLD_VIRTUAL_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">&quot;</span>                                                       
 <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$VIRTUAL_ENV</span><span class="s2">/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>                                                   
 <span class="nb">export</span> PATH
-</pre></div>
+</code></pre></div>
 
 
 <p>Note that we're saving the old <code>PATH</code> and making a new one, with our local virtualenv prepended! This means that the next time we run <code>python</code>, we'll get the interpreter we installed into our virtualenv, which is pointed at all our own libraries instead of the default system-installed interpreter. With that in mind, let's look at the <code>deactivate</code> function.</p>
-<div class="highlight"><pre><span></span>deactivate <span class="o">()</span> <span class="o">{</span>                                                                 
+<div class="highlight"><pre><span></span><code>deactivate <span class="o">()</span> <span class="o">{</span>                                                                 
     <span class="nb">unset</span> pydoc                                                                 
 
     <span class="c1"># reset old environment variables                                           </span>
@@ -255,7 +255,7 @@ Cleaning up...
         <span class="nb">unset</span> -f deactivate                                                     
     <span class="k">fi</span>                                                                          
 <span class="o">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>The important part here is the resetting of old environment variables (notably <code>PATH</code>).</p>
@@ -297,27 +297,6 @@ Cleaning up...
                     I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking.
 			      </p>
 			    </aside>
-
-		  <!-- Begin Mailchimp Signup Form -->
-                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
-                  <style type="text/css">
-                  	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
-                  	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                  	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                  </style>
-                  <div id="mc_embed_signup">
-                  <form action="https://locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                      <div id="mc_embed_signup_scroll">
-                  	<label for="mce-EMAIL">Get new posts weekly</label>
-                  	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
-                      <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                      </div>
-                  </form>
-                  </div>
-
-<!--End mc_embed_signup-->
 
   	          <nav>
 	            <h2>Categories</h2>

@@ -54,7 +54,7 @@
 <p>When <a href="http://locallyoptimal.com/blog/2014/03/14/building-a-basic-package-pt-1-bare-bones/">I last left</a> my pet rss2sms project, it had been transformed into a basic python package. Unfortunately, this means that my old method of running <code>python rss2sms.py --foobar</code> from the command line is not so simple anymore. In fact what I really want is to be able to just run <code>rss2sms --foobar</code> from the command line after I install the package.</p>
 <p>Luckily python has exactly what we need in the form of setuptools's <a href="http://pythonhosted.org//setuptools/setuptools.html#automatic-script-creation">console_script argument to entry_points</a>.</p>
 <p>Let's go ahead and add it to our setup.py:</p>
-<div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="n">setup</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;rss2sms&quot;</span><span class="p">,</span>                                                             
     <span class="n">version</span><span class="o">=</span><span class="n">find_version</span><span class="p">(</span><span class="s1">&#39;rss2sms&#39;</span><span class="p">,</span> <span class="s1">&#39;__init__.py&#39;</span><span class="p">),</span>                             
 
@@ -66,11 +66,11 @@
         <span class="p">],</span>                                                                      
     <span class="p">},</span>
 <span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>So simple! Note that we're linking the executable <code>rss2sms</code> here to running the python function <code>main</code> in the <code>rss2sms</code> module. If we look at that function, it just does the normal command line parsing and function calling that it always has.</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>                                                                     
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>                                                                     
     <span class="n">parser</span> <span class="o">=</span> <span class="n">OptionParser</span><span class="p">()</span>                                                     
     <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;--url&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;rss_url&quot;</span><span class="p">,</span>                            
                             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;url of rss feed&quot;</span><span class="p">)</span>                             
@@ -88,43 +88,43 @@
     <span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>                                       
     <span class="n">rss2sms</span> <span class="o">=</span> <span class="n">Rss2Sms</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">options</span><span class="p">))</span>                                          
     <span class="n">rss2sms</span><span class="o">.</span><span class="n">parse_and_alert</span><span class="p">()</span> 
-</pre></div>
+</code></pre></div>
 
 
 <p>Now let's start up a fresh virtualenv and test it out. We can use pip's develop option to install a package by just passing it a path.</p>
-<div class="highlight"><pre><span></span>~/Desktop/github/rss2sms (master) $ virtualenv entry_point_test; source entry_point_test/bin/activate
-New python executable in entry_point_test/bin/python
-Installing Setuptools...........done.
-Installing Pip..................done.
-(entry_point_test) ~/Desktop/github/rss2sms (master) $ pip install -e .
+<div class="highlight"><pre><span></span><code><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span><span class="w"> </span><span class="p">(</span><span class="n">master</span><span class="p">)</span><span class="w"> </span><span class="err">$</span><span class="w"> </span><span class="n">virtualenv</span><span class="w"> </span><span class="n">entry_point_test</span><span class="p">;</span><span class="w"> </span><span class="n">source</span><span class="w"> </span><span class="n">entry_point_test</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">activate</span><span class="w"></span>
+<span class="k">New</span><span class="w"> </span><span class="n">python</span><span class="w"> </span><span class="n">executable</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">entry_point_test</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">python</span><span class="w"></span>
+<span class="n">Installing</span><span class="w"> </span><span class="n">Setuptools</span><span class="p">...........</span><span class="n">done</span><span class="p">.</span><span class="w"></span>
+<span class="n">Installing</span><span class="w"> </span><span class="n">Pip</span><span class="p">..................</span><span class="n">done</span><span class="p">.</span><span class="w"></span>
+<span class="p">(</span><span class="n">entry_point_test</span><span class="p">)</span><span class="w"> </span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span><span class="w"> </span><span class="p">(</span><span class="n">master</span><span class="p">)</span><span class="w"> </span><span class="err">$</span><span class="w"> </span><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="o">-</span><span class="n">e</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
 
-... lots of text from installation...
+<span class="p">...</span><span class="w"> </span><span class="n">lots</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nc">text</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">installation</span><span class="p">...</span><span class="w"></span>
 
-(entry_point_test) ~/Desktop/github/rss2sms (master) $ rss2sms --help
-Usage: rss2sms [options]
+<span class="p">(</span><span class="n">entry_point_test</span><span class="p">)</span><span class="w"> </span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span><span class="w"> </span><span class="p">(</span><span class="n">master</span><span class="p">)</span><span class="w"> </span><span class="err">$</span><span class="w"> </span><span class="n">rss2sms</span><span class="w"> </span><span class="c1">--help</span>
+<span class="k">Usage</span><span class="err">:</span><span class="w"> </span><span class="n">rss2sms</span><span class="w"> </span><span class="o">[</span><span class="n">options</span><span class="o">]</span><span class="w"></span>
 
-Options:
-  -h, --help            show this help message and exit
-  -u RSS_URL, --url=RSS_URL
-                        url of rss feed
-  -t TO_NUM, --to=TO_NUM
-                        cell number to send sms alerts to
-  -f FROM_NUM, --from=FROM_NUM
-                        cell number to send sms alerts to (overrides
-                        environment variable TWILIO_NUMBER)
-  -i RSS_ID_FIELD, --id=RSS_ID_FIELD
-                        unique id rss field used for display in SMS and for
-                        equality comparison (defaults to &#39;link&#39;)
-  -d RSS_DISPLAY_FIELD, --display=RSS_DISPLAY_FIELD
-                        name of rss field used for display in SMS (defaults to
-                        &#39;title&#39;)
-  -c CACHE_FILENAME, --cache-filename=CACHE_FILENAME
-                        optional file to cache last post in
-</pre></div>
+<span class="nl">Options</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="c1">--help            show this help message and exit</span>
+<span class="w">  </span><span class="o">-</span><span class="n">u</span><span class="w"> </span><span class="n">RSS_URL</span><span class="p">,</span><span class="w"> </span><span class="c1">--url=RSS_URL</span>
+<span class="w">                        </span><span class="n">url</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">rss</span><span class="w"> </span><span class="n">feed</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">t</span><span class="w"> </span><span class="n">TO_NUM</span><span class="p">,</span><span class="w"> </span><span class="c1">--to=TO_NUM</span>
+<span class="w">                        </span><span class="n">cell</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">send</span><span class="w"> </span><span class="n">sms</span><span class="w"> </span><span class="n">alerts</span><span class="w"> </span><span class="k">to</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">f</span><span class="w"> </span><span class="n">FROM_NUM</span><span class="p">,</span><span class="w"> </span><span class="c1">--from=FROM_NUM</span>
+<span class="w">                        </span><span class="n">cell</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">send</span><span class="w"> </span><span class="n">sms</span><span class="w"> </span><span class="n">alerts</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="n">overrides</span><span class="w"></span>
+<span class="w">                        </span><span class="n">environment</span><span class="w"> </span><span class="k">variable</span><span class="w"> </span><span class="n">TWILIO_NUMBER</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">i</span><span class="w"> </span><span class="n">RSS_ID_FIELD</span><span class="p">,</span><span class="w"> </span><span class="c1">--id=RSS_ID_FIELD</span>
+<span class="w">                        </span><span class="k">unique</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="n">rss</span><span class="w"> </span><span class="n">field</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">SMS</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">for</span><span class="w"></span>
+<span class="w">                        </span><span class="n">equality</span><span class="w"> </span><span class="n">comparison</span><span class="w"> </span><span class="p">(</span><span class="n">defaults</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s1">&#39;link&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">d</span><span class="w"> </span><span class="n">RSS_DISPLAY_FIELD</span><span class="p">,</span><span class="w"> </span><span class="c1">--display=RSS_DISPLAY_FIELD</span>
+<span class="w">                        </span><span class="n">name</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">rss</span><span class="w"> </span><span class="n">field</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">SMS</span><span class="w"> </span><span class="p">(</span><span class="n">defaults</span><span class="w"> </span><span class="k">to</span><span class="w"></span>
+<span class="w">                        </span><span class="s1">&#39;title&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="n">CACHE_FILENAME</span><span class="p">,</span><span class="w"> </span><span class="c1">--cache-filename=CACHE_FILENAME</span>
+<span class="w">                        </span><span class="n">optional</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">cache</span><span class="w"> </span><span class="k">last</span><span class="w"> </span><span class="n">post</span><span class="w"> </span><span class="ow">in</span><span class="w"></span>
+</code></pre></div>
 
 
 <p>And just like that we have an executable hooked up our python module. We can even use which to see how it works:</p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">entry_point_test</span><span class="p">)</span> <span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span> <span class="p">(</span><span class="n">master</span><span class="p">)</span> <span class="err">$</span> <span class="n">which</span> <span class="n">rss2sms</span>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">entry_point_test</span><span class="p">)</span> <span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span> <span class="p">(</span><span class="n">master</span><span class="p">)</span> <span class="err">$</span> <span class="n">which</span> <span class="n">rss2sms</span>
 <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">striglia</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span><span class="o">/</span><span class="n">entry_point_test</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">rss2sms</span>
 <span class="p">(</span><span class="n">entry_point_test</span><span class="p">)</span> <span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">rss2sms</span> <span class="p">(</span><span class="n">master</span><span class="p">)</span> <span class="err">$</span> <span class="n">cat</span> <span class="sb">`which rss2sms`</span>
 <span class="c1">#!/Users/striglia/Desktop/github/rss2sms/entry_point_test/bin/python            </span>
@@ -137,7 +137,7 @@ Options:
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>                                                                   
         <span class="n">load_entry_point</span><span class="p">(</span><span class="s1">&#39;rss2sms==0.0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;console_scripts&#39;</span><span class="p">,</span> <span class="s1">&#39;rss2sms&#39;</span><span class="p">)()</span>         
     <span class="p">)</span>  
-</pre></div>
+</code></pre></div>
 
 
 <p>This executable is just a simple python module which, when we call it, uses the pkg_resources library to look up what python module our setup.py says we should call. All in all, a very painless way to distribute nice executables for your library.</p>	
@@ -173,27 +173,6 @@ Options:
                     I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking.
 			      </p>
 			    </aside>
-
-		  <!-- Begin Mailchimp Signup Form -->
-                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
-                  <style type="text/css">
-                  	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
-                  	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                  	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                  </style>
-                  <div id="mc_embed_signup">
-                  <form action="https://locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                      <div id="mc_embed_signup_scroll">
-                  	<label for="mce-EMAIL">Get new posts weekly</label>
-                  	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
-                      <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                      </div>
-                  </form>
-                  </div>
-
-<!--End mc_embed_signup-->
 
   	          <nav>
 	            <h2>Categories</h2>

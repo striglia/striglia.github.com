@@ -62,17 +62,17 @@ simplest example that still motivates its use. In the case of namedtuples, I'm
 partial to the example below, which compares two proposed implementations of
 a latitude/longitude coordinate -- something I get a lot of experience with in
 my day to day work life -- and does some basic manipulation of their contents.</p>
-<div class="highlight"><pre><span></span><span class="c1"># The primitive approach</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># The primitive approach</span>
 <span class="n">lat_lng</span> <span class="o">=</span> <span class="p">(</span><span class="mf">37.78</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.40</span><span class="p">)</span>
-<span class="k">print</span> <span class="s1">&#39;The latitude is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="k">print</span> <span class="s1">&#39;The longitude is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span> <span class="s1">&#39;The latitude is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span> <span class="s1">&#39;The longitude is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="c1"># The glorious namedtuple</span>
 <span class="n">LatLng</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;LatLng&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">])</span>
 <span class="n">lat_lng</span> <span class="o">=</span> <span class="n">LatLng</span><span class="p">(</span><span class="mf">37.78</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.40</span><span class="p">)</span>
-<span class="k">print</span> <span class="s1">&#39;The latitude is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="o">.</span><span class="n">latitude</span>
-<span class="k">print</span> <span class="s1">&#39;The longitude is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="o">.</span><span class="n">longitude</span>
-</pre></div>
+<span class="nb">print</span> <span class="s1">&#39;The latitude is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="o">.</span><span class="n">latitude</span>
+<span class="nb">print</span> <span class="s1">&#39;The longitude is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lat_lng</span><span class="o">.</span><span class="n">longitude</span>
+</code></pre></div>
 
 
 <p>By itself, this example is a little forced, but you can already see some benefits:</p>
@@ -87,13 +87,13 @@ would do everything we wanted without all this fuss. This brings us to the most
 important difference between namedtuples and normal Python classes --
 attributes in namedtuple subclasses are immutable once created, much like the
 tuples for which the class is named. </p>
-<div class="highlight"><pre><span></span>&gt;&gt;&gt; LatLng = namedtuple(&#39;LatLng&#39;, [&#39;latitude&#39;, &#39;longitude&#39;])
-&gt;&gt;&gt; lat_lng = LatLng(37.78, -122.40) 
-&gt;&gt;&gt; lat_lng.latitude = 9.23
-Traceback (most recent call last):
-  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
-AttributeError: can&#39;t set attribute
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">&gt;&gt;&gt; LatLng = namedtuple(&#39;LatLng&#39;, [&#39;latitude&#39;, &#39;longitude&#39;])</span>
+<span class="err">&gt;&gt;&gt; lat_lng = LatLng(37.78, -122.40) </span>
+<span class="err">&gt;&gt;&gt; lat_lng.latitude = 9.23</span>
+<span class="err">Traceback (most recent call last):</span>
+<span class="err">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span>
+<span class="c">AttributeError: can&#39;t set attribute</span>
+</code></pre></div>
 
 
 <h3>Why do I care about mutability?</h3>
@@ -105,12 +105,12 @@ merits of immutability with a couple examples, hard-won lessons I've taught
 myself several times over.</p>
 <p>Anyone who has spent more than a couple weeks programming Python has probably
 been bitten by accidentally modifying a data structure they thought was fixed:</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">totally_innocent_function</span><span class="p">(</span><span class="n">movie_list</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">totally_innocent_function</span><span class="p">(</span><span class="n">movie_list</span><span class="p">):</span>
     <span class="n">movie_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;You Got Served&#39;</span><span class="p">)</span>
 
 <span class="n">the_best_movies_of_all_time</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The Godfather&#39;</span><span class="p">,</span> <span class="s1">&#39;Citizen Kane&#39;</span><span class="p">,</span> <span class="s1">&#39;2001: A Space Odyssey&#39;</span><span class="p">]</span>
 <span class="n">totally_innocent_function</span><span class="p">(</span><span class="n">the_best_movies_of_all_time</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Just because you think your data structure is properly structured and validated
@@ -124,8 +124,8 @@ mutable when you don't want it to be can lead to trouble.</p>
 <h3>And what if I need more than simple attributes?</h3>
 <p>In most of my personal uses of namedtuples, I inevitably have some additional functionality I wanted from the class -- often some computed result of the various attributes built into the class. Sounds an awful lot like a property right? Give something like the following a shot. You get all the benefits of knowing your core data isn't going to be accidentally modified while also getting fancy properties on the side!</p>
 <p>{% include_code namedtuple_properties.py %}</p>
-<div class="highlight"><pre><span></span>
-</pre></div>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
 
 
 <h3>Everything in moderation</h3>
@@ -165,27 +165,6 @@ approach and get to investigate some of Python's more niche features.</p>
                     I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking.
 			      </p>
 			    </aside>
-
-		  <!-- Begin Mailchimp Signup Form -->
-                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
-                  <style type="text/css">
-                  	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
-                  	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                  	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                  </style>
-                  <div id="mc_embed_signup">
-                  <form action="https://locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                      <div id="mc_embed_signup_scroll">
-                  	<label for="mce-EMAIL">Get new posts weekly</label>
-                  	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
-                      <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                      </div>
-                  </form>
-                  </div>
-
-<!--End mc_embed_signup-->
 
   	          <nav>
 	            <h2>Categories</h2>

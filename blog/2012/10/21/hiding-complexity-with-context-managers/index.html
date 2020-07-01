@@ -55,23 +55,23 @@
 <h2>The basics</h2>
 <p>Context managers are, at their most basic, blocks of code which do something when they are entered and exited. You can see the full description of them in the excellent <a href="http://docs.python.org/reference/datamodel.html#context-managers">python docs page</a> or <a href="http://www.python.org/dev/peps/pep-0343/">PEP 343</a>. Suffice it to say, they execute code when their <code>with</code> block is entered and exited, allowing nice convenience methods to exist. An excellent (built in!) example is reading from a file while making sure to close it again at the end…in fact you likely have used this already once or twice.</p>
 <p>Old and busted:</p>
-<div class="highlight"><pre><span></span>input_file = open(&#39;config.txt&#39;, &#39;r&#39;)
-print input_file.read()
-input_file.close()
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">input_file = open(&#39;config.txt&#39;, &#39;r&#39;)</span>
+<span class="err">print input_file.read()</span>
+<span class="err">input_file.close()</span>
+</code></pre></div>
 
 
 <p>Nice and convenient:</p>
-<div class="highlight"><pre><span></span>with open(&#39;config.txt&#39;, &#39;r) as input_file:
-    print input_file.read()
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">with open(&#39;config.txt&#39;, &#39;r) as input_file:</span>
+<span class="err">    print input_file.read()</span>
+</code></pre></div>
 
 
 <p>Behind the scenes, the <code>with</code> statement is opening the file, binding the file object to the input_file variable, and then closing the file again after we exit the code block. Nothing complicated at all, but this provides a very nice tool for creating really pretty contexts that can do a lot of the heavy lifting behind the scenes.</p>
 <h2>Writing our own</h2>
 <p>So that's the basic idea, but the natural next step is wanting to write one of your own! You can consult the python docs to learn how to set up your own context manager class, but I prefer leveraging a simpler approach where possible.</p>
 <p>Our secret is going to be <code>contextlib</code>'s <code>contextmanager</code> decorator. Using it is as simple as decorating an appropriate function with <code>@contextmanager</code>. Let's write a toy example to show off the various parts of flow through a context manager.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
 
 <span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">our_toy_context_manager</span><span class="p">(</span><span class="n">enter_msg</span><span class="p">,</span> <span class="n">exit_msg</span><span class="p">):</span>
@@ -82,15 +82,15 @@ input_file.close()
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="k">with</span> <span class="n">our_toy_context_manager</span><span class="p">(</span><span class="s1">&#39;entering!&#39;</span><span class="p">,</span> <span class="s1">&#39;exiting!&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">inner_msg</span><span class="p">:</span>
         <span class="k">print</span> <span class="n">inner_msg</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>When run, this produces:</p>
-<div class="highlight"><pre><span></span>~/Desktop  $ python toy_context_manager.py 
-entering!
-returned value!
-exiting!
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">~/Desktop  $ python toy_context_manager.py </span>
+<span class="err">entering!</span>
+<span class="err">returned value!</span>
+<span class="err">exiting!</span>
+</code></pre></div>
 
 
 <p>Let's dive into how this decorator works. Keep in mind we can separate context managers into "before" and "after" blocks of code.</p>
@@ -108,21 +108,21 @@ from contextlib import contextmanager</p>
 <p>@contextmanager
 def mock_frobinator(results):
     """A mocked Frobinate object for convenient testing.</p>
-<div class="highlight"><pre><span></span>Patches out both logging and caching to simplify execution.
+<div class="highlight"><pre><span></span><code><span class="n">Patches</span> <span class="k">out</span> <span class="k">both</span> <span class="n">logging</span> <span class="k">and</span> <span class="n">caching</span> <span class="k">to</span> <span class="n">simplify</span> <span class="n">execution</span><span class="p">.</span>
 
-Yields a Mock for the frobinate method.
+<span class="n">Yields</span> <span class="n">a</span> <span class="n">Mock</span> <span class="k">for</span> <span class="n">the</span> <span class="n">frobinate</span> <span class="k">method</span><span class="p">.</span>
 
-Args:
-    results - This will be set to always be the return value of calling Frobinator.frobinate.
-&quot;&quot;&quot;
-frobinator = Frobinator()
-mocked_frobinate = Mock(return_value=results)
+<span class="n">Args</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">-</span> <span class="n">This</span> <span class="n">will</span> <span class="n">be</span> <span class="k">set</span> <span class="k">to</span> <span class="n">always</span> <span class="n">be</span> <span class="n">the</span> <span class="k">return</span> <span class="n">value</span> <span class="k">of</span> <span class="n">calling</span> <span class="n">Frobinator</span><span class="p">.</span><span class="n">frobinate</span><span class="p">.</span>
+<span class="ss">&quot;&quot;</span><span class="err">&quot;</span>
+<span class="n">frobinator</span> <span class="o">=</span> <span class="n">Frobinator</span><span class="p">()</span>
+<span class="n">mocked_frobinate</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="n">results</span><span class="p">)</span>
 
-with patch.object(frobinator, &#39;frobinate&#39;, mocked_frobinate):
-    with patch.object(frobinator, &#39;get_cached_results&#39;, Mock(return_value=None)):
-            with patch.object(frobinator, &#39;write_to_log&#39;, Mock()):
-                yield mocked_frobinate
-</pre></div>
+<span class="k">with</span> <span class="n">patch</span><span class="p">.</span><span class="k">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s1">&#39;frobinate&#39;</span><span class="p">,</span> <span class="n">mocked_frobinate</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">patch</span><span class="p">.</span><span class="k">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s1">&#39;get_cached_results&#39;</span><span class="p">,</span> <span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="k">None</span><span class="p">)):</span>
+            <span class="k">with</span> <span class="n">patch</span><span class="p">.</span><span class="k">object</span><span class="p">(</span><span class="n">frobinator</span><span class="p">,</span> <span class="s1">&#39;write_to_log&#39;</span><span class="p">,</span> <span class="n">Mock</span><span class="p">()):</span>
+                <span class="n">yield</span> <span class="n">mocked_frobinate</span>
+</code></pre></div>
 
 
 <p>if <strong>name</strong> == '<strong>main</strong>':
@@ -168,27 +168,6 @@ with patch.object(frobinator, &#39;frobinate&#39;, mocked_frobinate):
                     I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking.
 			      </p>
 			    </aside>
-
-		  <!-- Begin Mailchimp Signup Form -->
-                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
-                  <style type="text/css">
-                  	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
-                  	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                  	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                  </style>
-                  <div id="mc_embed_signup">
-                  <form action="https://locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                      <div id="mc_embed_signup_scroll">
-                  	<label for="mce-EMAIL">Get new posts weekly</label>
-                  	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
-                      <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                      </div>
-                  </form>
-                  </div>
-
-<!--End mc_embed_signup-->
 
   	          <nav>
 	            <h2>Categories</h2>

@@ -55,20 +55,20 @@
 <h2>abusing subclasses</h2>
 <p>First up -- the misuse of classes and inheritance.</p>
 <p>A mere six months ago, I wrote something approximating the following series of tests for a new feature I was rolling out:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">experiment_framework</span> <span class="kn">import</span> <span class="n">configure_experiment</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">experiment_framework</span> <span class="kn">import</span> <span class="n">configure_experiment</span>
 <span class="kn">from</span> <span class="nn">our_logic_module</span> <span class="kn">import</span> <span class="n">method_under_test</span>
 
 <span class="k">class</span> <span class="nc">TestSecretFeatureBase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="n">__test__</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># Make sure this class is purely abstract</span>
-    <span class="n">activate_feature</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">necessary_input</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">expected_output</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">__test__</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Make sure this class is purely abstract</span>
+    <span class="n">activate_feature</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">necessary_input</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">expected_output</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">test_class_vars_are_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Enforce class variables being set in the subclass&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">activate_feature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessary_input</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">activate_feature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessary_input</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">test_output_of_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The test we actually care about&quot;&quot;&quot;</span>
@@ -79,23 +79,23 @@
 
 <span class="k">class</span> <span class="nc">TestSecretFeatureOff</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="c1"># Test what happens when we turn our feature off!</span>
-    <span class="n">activate_feature</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">activate_feature</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">necessary_input</span> <span class="o">=</span> <span class="s1">&#39;some required arg&#39;</span>
     <span class="n">expected_output</span> <span class="o">=</span> <span class="s1">&#39;magic&#39;</span>
 
 <span class="k">class</span> <span class="nc">TestSecretFeatureOn</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="c1"># Test what happens when we turn our feature on!</span>
-    <span class="n">activate_feature</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">activate_feature</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">necessary_input</span> <span class="o">=</span> <span class="s1">&#39;some required arg&#39;</span>
     <span class="n">expected_output</span> <span class="o">=</span> <span class="s1">&#39;more magic&#39;</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Let's briefly cover what this was designed to do. We have a method <code>method_under_test</code> that we want to run with some necessary arguments, testing each time that the output is what we expect. In particular, we want to test this method with a new secret feature turned both on and off.</p>
 <p>So what's bad about this? The big lesson I learned from looking back on this was that I had painfully abused the concept of a test suite in an attempt to be DRY. Note that the above solution has no single test suite that can be called -- in fact each test is segregated into its own test suite! Nasty! And the only reason I did all this was to create a few real test cases (the classes TestSecretFeatureOn/TestSecretFeatureOff here) with a bunch of variables that are required to be defined. Additionally, you can see that I've introduces a new test for every subclass that does nothing but ensure I am overriding the required parameters...at absolute best this test is irrelevant to the core functionality and distracting.</p>
 <p>Instead, I should have written the entire base class as a simple helper function with just <code>necessary_input</code> and <code>activate_feature</code> as arguments. The tests themselves could then be grouped into a single meaningful (and useful!) test suite and the <code>test_class_vars_are_set</code> eliminated entirely since it would be implicitly required by the function signature. Any further alterations I do to the code this covers can be easily and quickly tested by running a single test suite instead of having to run many small ones.</p>
 <p>Check out the improved code:</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run_method_under_test_with_experiment</span><span class="p">(</span><span class="n">activate_feature</span><span class="p">,</span> <span class="n">necessary_input</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run_method_under_test_with_experiment</span><span class="p">(</span><span class="n">activate_feature</span><span class="p">,</span> <span class="n">necessary_input</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Runs method_under_test with our secret experiment set according to the</span>
 <span class="sd">    passed flag and returns the result.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -107,11 +107,11 @@
     <span class="n">necessary_input</span> <span class="o">=</span> <span class="s1">&#39;some required arg&#39;</span>
 
     <span class="k">def</span> <span class="nf">test_feature_off</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="n">run_method_under_test_with_experiment</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessary_input</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;magic&#39;</span>
+        <span class="k">assert</span> <span class="n">run_method_under_test_with_experiment</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessary_input</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;magic&#39;</span>
 
     <span class="k">def</span> <span class="nf">test_feature_on</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="n">run_method_under_test_with_experiment</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessary_input</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;more magic&#39;</span>
-</pre></div>
+        <span class="k">assert</span> <span class="n">run_method_under_test_with_experiment</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessary_input</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;more magic&#39;</span>
+</code></pre></div>
 
 
 <p>Just like that, we have collapsed all our tests into a single descriptive test suite and we can reliably know that classes always contain meaningful collections of tests. Maybe most importantly, it's much simpler for the next poor dev who has to unravel the goal of my tests.</p>
@@ -119,19 +119,19 @@
 <p>Next up, needlessly abbreviating test method/suite names!</p>
 <p>In non-test code, there are some plausible arguments that long method names are cumbersome -- you will often call them multiple places and some additional brevity can be worthwhile. In my experience with tests however, something like 95% of the test methods or test suites I name will <em>never be typed again</em> outside the method/class definition. This means long names not only don't cost me anything, they're essentially a free chance to eliminate docstrings that may be otherwise unnecessary.</p>
 <p>Not too much else to say here, just consider the following before and after from some only-slightly-sanitized production code of mine:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FilteringTest</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">FilteringTest</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Tests that low scoring candidates are removed by filtering.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">test_return_few_candidates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Test _filter_candidates correctly prunes results, below the request&#39;s threshold.&quot;&quot;&quot;</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Instead, let's just express those docstrings directly in the names. Easier to read, easier to debug if you only see failing test names, everyone wins!</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FilterCandidatesTest</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">FilterCandidatesTest</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">test_candidates_below_score_threshold_are_not_returned</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</pre></div>
+</code></pre></div>
 
 
 <h2>too few test suites</h2>
@@ -175,27 +175,6 @@
                     I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking.
 			      </p>
 			    </aside>
-
-		  <!-- Begin Mailchimp Signup Form -->
-                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
-                  <style type="text/css">
-                  	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
-                  	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                  	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                  </style>
-                  <div id="mc_embed_signup">
-                  <form action="https://locallyoptimal.us10.list-manage.com/subscribe/post?u=d3758fa7ff1fe8c1066912e42&amp;id=9fa41553a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                      <div id="mc_embed_signup_scroll">
-                  	<label for="mce-EMAIL">Get new posts weekly</label>
-                  	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d3758fa7ff1fe8c1066912e42_9fa41553a4" tabindex="-1" value=""></div>
-                      <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                      </div>
-                  </form>
-                  </div>
-
-<!--End mc_embed_signup-->
 
   	          <nav>
 	            <h2>Categories</h2>
