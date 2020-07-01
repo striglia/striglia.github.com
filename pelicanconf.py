@@ -37,14 +37,14 @@ SOCIAL = [
 STATIC_PATHS = ['extra/CNAME']
 EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'},}
 
-PLUGIN_PATHS = ['/Users/striglia/Desktop/github/pelican-plugins']
+PLUGIN_PATHS = ['/Users/striglia/Desktop/pelican-plugins']
 PLUGINS = ['summary', 'gravatar']
 SUMMARY_END_MARKER = '<!-- more -->'
 AUTHOR_EMAIL = 'scott.triglia@gmail.com'
 PELICAN_SOBER_TWITTER_CARD_CREATOR = 'scott_triglia'
 PELICAN_SOBER_STICKY_SIDEBAR = True
 
-THEME = "/Users/striglia/Desktop/github/pelican-themes/pelican-sober"
+THEME = "/Users/striglia/Desktop/pelican-themes/pelican-sober"
 PELICAN_SOBER_ABOUT = "I'm Scott Triglia 👋 I mostly write here about software, technical leadership, and public speaking."
 
 DEFAULT_PAGINATION = 10
