@@ -21,5 +21,4 @@ DELETE_OUTPUT_DIRECTORY = True
 
 # Following items are often useful when publishing
 
-DISQUS_SITENAME = "locallyoptimal"
 GOOGLE_ANALYTICS= 'UA-35190779-1'
